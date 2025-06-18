@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SelfNVest AI Assistant</title>
+
+  <!-- Font Awesome icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Your main styles -->
+  <link rel="stylesheet" href="css/vesty-home.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Quick overrides -->
+  <style>
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: #fff;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .app-container {
+      display: grid;
+      grid-template-columns: 250px 1fr 300px;
+      gap: 1rem;
+      margin-top: 60px;
+      height: calc(100vh - 60px);
+    }
+
+    /* Documents Sidebar Styles */
+    .documents-sidebar {
+      position: fixed;
+      top: 60px;
+      left: 250px;
+      width: 350px;
+      height: calc(100vh - 60px);
+      background: #fff;
+      border-right: 1px solid #e0e0e0;
+      display: none;
+      flex-direction: column;
+      z-index: 999;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    }
+
+    .documents-sidebar.active {
+      display: flex;
+    }
+
+    .documents-sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #e0e0e0;
+      background: #f8f9fa;
+    }
+
+    .documents-sidebar-header h3 {
+      margin: 0;
+      color: #333;
+      font-size: 18px;
+    }
+
+    .documents-sidebar-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #666;
+      padding: 5px;
+      border-radius: 4px;
+    }
+
+    .documents-sidebar-close:hover {
+      background: #e9ecef;
+    }
+
+    .documents-sidebar-content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .document-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      margin: 8px 0;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #dee2e6;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .document-item:hover {
+      background: #f8f9fa;
+      border-color: #007bff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .document-item.selected {
+      background: #e3f2fd;
+      border-color: #007bff;
+      box-shadow: 0 2px 8px rgba(0,123,255,0.2);
+    }
+
+    .document-icon {
+      margin-right: 12px;
+      font-size: 24px;
+      color: #007bff;
+      min-width: 30px;
+    }
+
+    .document-info {
+      flex-grow: 1;
+    }
+
+    .document-info h4 {
+      margin: 0 0 4px 0;
+      font-size: 14px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .document-info p {
+      margin: 0;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .document-actions {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+
+    .action-btn:hover {
+      background: #0056b3;
+    }
+
+    .action-btn:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+    }
+
+    .loading-spinner {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+
+    .error-message {
+      color: #dc3545;
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    .success-message {
+      color: #155724;
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    .info-tip {
+      margin-top: 15px;
+      padding: 12px;
+      background: #e3f2fd;
+      border-radius: 6px;
+      border-left: 4px solid #007bff;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- SITE NAV (fixed at top) -->
+  <nav class="top-nav">
+    <div class="nav-container">
+      <div class="logo">
+        <a href="index.html">
+          <img
+            src="https://ik.imagekit.io/radw2xpz9/Self.svg?updatedAt=1747577804361"
+            alt="SelfNVest Logo"
+            class="logo-image"
+          />
+        </a>
+      </div>
+      <div class="nav-links">
+        <div class="dropdown-menu">
+          <button class="dropdown-toggle">
+            Menu <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="index.html">Home</a>
+            <a href="index.html#how-selfnvest-works">About</a>
+            <a href="index.html#services">Services</a>
+            <a href="index.html#pricing">Pricing</a>
+            <a href="index.html#testimonials">Testimonials</a>
+            <a href="index.html#faq">FAQ</a>
+            <a href="index.html#contact">Contact Us</a>
+            <a href="pages/schedule.html">Schedule</a>
+            <a href="pages/listings.html">Listings</a>
+            <a href="assistant.html" class="active">AI Assistant</a>
+            <div style="height: 1px; background: #eee; margin: 8px 0;"></div>
+            <a href="pages/login.html" id="auth-link">
+              <i class="fas fa-user"></i> Login
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN GRID LAYOUT -->
+  <div class="app-container">
+    <!-- SIDEBAR NAV -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <img
+          src="https://ik.imagekit.io/radw2xpz9/Self.svg?updatedAt=1747577804361"
+          alt="Logo"
+          class="logo"
+        />
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="menu-item active">
+          <i class="fas fa-comment-alt"></i>
+          <span>Chat</span>
+        </div>
+        <div class="menu-item" id="documents-menu-item">
+          <i class="fas fa-file-alt"></i>
+          <span>Documents</span>
+        </div>
+        <div class="menu-item">
+          <i class="fas fa-home"></i>
+          <span>Properties</span>
+        </div>
+        <div class="menu-item">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Calendar</span>
+        </div>
+        <div class="menu-item">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar-container">
+            <div class="avatar">
+              <span class="avatar-icon">V</span>
+            </div>
+          </div>
+          <div class="user-info">
+            <h4 id="user-display-name">Guest User</h4>
+            <p>Real Estate User</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOCUMENTS SIDEBAR -->
+    <div class="documents-sidebar" id="documents-popup">
+      <div class="documents-sidebar-header">
+        <h3><i class="fas fa-folder"></i> Document Library</h3>
+        <button class="documents-sidebar-close" id="close-documents">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="documents-sidebar-content">
+        
+        <!-- Loading Spinner -->
+        <div class="loading-spinner" id="documents-loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading documents...</p>
+        </div>
+
+        <!-- Error/Success Messages -->
+        <div id="message-container"></div>
+
+        <!-- Documents List -->
+        <div id="documents-list">
+          <p style="text-align: center; color: #666; font-style: italic;">
+            Click "Load Documents" to see available files
+          </p>
+        </div>
+
+        <!-- Document Actions -->
+        <div class="document-actions">
+          <button class="action-btn" onclick="loadStaticDocuments()">
+            <i class="fas fa-refresh"></i> Load Documents
+          </button>
+          <button class="action-btn" id="ask-about-selected" onclick="askAboutSelected()" disabled>
+            <i class="fas fa-question-circle"></i> Ask About Selected
+          </button>
+          <button class="action-btn" onclick="askAboutDocuments('What documents are available in the library?')">
+            <i class="fas fa-list"></i> List All Documents
+          </button>
+          <button class="action-btn" onclick="refreshDocumentIndex()">
+            <i class="fas fa-sync"></i> Refresh Document Index
+          </button>
+        </div>
+
+        <div class="info-tip">
+          <p>
+            <strong>💡 How to use:</strong><br>
+            1. Click "Load Documents" to see available files<br>
+            2. Select a document from the list<br>
+            3. Click "Ask About Selected" or use the chat to ask questions<br>
+            4. Use "Refresh Document Index" to make documents searchable
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT CONTENT -->
+    <div class="main-content">
+      <div class="chat-container">
+        <div class="chat-header">
+          <div class="chat-title">
+            <h2>SelfNVest Assistant</h2>
+            <p>Your personal real estate guide</p>
+          </div>
+          <div class="chat-actions">
+            <button class="action-btn">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="chat" id="chatBox">
+          <!-- messages will be added here -->
+        </div>
+
+        <div class="chat-footer">
+          <div class="chat-suggestions">
+            <button class="suggestion-btn" onclick="usesuggestion(this)">How do I price my home?</button>
+            <button class="suggestion-btn" onclick="usesuggestion(this)">What documents do I need?</button>
+            <button class="suggestion-btn" onclick="usesuggestion(this)">Schedule a showing</button>
+            <button class="suggestion-btn" onclick="usesuggestion(this)">Analyze my documents</button>
+          </div>
+
+          <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Type your message..." />
+            <button onclick="sendMessage()">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <div class="property-card">
+        <div class="property-badge">Your Listing</div>
+        <div class="property-image-container">
+          <img
+            src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb"
+            alt="Modern Home Property"
+            class="property-image"
+          />
+          <div class="property-overlay"></div>
+        </div>
+        <div class="property-details">
+          <h3>123 Maple Avenue</h3>
+          <p class="property-location">
+            <i class="fas fa-map-marker-alt"></i> Westlake Hills, Austin
+          </p>
+          <p class="property-price">$489,500</p>
+          <div class="property-specs">
+            <div class="spec-item">
+              <i class="fas fa-bed"></i>
+              <span>4 beds</span>
+            </div>
+            <div class="spec-item">
+              <i class="fas fa-bath"></i>
+              <span>2.5 baths</span>
+            </div>
+            <div class="spec-item">
+              <i class="fas fa-ruler-combined"></i>
+              <span>2,240 sqft</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3>Upcoming Showings</h3>
+        <div class="showing-item">
+          <div class="showing-date">
+            <span class="day">23</span>
+            <span class="month">May</span>
+          </div>
+          <div class="showing-details">
+            <p class="showing-title">Home Viewing</p>
+            <p class="showing-time">3:00 PM - 4:00 PM</p>
+          </div>
+        </div>
+        <div class="showing-item">
+          <div class="showing-date">
+            <span class="day">25</span>
+            <span class="month">May</span>
+          </div>
+          <div class="showing-details">
+            <p class="showing-title">Home Viewing</p>
+            <p class="showing-time">11:00 AM - 12:00 PM</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Your chat logic -->
+  <script src="js/assistant.js"></script>
+  <!-- Replace your entire <script> section at the bottom with this: -->
+    <!-- Replace your entire <script> section with this simplified version -->
+
+  <script>
+    // Global variables for document management
+    let selectedDocument = null;
+    let availableDocuments = [];
+    
+    // Document functions (keep existing)
+    async function loadStaticDocuments() {
+      const loadingSpinner = document.getElementById('documents-loading');
+      const messageContainer = document.getElementById('message-container');
+      const documentsList = document.getElementById('documents-list');
+      
+      try {
+        loadingSpinner.style.display = 'block';
+        documentsList.innerHTML = '';
+        messageContainer.innerHTML = '';
+    
+        const response = await fetch('/api/documents/static');
+        
+        if (!response.ok) {
+          throw new Error(`Failed to load documents: ${response.statusText}`);
+        }
+    
+        const data = await response.json();
+        availableDocuments = data.documents || [];
+    
+        loadingSpinner.style.display = 'none';
+    
+        if (availableDocuments.length === 0) {
+          documentsList.innerHTML = '<p style="text-align: center; color: #666; font-style: italic;">No documents found in static folder</p>';
+          return;
+        }
+    
+        displayDocuments(availableDocuments);
+        showMessage('Documents loaded successfully!', 'success');
+    
+      } catch (error) {
+        console.error('Error loading documents:', error);
+        loadingSpinner.style.display = 'none';
+        showMessage(`Error loading documents: ${error.message}`, 'error');
+        documentsList.innerHTML = '<p style="text-align: center; color: #dc3545;">Failed to load documents</p>';
+      }
+    }
+    
+    function displayDocuments(documents) {
+      const documentsList = document.getElementById('documents-list');
+      
+      if (documents.length === 0) {
+        documentsList.innerHTML = '<p style="text-align: center; color: #666; font-style: italic;">No documents available</p>';
+        return;
+      }
+    
+      const documentsHTML = documents.map(doc => {
+        const fileIcon = getFileIcon(doc.file_type || doc.filename);
+        const fileSize = formatFileSize(doc.file_size || 0);
+        
+        return `
+          <div class="document-item" onclick="selectDocument('${doc.filename}', this)">
+            <div class="document-icon">
+              <i class="fas ${fileIcon}"></i>
+            </div>
+            <div class="document-info">
+              <h4>${doc.filename}</h4>
+              <p>${fileSize} • Static Document</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    
+      documentsList.innerHTML = documentsHTML;
+    }
+    
+    function selectDocument(filename, element) {
+      document.querySelectorAll('.document-item').forEach(item => {
+        item.classList.remove('selected');
+      });
+    
+      element.classList.add('selected');
+      selectedDocument = filename;
+    
+      const askButton = document.getElementById('ask-about-selected');
+      askButton.disabled = false;
+      askButton.innerHTML = `<i class="fas fa-question-circle"></i> Ask About "${filename}"`;
+    
+      showMessage(`Selected: ${filename}`, 'success');
+    }
+    
+    function askAboutSelected() {
+      if (!selectedDocument) {
+        showMessage('Please select a document first', 'error');
+        return;
+      }
+    
+      const question = `Please analyze the document "${selectedDocument}" and tell me what it contains.`;
+      askAboutDocuments(question);
+      
+      toggleDocumentsSidebar();
+    }
+    
+    function askAboutDocuments(question) {
+      const chatInput = document.getElementById('chatInput');
+      if (chatInput) {
+        chatInput.value = question;
+        if (typeof sendMessage === 'function') {
+          sendMessage();
+        }
+      }
+    }
+    
+    function refreshDocumentIndex() {
+      askAboutDocuments('Please refresh the document index to include all static documents');
+    }
+    
+    function getFileIcon(filename) {
+      const extension = filename.split('.').pop().toLowerCase();
+      switch (extension) {
+        case 'pdf': return 'fa-file-pdf';
+        case 'docx': 
+        case 'doc': return 'fa-file-word';
+        case 'txt': return 'fa-file-alt';
+        case 'xlsx':
+        case 'xls': return 'fa-file-excel';
+        case 'pptx':
+        case 'ppt': return 'fa-file-powerpoint';
+        default: return 'fa-file';
+      }
+    }
+    
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    function showMessage(message, type) {
+      const messageContainer = document.getElementById('message-container');
+      const messageClass = type === 'error' ? 'error-message' : 'success-message';
+      
+      messageContainer.innerHTML = `<div class="${messageClass}">${message}</div>`;
+      
+      setTimeout(() => {
+        messageContainer.innerHTML = '';
+      }, 3000);
+    }
+    
+    function toggleDocumentsSidebar() {
+      const documentsPopup = document.getElementById('documents-popup');
+      if (documentsPopup.classList.contains('active')) {
+        documentsPopup.classList.remove('active');
+      } else {
+        documentsPopup.classList.add('active');
+        if (availableDocuments.length === 0) {
+          loadStaticDocuments();
+        }
+      }
+    }
+    
+    // FIXED: Simple menu system that actually works
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 Setting up menu system...');
+      
+      // Get all menu items
+      const menuItems = document.querySelectorAll('.menu-item');
+      console.log(`Found ${menuItems.length} menu items`);
+      
+      // Add event listeners with explicit handlers
+      menuItems.forEach((item, index) => {
+        const span = item.querySelector('span');
+        const menuText = span ? span.textContent : `Item ${index}`;
+        
+        console.log(`Setting up: ${menuText} (${index})`);
+        
+        // Remove any existing event listeners
+        item.removeEventListener('click', null);
+        
+        // Add new click handler
+        item.addEventListener('click', function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          
+          console.log(`🔥 CLICKED: ${menuText}`);
+          
+          // Remove active from all items
+          menuItems.forEach(mi => mi.classList.remove('active'));
+          // Add active to clicked item
+          this.classList.add('active');
+          
+          // Handle each menu item
+          switch(index) {
+            case 0: // Chat
+              console.log('Chat selected');
+              document.getElementById('documents-popup')?.classList.remove('active');
+              break;
+              
+            case 1: // Documents
+              console.log('Documents selected');
+              toggleDocumentsSidebar();
+              break;
+              
+            case 2: // Properties
+              console.log('Properties - redirecting to listings.html');
+              window.location.href = 'pages/listings.html';
+              break;
+              
+            case 3: // Calendar
+              console.log('Calendar - redirecting to schedule.html');
+              window.location.href = 'pages/schedule.html';
+              break;
+              
+            case 4: // Settings
+              console.log('Settings selected');
+              alert('Settings page coming soon!');
+              break;
+              
+            default:
+              console.log('Unknown menu item');
+          }
+        }, true); // Use capture phase
+      });
+      
+      // Documents close button
+      const closeButton = document.getElementById('close-documents');
+      if (closeButton) {
+        closeButton.addEventListener('click', function() {
+          document.getElementById('documents-popup')?.classList.remove('active');
+          menuItems[0]?.classList.add('active'); // Return to chat
+          menuItems.forEach((item, i) => {
+            if (i !== 0) item.classList.remove('active');
+          });
+        });
+      }
+      
+      console.log('✅ Menu system setup complete');
+    });
+    
+    function usesuggestion(button) {
+      const chatInput = document.getElementById('chatInput');
+      if (chatInput && button) {
+        chatInput.value = button.textContent;
+        if (typeof sendMessage === 'function') {
+          sendMessage();
+        }
+      }
+    }
+    </script>
+</body>
+</html>

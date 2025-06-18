@@ -1,0 +1,115 @@
+/* Pricing Card Section Styles */
+.pricing-card-section {
+    padding: 100px 0;
+    background-color: #f8f8f8;
+}
+
+.pricing-card-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.pricing-card {
+    display: flex;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin: 40px 0;
+    transition: all 0.3s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pricing-image-container {
+    flex: 0 0 40%;
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pricing-details {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-title {
+    font-size: 1.8rem;
+    margin: 0 0 15px;
+    color: var(--primary-color);
+}
+
+.pricing-amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+}
+
+.pricing-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px;
+}
+
+.pricing-features li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #444;
+}
+
+.pricing-features li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.pricing-card .cta-button {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .pricing-card {
+        flex-direction: column;
+    }
+    
+    .pricing-image-container {
+        height: 250px;
+    }
+    
+    .pricing-details {
+        padding: 25px;
+    }
+    
+    .pricing-title {
+        font-size: 1.5rem;
+    }
+    
+    .pricing-amount {
+        font-size: 2rem;
+    }
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - SelfNVest</title>
+  <link rel="stylesheet" href="../css/signup.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="signup-container">
+    <div class="logo-container">
+      <a href="../index.html">
+        <img src="../images/Self.svg" alt="SelfNVest Logo" class="hero-logo-image">
+      </a>
+    </div>
+    
+    <div class="signup-header">
+      <h1>Create Your Account</h1>
+      <p>Join SelfNVest and start saving on your real estate journey</p>
+    </div>
+    
+    <!-- Social Login Options -->
+    <div class="social-login">
+      <div class="social-buttons">
+        <button id="google-signup" class="social-btn google" type="button">
+          <i class="fab fa-google"></i>
+          Continue with Google
+        </button>
+        <button id="github-signup" class="social-btn github" type="button">
+          <i class="fab fa-github"></i>
+          Continue with GitHub
+        </button>
+        <button id="apple-signup" class="social-btn apple" type="button">
+          <i class="fab fa-apple"></i>
+          Continue with Apple
+        </button>
+      </div>
+      
+      <div class="divider">
+        <span>or continue with email</span>
+      </div>
+    </div>
+    
+    <!-- Email Signup Form -->
+    <form id="signup-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your full name" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Create a password" required minlength="8">
+        <div class="password-requirements">
+          <div class="requirement invalid" id="req-length">
+            <i class="fas fa-times"></i>
+            At least 8 characters
+          </div>
+          <div class="requirement invalid" id="req-letter">
+            <i class="fas fa-times"></i>
+            Contains a letter
+          </div>
+          <div class="requirement invalid" id="req-number">
+            <i class="fas fa-times"></i>
+            Contains a number
+          </div>
+        </div>
+      </div>
+      
+      <!-- Hidden input for selected plan -->
+      <input type="hidden" id="selected-plan" name="plan" value="standard">
+      
+      <button type="submit">
+        <span class="spinner"></span>
+        <span class="btn-text">Create Account</span>
+      </button>
+    </form>
+    
+    <div id="signup-status"></div>
+    
+    <div class="login-link">
+      Already have an account? <a href="login.html">Log in</a>
+    </div>
+  </div>
+
+  <!-- Supabase SDK -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2.39.6/dist/umd/supabase.js"></script>
+  
+  <!-- Your Supabase client setup -->
+  <script src="../js/supabaseClient.js"></script>
+  
+  <!-- Authentication logic -->
+  <script src="../js/auth.js"></script>
+  
+  <!-- Debug script to verify everything is loaded -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM fully loaded');
+      console.log('Supabase global:', window.supabase);
+      console.log('Auth manager:', window.authManager);
+      
+      // Test authentication check
+      if (window.isAuthenticated) {
+        window.isAuthenticated().then(isAuth => {
+          console.log('User authenticated:', isAuth);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

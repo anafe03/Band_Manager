@@ -1,0 +1,26 @@
+/* Green Button Styles for Scrolling Listings */
+.scrolling-card .cta-button.green-button {
+    background-color: #33443c; /* Dark green color as requested */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.scrolling-card .cta-button.green-button:hover {
+    background-color: #2a372f; /* Slightly darker shade for hover state */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure the color overrides any other button styles */
+.scrolling-listings .scrolling-card .cta-button {
+    background-color: #33443c !important;
+}
+
+.scrolling-listings .scrolling-card .cta-button:hover {
+    background-color: #2a372f !important;
+}

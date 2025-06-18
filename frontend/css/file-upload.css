@@ -1,0 +1,125 @@
+/* File Upload Styles */
+.file-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+    border: 1px solid #e0e0e0;
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+  
+  .file-preview-item {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 4px;
+  }
+  
+  .file-preview-thumbnail {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  
+  .file-name {
+    font-size: 10px;
+    margin-top: 4px;
+    text-align: center;
+    color: #333;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .remove-file {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #33443c;
+    color: white;
+    border: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    font-size: 10px;
+  }
+  
+  .remove-file:hover {
+    background: #33443c;
+    opacity: 0.9;
+  }
+  
+  .message-attachments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  
+  .message-attachment {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .attachment-image {
+    max-width: 200px;
+    max-height: 200px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: opacity 0.2s;
+  }
+  
+  .attachment-image:hover {
+    opacity: 0.9;
+  }
+  
+  .document-attachment {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #000000;
+    border-radius: 8px;
+    gap: 8px;
+  }
+  
+  .document-attachment i {
+    color: #33443c;
+  }
+  
+  .file-size {
+    font-size: 12px;
+    color: #666;
+    margin-left: 8px;
+  }
+  
+  .toggle-upload-btn {
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .toggle-upload-btn:hover {
+    background-color: #e8f5e9;
+    transform: scale(1.05);
+  }
+  
+  .toggle-upload-btn:active {
+    transform: scale(0.95);
+  }

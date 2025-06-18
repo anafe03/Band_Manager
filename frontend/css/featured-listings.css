@@ -1,0 +1,170 @@
+/* Featured Listings Section Styles */
+.featured-listings {
+    padding: 100px 0 100px;
+    background-color: #f8f8f8;
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.featured-listings .section-header {
+    padding: 0 10%;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.listings-container {
+    width: 100%;
+    position: relative;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    overflow-x: hidden;
+}
+
+.listings-row {
+    display: flex;
+    gap: 20px;
+    position: relative;
+    width: max-content;
+    padding: 10px 0;
+}
+
+/* First row scrolls left */
+.listings-row:nth-child(1) {
+    animation: scrollLeft 30s linear infinite;
+}
+
+/* Second row scrolls right */
+.listings-row:nth-child(2) {
+    animation: scrollRight 30s linear infinite;
+}
+
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-100% - 20px));
+    }
+}
+
+@keyframes scrollRight {
+    0% {
+        transform: translateX(calc(-100% - 20px));
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Pause animation on hover */
+.listings-row:hover {
+    animation-play-state: paused;
+}
+
+/* Listing Card Styles */
+.listing-card {
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex: 0 0 500px;
+    min-width: 500px;
+    margin: 0 20px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.listing-gallery-container {
+    flex: 0 0 40%;
+    position: relative;
+    overflow: hidden;
+}
+
+.listing-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.listing-details {
+    flex: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.listing-title {
+    font-size: 1.4rem;
+    margin: 0 0 10px;
+    color: var(--primary-color);
+}
+
+.listing-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+.listing-address {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.listing-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.listing-specs span {
+    font-weight: 500;
+}
+
+.listing-card .cta-button {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+/* Pause animation on hover */
+.listings-row:hover {
+    animation-play-state: paused;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .listing-card {
+        flex-direction: column;
+        flex: 0 0 300px;
+        min-width: 300px;
+    }
+    
+    .listing-gallery-container {
+        flex: 0 0 200px;
+        width: 100%;
+    }
+    
+    .listing-details {
+        padding: 15px;
+    }
+    
+    .listing-title {
+        font-size: 1.2rem;
+    }
+    
+    .listing-price {
+        font-size: 1.4rem;
+    }
+}

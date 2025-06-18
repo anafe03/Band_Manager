@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SelfNVest AI Assistant</title>
+
+  <!-- Font Awesome icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Main styles -->
+  <link rel="stylesheet" href="../css/vesty-home.css" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/vesty-chat.css" />
+  <link rel="stylesheet" href="../css/chat-input.css" />
+  <link rel="stylesheet" href="../css/minimal-chat.css" />
+  <link rel="stylesheet" href="../css/assistant-modern.css" />
+  <link rel="stylesheet" href="../css/mobile-responsive.css">
+
+  
+  <!-- Custom component styles -->
+  <link rel="stylesheet" href="../css/time-slots.css" />
+  <link rel="stylesheet" href="../css/file-upload.css" />
+  <link rel="stylesheet" href="../css/document-viewer.css" />
+  <link rel="stylesheet" href="../css/property-viewer.css" />
+  <link rel="stylesheet" href="../css/property-details-popout.css" />
+  <link rel="stylesheet" href="../css/calendar-popup.css" />
+  <link rel="stylesheet" href="../css/sidebar-panels.css" />
+  <link rel="stylesheet" href="../css/property-management.css" />
+
+  <!-- Chat styles -->
+  <style>
+  .typing-indicator .typing-dots {
+    display: inline-block;
+  }
+  
+  .typing-indicator .typing-dots span {
+    animation: typing 1.4s infinite;
+    opacity: 0;
+    font-size: 20px;
+    line-height: 1;
+  }
+  
+  .typing-indicator .typing-dots span:nth-child(1) { animation-delay: 0s; }
+  .typing-indicator .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-indicator .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  
+  @keyframes typing {
+    0%, 60%, 100% { opacity: 0; }
+    30% { opacity: 1; }
+  }
+
+  /* Enhanced Showing Items Styling */
+  .showing-item.clickable {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  .showing-item.clickable:hover {
+    background-color: rgba(51, 68, 60, 0.05);
+    transform: translateX(3px);
+  }
+
+  .showing-contact {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 2px 0;
+    font-style: italic;
+  }
+
+  .showing-indicator {
+    margin-left: auto;
+    color: #999;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+  }
+
+  .showing-item.clickable:hover .showing-indicator {
+    color: #33443c;
+    transform: translateX(3px);
+  }
+
+  /* Contact Popout Styling */
+  .contact-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .contact-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .contact-popout {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 90%;
+    max-width: 450px;
+    max-height: 80vh;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .contact-popout.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .contact-popout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e9ecef;
+    background: linear-gradient(135deg, #33443c 0%, #2a3a32 100%);
+    color: white;
+  }
+
+  .contact-popout-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .contact-close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .contact-close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .contact-content {
+    padding: 24px;
+  }
+
+  .contact-main-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .contact-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #33443c 0%, #2a3a32 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    color: white;
+    font-size: 24px;
+  }
+
+  .contact-details h4 {
+    margin: 0 0 8px 0;
+    font-size: 1.3rem;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .contact-showing-info {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+  }
+
+  .contact-showing-info i {
+    margin-right: 6px;
+    color: #33443c;
+  }
+
+  .contact-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .contact-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border-left: 4px solid #33443c;
+  }
+
+  .contact-info-icon {
+    width: 40px;
+    height: 40px;
+    background: #33443c;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .contact-info-content {
+    flex: 1;
+  }
+
+  .contact-info-content label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .contact-info-content p {
+    margin: 0 0 12px 0;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 500;
+  }
+
+  .contact-action-btn {
+    background: #33443c;
+    border: 2px solid #33443c;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .contact-action-btn:hover {
+    background: #2a3a32;
+    border-color: #2a3a32;
+    transform: translateY(-1px);
+  }
+
+  .contact-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: stretch;
+  }
+
+  .contact-primary-btn,
+  .contact-secondary-btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .contact-primary-btn {
+    background: #33443c;
+    color: white;
+  }
+
+  .contact-primary-btn:hover {
+    background: #2a3a32;
+    transform: translateY(-2px);
+  }
+
+  .contact-secondary-btn {
+    background: #f8f9fa;
+    color: #33443c;
+    border: 2px solid #e9ecef;
+  }
+
+  .contact-secondary-btn:hover {
+    background: #e9ecef;
+    border-color: #33443c;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .contact-popout {
+      width: 95%;
+      max-width: none;
+    }
+    
+    .contact-content {
+      padding: 20px;
+    }
+    
+    .contact-main-info {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .contact-avatar {
+      margin: 0 0 16px 0;
+    }
+    
+    .contact-actions {
+      flex-direction: column;
+    }
+  }
+  </style>
+</head>
+<body>  
+  <!-- MOBILE HEADER (hidden on desktop) -->
+  <div class="mobile-assistant-header" style="display: none;">
+    <a href="../index.html">
+      <img src="../images/Self.svg" alt="SelfNVest Logo" class="logo" />
+    </a>
+    <div class="mobile-menu-buttons">
+      <button class="mobile-sidebar-toggle" onclick="toggleMobileSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <button class="mobile-panel-toggle" onclick="toggleMobilePanel()">
+        <i class="fas fa-cog"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- MOBILE OVERLAY -->
+  <div class="mobile-overlay" onclick="closeMobilePanels()"></div>
+
+  <!-- MAIN GRID LAYOUT -->
+  <div class="app-container">
+    <!-- SIDEBAR NAV -->
+    <div class="sidebar frosted-glass">
+      <div class="sidebar-header">
+        <a href="../index.html">
+          <img src="../images/Self.svg" alt="SelfNVest Logo" class="logo" />
+        </a>
+      </div>
+
+      <div class="sidebar-menu">
+        <!-- Consolidated Menu Container -->
+        <div class="unified-menu-container">
+          <div class="menu-section-header">
+            <i class="fas fa-tools"></i>
+            <span>Property Management</span>
+          </div>
+          
+          <div class="management-menu-item" onclick="showAnalyticsPopout(event)">
+            <i class="fas fa-chart-line"></i>
+            <span>Analytics</span>
+            <i class="fas fa-chevron-right"></i>
+          </div>
+          <div class="management-menu-item" onclick="showTimelinePopout(event)">
+            <i class="fas fa-tasks"></i>
+            <span>Timeline</span>
+            <i class="fas fa-chevron-right"></i>
+          </div>
+          <div class="management-menu-item" onclick="showOffersPopout(event)">
+            <i class="fas fa-handshake"></i>
+            <span>Offers</span>
+            <div class="offer-badge">2</div>
+            <i class="fas fa-chevron-right"></i>
+          </div>
+          <div class="management-menu-item" onclick="showSupportPopout(event)">
+            <i class="fas fa-headset"></i>
+            <span>Support</span>
+            <i class="fas fa-chevron-right"></i>
+          </div>
+          <div class="management-menu-item" onclick="showSettingsPopout(event)">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+            <i class="fas fa-chevron-right"></i>
+          </div>
+          
+          <div class="menu-divider"></div>
+          
+          <div class="menu-section-header">
+            <i class="fas fa-folder-open"></i>
+            <span>Tools & Resources</span>
+          </div>
+          
+          <div class="management-menu-item" onclick="showDocumentsPopout(event)">
+            <i class="fas fa-file-alt"></i>
+            <span>Documents</span>
+            <i class="fas fa-chevron-right"></i>
+          </div>
+          <div class="management-menu-item" onclick="showCalendarPopout(event)">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Calendar</span>
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar-container">
+            <div class="avatar" id="user-avatar">
+              <span class="avatar-icon" id="avatar-default">V</span>
+              <img id="profile-image" src="" alt="Profile" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+              <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+            </div>
+            <div class="avatar-edit-icon">
+              <i class="fas fa-camera"></i>
+            </div>
+          </div>
+          <div class="user-info">
+            <h4 id="user-display-name">Guest User</h4>
+            <p>Real Estate User</p>
+          </div>
+        </div>
+      </div>  
+    </div>
+
+    <!-- CHAT CONTENT -->
+    <div class="main-content">
+      <div class="minimal-chat-container frosted-glass">
+        <div class="minimal-chat" id="chatBox">
+          <!-- Welcome message -->
+          <div class="chat-message assistant-message">
+            <div class="message-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+              <p>👋 Hello! I'm Vesty, your AI real estate assistant. I'm here to help you with any questions about selling your home, understanding documents, or managing your property. What can I help you with today?</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="minimal-input-area">
+          <div class="minimal-input-wrapper">
+            <textarea id="user-input" placeholder="Type your message..." rows="1"></textarea>
+            <button class="minimal-send-btn" id="send-button" onclick="sendMessage()" title="Send message">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel frosted-glass" id="right-panel">
+      <!-- Right Panel Toggle Button -->
+      <button class="right-panel-toggle" id="right-panel-toggle" title="Toggle sidebar">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      
+      <div class="property-card">
+        <div class="property-image-container" style="position: relative; overflow: hidden; border-radius: 8px; height: 200px; cursor: pointer;" onclick="showPropertyDetailsPopout(event)">
+          <img
+            src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb"
+            alt="Modern Home Property"
+            class="property-image"
+            style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.3s ease;"
+          />
+          <div class="property-badge" style="position: absolute; top: 10px; left: 10px; background-color: #2a41e8; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; z-index: 3;">Your Listing</div>
+          <div class="property-overlay" style="position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0) 100%); padding: 15px 10px; z-index: 2;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px;">
+              <div>
+                <h3 style="color: white; margin: 0 0 3px; font-size: 16px; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">123 Maple Avenue</h3>
+                <p class="property-location" style="color: rgba(255,255,255,0.9); margin: 0; font-size: 12px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+                  <i class="fas fa-map-marker-alt"></i> Westlake Hills, Austin
+                </p>
+              </div>
+              <p class="property-price" style="color: white; margin: 0; font-size: 16px; font-weight: 700; text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">$489,500</p>
+            </div>
+            <div class="property-specs" style="display: flex; gap: 10px; margin-top: 8px;">
+              <div class="spec-item" style="color: white; font-size: 11px; display: flex; align-items: center; gap: 3px;">
+                <i class="fas fa-bed"></i>
+                <span>4 beds</span>
+              </div>
+              <div class="spec-item" style="color: white; font-size: 11px; display: flex; align-items: center; gap: 3px;">
+                <i class="fas fa-bath"></i>
+                <span>2.5 baths</span>
+              </div>
+              <div class="spec-item" style="color: white; font-size: 11px; display: flex; align-items: center; gap: 3px;">
+                <i class="fas fa-ruler-combined"></i>
+                <span>2,240 sqft</span>
+              </div>
+            </div>
+          </div>
+          <!-- Click indicator -->
+          <div class="click-indicator" style="position: absolute; top: 10px; right: 10px; background-color: rgba(255,255,255,0.9); color: #333; padding: 6px; border-radius: 50%; font-size: 12px; z-index: 3; transition: all 0.3s ease;">
+            <i class="fas fa-expand-alt"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-section">
+        <h3>Upcoming Showings</h3>
+        <div class="showing-item clickable" onclick="showContactInfo('Johnson Family', 'mike.johnson@email.com', '(512) 555-0123', 'May 23, 2024', '3:00 PM - 4:00 PM')" style="cursor: pointer;">
+          <div class="showing-date">
+            <span class="day">23</span>
+            <span class="month">May</span>
+          </div>
+          <div class="showing-details">
+            <p class="showing-title">Home Viewing</p>
+            <p class="showing-time">3:00 PM - 4:00 PM</p>
+            <p class="showing-contact">with Johnson Family</p>
+          </div>
+          <div class="showing-indicator">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+        <div class="showing-item clickable" onclick="showContactInfo('Sarah Chen', 'sarah.chen@gmail.com', '(512) 555-0196', 'May 25, 2024', '11:00 AM - 12:00 PM')" style="cursor: pointer;">
+          <div class="showing-date">
+            <span class="day">25</span>
+            <span class="month">May</span>
+          </div>
+          <div class="showing-details">
+            <p class="showing-title">Home Viewing</p>
+            <p class="showing-time">11:00 AM - 12:00 PM</p>
+            <p class="showing-contact">with Sarah Chen</p>
+          </div>
+          <div class="showing-indicator">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include all the popups and modals -->
+  <!-- Documents Popout -->
+  <div class="documents-overlay" id="documents-overlay"></div>
+  <div class="documents-popout frosted-glass" id="documents-popout">
+    <div class="documents-popout-header">
+      <h3><i class="fas fa-file-alt"></i> Document Manager</h3>
+      <button class="documents-close-btn" id="close-documents-popout">&times;</button>
+    </div>
+    
+    <div class="documents-content">
+      <div class="upload-documents-section">
+        <div class="upload-area" id="upload-area">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <h4>Upload Documents</h4>
+          <p>Drag and drop files here or click to browse</p>
+          <input type="file" id="document-upload" multiple accept=".pdf,.doc,.docx,.txt,.jpg,.png">
+          <button class="cta-button" onclick="document.getElementById('document-upload').click()">
+            <i class="fas fa-plus"></i> Choose Files
+          </button>
+        </div>
+      </div>
+      
+      <div class="documents-section">
+        <h4>Your Documents</h4>
+        <div class="documents-grid" id="documents-grid">
+          <!-- Sample documents -->
+          <div class="document-item" onclick="openDocumentSplitView('Purchase Agreement', 'pdf')">
+            <div class="document-icon">
+              <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="document-info">
+              <h5>Purchase Agreement</h5>
+              <p>PDF • 2.3 MB</p>
+              <span class="document-date">May 15, 2024</span>
+            </div>
+          </div>
+          
+          <div class="document-item" onclick="openDocumentSplitView('Property Inspection Report', 'pdf')">
+            <div class="document-icon">
+              <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="document-info">
+              <h5>Property Inspection Report</h5>
+              <p>PDF • 1.8 MB</p>
+              <span class="document-date">May 10, 2024</span>
+            </div>
+          </div>
+          
+          <div class="document-item" onclick="openDocumentSplitView('Home Warranty Info', 'doc')">
+            <div class="document-icon">
+              <i class="fas fa-file-word"></i>
+            </div>
+            <div class="document-info">
+              <h5>Home Warranty Info</h5>
+              <p>DOC • 456 KB</p>
+              <span class="document-date">May 8, 2024</span>
+            </div>
+          </div>
+          
+          <div class="document-item" onclick="openDocumentSplitView('Property Photos', 'images')">
+            <div class="document-icon">
+              <i class="fas fa-images"></i>
+            </div>
+            <div class="document-info">
+              <h5>Property Photos</h5>
+              <p>Images • 15.2 MB</p>
+              <span class="document-date">May 5, 2024</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Contact Info Popout -->
+  <div class="contact-overlay" id="contact-overlay"></div>
+  <div class="contact-popout frosted-glass" id="contact-popout">
+    <div class="contact-popout-header">
+      <h3><i class="fas fa-users"></i> Showing Contact Info</h3>
+      <button class="contact-close-btn" id="close-contact-popout">&times;</button>
+    </div>
+    
+    <div class="contact-content">
+      <div class="contact-main-info">
+        <div class="contact-avatar">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="contact-details">
+          <h4 id="contact-name">Contact Name</h4>
+          <p class="contact-showing-info">
+            <i class="fas fa-calendar"></i>
+            <span id="contact-date">Date</span> at <span id="contact-time">Time</span>
+          </p>
+        </div>
+      </div>
+      
+      <div class="contact-info-grid">
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="contact-info-content">
+            <label>Email Address</label>
+            <p id="contact-email">email@example.com</p>
+            <button class="contact-action-btn" onclick="openEmailClient()">
+              <i class="fas fa-external-link-alt"></i> Send Email
+            </button>
+          </div>
+        </div>
+        
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div class="contact-info-content">
+            <label>Phone Number</label>
+            <p id="contact-phone">(000) 000-0000</p>
+            <button class="contact-action-btn" onclick="dialPhone()">
+              <i class="fas fa-phone-alt"></i> Call Now
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="contact-actions">
+        <button class="contact-primary-btn" onclick="sendReminder()">
+          <i class="fas fa-bell"></i> Send Reminder
+        </button>
+        <button class="contact-secondary-btn" onclick="rescheduleShowing()">
+          <i class="fas fa-calendar-alt"></i> Reschedule
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Property Details Right Side Panel -->  
+  <div class="property-details-overlay" id="property-details-overlay"></div>
+  <div class="property-details-popout frosted-glass" id="property-details-popout">
+    <div class="property-details-header">
+      <h3><i class="fas fa-home"></i> Property Details</h3>
+      <button class="property-details-close-btn" id="close-property-details-popout">&times;</button>
+    </div>
+    
+    <div class="property-details-content">
+      <div class="property-details-info">
+        <div class="property-main-image">
+          <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb" alt="Property" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+        </div>
+        
+        <div class="property-details-section">
+          <h4>123 Maple Avenue</h4>
+          <p class="property-address"><i class="fas fa-map-marker-alt"></i> Westlake Hills, Austin, TX 78746</p>
+          <p class="property-price-large">$489,500</p>
+          
+          <div class="property-features">
+            <div class="feature-item">
+              <i class="fas fa-bed"></i>
+              <span>4 Bedrooms</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-bath"></i>
+              <span>2.5 Bathrooms</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-ruler-combined"></i>
+              <span>2,240 sqft</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-car"></i>
+              <span>2 Car Garage</span>
+            </div>
+          </div>
+          
+          <div class="property-description">
+            <h5>Description</h5>
+            <p>Beautiful modern home in the heart of Westlake Hills. This stunning property features an open floor plan, updated kitchen with granite countertops, hardwood floors throughout, and a spacious backyard perfect for entertaining.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Property Split Screen View -->
+  <div class="property-split-screen" id="property-split-screen">
+    <div class="property-details" id="property-details">
+      <div class="property-image-slider">
+        <div class="property-images" id="property-images">
+          <!-- Images will be loaded here -->
+        </div>
+        <button class="slider-nav slider-prev" id="slider-prev">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-nav slider-next" id="slider-next">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      
+      <div class="property-content" id="property-content">
+        <!-- Property details will be loaded here -->
+      </div>
+    </div>
+    
+    <div class="property-split-chat">
+      <div class="property-split-header">
+        <h3 class="property-split-title">Chat with Vesty AI</h3>
+        <button class="property-split-close" id="property-split-close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div id="property-split-messages" class="split-screen-messages">
+        <!-- Chat messages will be loaded here -->
+      </div>
+      <div class="split-screen-input">
+        <input type="text" id="property-split-chat-input" placeholder="Ask about this property...">
+        <button id="property-split-send-button">
+          <i class="fas fa-paper-plane"></i> Send
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Document Split Screen View -->
+  <div class="document-split-screen" id="document-split-screen">
+    <div class="document-viewer-section">
+      <div class="document-viewer-header">
+        <h3 class="document-title" id="document-title">Document Title</h3>
+        <button class="document-split-close" id="document-split-close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="document-viewer-content" id="document-viewer-content">
+        <!-- Document content will be loaded here -->
+        <div class="document-placeholder">
+          <i class="fas fa-file-alt"></i>
+          <p>Document will be displayed here</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="document-chat-section">
+      <div class="document-chat-header">
+        <h3><i class="fas fa-comments"></i> Chat about this document</h3>
+      </div>
+      <div class="document-chat-messages" id="document-chat-messages">
+        <div class="chat-message assistant-message">
+          <div class="message-content">
+            <p>Hi! I'm here to help you understand this document. What questions do you have?</p>
+          </div>
+        </div>
+      </div>
+      <div class="document-chat-input">
+        <input type="text" id="document-chat-input" placeholder="Ask about this document...">
+        <button id="document-chat-send-button">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Calendar Popout -->
+  <div class="calendar-overlay" id="calendar-overlay"></div>
+  <div class="calendar-popout frosted-glass" id="calendar-popout">
+    <div class="calendar-popout-header">
+      <h3><i class="fas fa-calendar-alt"></i> Availability Calendar</h3>
+      <button class="calendar-close-btn" id="close-calendar-popout">&times;</button>
+    </div>
+    
+    <div class="calendar-content">
+      <div class="calendar-container">
+        <div class="calendar-controls-container">
+          <div class="calendar-navigation">
+            <button class="nav-btn prev-btn" onclick="window.calendarManager && window.calendarManager.changeMonth(-1)">&lt;</button>
+            <span class="current-period" id="current-period">June 2024</span>
+            <button class="nav-btn next-btn" onclick="window.calendarManager && window.calendarManager.changeMonth(1)">&gt;</button>
+          </div>
+        </div>
+        <div class="calendar-days">
+          <div class="day-header">Sun</div>
+          <div class="day-header">Mon</div>
+          <div class="day-header">Tue</div>
+          <div class="day-header">Wed</div>
+          <div class="day-header">Thu</div>
+          <div class="day-header">Fri</div>
+          <div class="day-header">Sat</div>
+        </div>
+        <div class="calendar-grid" id="popout-calendar-grid">
+          <!-- Calendar days will be generated by JavaScript -->
+        </div>
+      </div>
+      
+      <!-- Time Selection Section -->
+      <div class="time-selection-section availability-popup" id="time-selection-section" style="display: none;">
+        <h4>Select Available Times for <span class="selected-date" id="selected-date-display">Select a date</span></h4>
+        <div class="time-slots-container time-slots-grid">
+          <!-- Time slots will be populated by JavaScript -->
+        </div>
+        <div class="time-selection-actions">
+          <button class="cta-button save-availability-btn" onclick="window.calendarManager && window.calendarManager.saveAvailability()">Save Availability</button>
+          <button class="secondary-button close-availability" onclick="window.calendarManager && window.calendarManager.closeAvailabilityPopup()">Cancel</button>
+        </div>
+      </div>
+      
+      <!-- Saved Availability Section -->
+      <div class="saved-availability-section">
+        <h4>Your Saved Availability</h4>
+        <ul class="saved-slots-container" id="saved-slots">
+          <!-- Saved availability will be populated by JavaScript -->
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analytics Popout -->
+  <div class="analytics-overlay" id="analytics-overlay"></div>
+  <div class="analytics-popout frosted-glass" id="analytics-popout">
+    <div class="analytics-popout-header">
+      <h3><i class="fas fa-chart-line"></i> Property Analytics</h3>
+      <button class="analytics-close-btn" id="close-analytics-popout">&times;</button>
+    </div>
+    
+    <div class="analytics-content">
+      <div class="analytics-grid">
+        <div class="analytics-card">
+          <div class="analytics-icon">
+            <i class="fas fa-eye"></i>
+          </div>
+          <div class="analytics-info">
+            <h4>1,247</h4>
+            <p>Total Views</p>
+            <span class="analytics-change positive">+12% this week</span>
+          </div>
+        </div>
+        
+        <div class="analytics-card">
+          <div class="analytics-icon">
+            <i class="fas fa-calendar-day"></i>
+          </div>
+          <div class="analytics-info">
+            <h4>23 Days</h4>
+            <p>Listed on Site</p>
+            <span class="analytics-change neutral">Since May 1st</span>
+          </div>
+        </div>
+        
+        <div class="analytics-card">
+          <div class="analytics-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="analytics-info">
+            <h4>8 People</h4>
+            <p>Scheduled Showings</p>
+            <span class="analytics-change positive">+3 this week</span>
+          </div>
+        </div>
+        
+        <div class="analytics-card">
+          <div class="analytics-icon">
+            <i class="fas fa-balance-scale"></i>
+          </div>
+          <div class="analytics-info">
+            <h4>$489,500</h4>
+            <p>vs Market Average</p>
+            <span class="analytics-change positive">2% above average</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="analytics-chart-section">
+        <h4>Weekly Views</h4>
+        <div class="chart-placeholder">
+          <div class="chart-bars">
+            <div class="chart-bar" style="height: 60%;" data-value="45"></div>
+            <div class="chart-bar" style="height: 80%;" data-value="62"></div>
+            <div class="chart-bar" style="height: 45%;" data-value="34"></div>
+            <div class="chart-bar" style="height: 90%;" data-value="78"></div>
+            <div class="chart-bar" style="height: 70%;" data-value="56"></div>
+            <div class="chart-bar" style="height: 85%;" data-value="71"></div>
+            <div class="chart-bar" style="height: 95%;" data-value="89"></div>
+          </div>
+          <div class="chart-labels">
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+            <span>Sun</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline Popout -->
+  <div class="timeline-overlay" id="timeline-overlay"></div>
+  <div class="timeline-popout frosted-glass" id="timeline-popout">
+    <div class="timeline-popout-header">
+      <h3><i class="fas fa-tasks"></i> Selling Timeline</h3>
+      <button class="timeline-close-btn" id="close-timeline-popout">&times;</button>
+    </div>
+    
+    <div class="timeline-content">
+      <!-- Add New Timeline Item Section -->
+      <div class="add-timeline-section">
+        <div class="add-timeline-header">
+          <h4><i class="fas fa-plus-circle"></i> Add Timeline Item</h4>
+          <button class="add-timeline-toggle" id="add-timeline-toggle">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        <div class="add-timeline-form" id="add-timeline-form" style="display: none;">
+          <div class="form-group">
+            <label for="timeline-title">Task Title</label>
+            <input type="text" id="timeline-title" placeholder="Enter task title..." maxlength="50">
+          </div>
+          <div class="form-group">
+            <label for="timeline-description">Description</label>
+            <textarea id="timeline-description" placeholder="Enter task description..." rows="2" maxlength="100"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="timeline-icon">Icon</label>
+            <select id="timeline-icon">
+              <option value="fa-tasks">Tasks</option>
+              <option value="fa-home">Home</option>
+              <option value="fa-camera">Photos</option>
+              <option value="fa-calendar">Calendar</option>
+              <option value="fa-handshake">Handshake</option>
+              <option value="fa-file-signature">Signature</option>
+              <option value="fa-dollar-sign">Money</option>
+              <option value="fa-clipboard-check">Checklist</option>
+              <option value="fa-phone">Phone</option>
+              <option value="fa-envelope">Email</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button class="add-timeline-btn" onclick="addTimelineItem()">
+              <i class="fas fa-plus"></i> Add Item
+            </button>
+            <button class="cancel-timeline-btn" onclick="cancelAddTimeline()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill" style="width: 40%;"></div>
+        </div>
+        <span class="progress-text" id="progress-text">40% Complete</span>
+      </div>
+      
+      <div class="timeline-steps" id="timeline-steps">
+        <div class="timeline-step completed clickable" onclick="toggleTimelineStep(this)" data-step-id="1" draggable="true" data-original-index="0">
+          <div class="drag-handle" title="Drag to reorder">
+            <i class="fas fa-grip-vertical"></i>
+          </div>
+          <div class="step-icon">
+            <i class="fas fa-check"></i>
+          </div>
+          <div class="step-content">
+            <h4>Property Listed</h4>
+            <p>Your home was successfully listed on SelfNVestAi</p>
+            <span class="step-date">May 1, 2024</span>
+          </div>
+          <div class="step-checkbox">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </div>
+        
+        <div class="timeline-step completed clickable" onclick="toggleTimelineStep(this)" data-step-id="2" draggable="true" data-original-index="1">
+          <div class="drag-handle" title="Drag to reorder">
+            <i class="fas fa-grip-vertical"></i>
+          </div>
+          <div class="step-icon">
+            <i class="fas fa-check"></i>
+          </div>
+          <div class="step-content">
+            <h4>Photos & Description Added</h4>
+            <p>Professional photos and detailed description uploaded</p>
+            <span class="step-date">May 2, 2024</span>
+          </div>
+          <div class="step-checkbox">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </div>
+        
+        <div class="timeline-step pending clickable" onclick="toggleTimelineStep(this)" data-step-id="3" draggable="true" data-original-index="2">
+          <div class="drag-handle" title="Drag to reorder">
+            <i class="fas fa-grip-vertical"></i>
+          </div>
+          <div class="step-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="step-content">
+            <h4>Showing Appointments</h4>
+            <p>Currently scheduling and conducting property viewings</p>
+            <span class="step-date">Pending</span>
+          </div>
+          <div class="step-checkbox">
+            <i class="fas fa-circle"></i>
+          </div>
+        </div>
+        
+        <div class="timeline-step pending clickable" onclick="toggleTimelineStep(this)" data-step-id="4" draggable="true" data-original-index="3">
+          <div class="drag-handle" title="Drag to reorder">
+            <i class="fas fa-grip-vertical"></i>
+          </div>
+          <div class="step-icon">
+            <i class="fas fa-handshake"></i>
+          </div>
+          <div class="step-content">
+            <h4>Receive Offers</h4>
+            <p>Waiting for potential buyers to submit offers</p>
+            <span class="step-date">Pending</span>
+          </div>
+          <div class="step-checkbox">
+            <i class="fas fa-circle"></i>
+          </div>
+        </div>
+        
+        <div class="timeline-step pending clickable" onclick="toggleTimelineStep(this)" data-step-id="5" draggable="true" data-original-index="4">
+          <div class="drag-handle" title="Drag to reorder">
+            <i class="fas fa-grip-vertical"></i>
+          </div>
+          <div class="step-icon">
+            <i class="fas fa-file-signature"></i>
+          </div>
+          <div class="step-content">
+            <h4>Accept Offer & Close</h4>
+            <p>Finalize sale and complete transaction</p>
+            <span class="step-date">Pending</span>
+          </div>
+          <div class="step-checkbox">
+            <i class="fas fa-circle"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Offers Popout -->
+  <div class="offers-overlay" id="offers-overlay"></div>
+  <div class="offers-popout frosted-glass" id="offers-popout">
+    <div class="offers-popout-header">
+      <h3><i class="fas fa-handshake"></i> Property Offers</h3>
+      <button class="offers-close-btn" id="close-offers-popout">&times;</button>
+    </div>
+    
+    <div class="offers-content">
+      <!-- In Development Notice -->
+      <div class="development-notice">
+        <div class="development-banner">
+          <i class="fas fa-code"></i>
+          <span>In Development</span>
+        </div>
+        <p>This feature is currently being developed and will be available soon.</p>
+      </div>
+      
+      <div class="offers-summary">
+        <div class="summary-card">
+          <h4>2 Active Offers</h4>
+          <p>Highest: $495,000</p>
+        </div>
+      </div>
+      
+      <div class="offers-list">
+        <div class="offer-item">
+          <div class="offer-header">
+            <div class="offer-amount">$495,000</div>
+            <div class="offer-status new">New</div>
+          </div>
+          <div class="offer-details">
+            <p><strong>Buyer:</strong> Sarah & Mike Johnson</p>
+            <p><strong>Financing:</strong> Pre-approved conventional loan</p>
+            <p><strong>Contingencies:</strong> Inspection, Appraisal</p>
+            <p><strong>Closing Date:</strong> June 15, 2024</p>
+            <p><strong>Submitted:</strong> May 20, 2024</p>
+          </div>
+          <div class="offer-actions">
+            <button class="offer-btn accept">Accept</button>
+            <button class="offer-btn counter">Counter</button>
+            <button class="offer-btn decline">Decline</button>
+          </div>
+        </div>
+        
+        <div class="offer-item">
+          <div class="offer-header">
+            <div class="offer-amount">$485,000</div>
+            <div class="offer-status pending">Under Review</div>
+          </div>
+          <div class="offer-details">
+            <p><strong>Buyer:</strong> David Chen</p>
+            <p><strong>Financing:</strong> Cash offer</p>
+            <p><strong>Contingencies:</strong> Inspection only</p>
+            <p><strong>Closing Date:</strong> June 1, 2024</p>
+            <p><strong>Submitted:</strong> May 18, 2024</p>
+          </div>
+          <div class="offer-actions">
+            <button class="offer-btn accept">Accept</button>
+            <button class="offer-btn counter">Counter</button>
+            <button class="offer-btn decline">Decline</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Support Popout -->
+  <div class="support-overlay" id="support-overlay"></div>
+  <div class="support-popout frosted-glass" id="support-popout">
+    <div class="support-popout-header">
+      <h3><i class="fas fa-headset"></i> Contact Support</h3>
+      <button class="support-close-btn" id="close-support-popout">&times;</button>
+    </div>
+    
+    <div class="support-content">
+      <div class="support-options centered-support">
+        <div class="support-option email-only" onclick="openEmailSupport()">
+          <i class="fas fa-envelope"></i>
+          <h4>Email Support</h4>
+          <p>Send us a detailed message and we'll get back to you within 24 hours</p>
+        </div>
+      </div>
+      
+      <div class="email-form" id="email-support-form" style="display: none;">
+        <h4>Send us a message</h4>
+        <form>
+          <div class="form-group">
+            <label for="support-email-to">To:</label>
+            <input type="email" id="support-email-to" value="support@selfnvestai.com" readonly>
+          </div>
+          <div class="form-group">
+            <label for="support-subject">Subject:</label>
+            <input type="text" id="support-subject" placeholder="How can we help you?">
+          </div>
+          <div class="form-group">
+            <label for="support-message">Message:</label>
+            <textarea id="support-message" rows="6" placeholder="Please describe your question or issue in detail..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="cta-button">Send Message</button>
+            <button type="button" class="secondary-button" onclick="closeEmailSupport()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Popout -->
+  <div class="settings-overlay" id="settings-overlay"></div>
+  <div class="settings-popout frosted-glass" id="settings-popout">
+    <div class="settings-popout-header">
+      <h3><i class="fas fa-cog"></i> Settings</h3>
+      <button class="settings-close-btn" id="close-settings-popout">&times;</button>
+    </div>
+    
+    <div class="settings-content">
+      <div class="settings-section">
+        <h4><i class="fas fa-user"></i> Profile Settings</h4>
+        <div class="settings-item">
+          <label>Display Name</label>
+          <input type="text" value="Guest User" id="profile-display-name">
+        </div>
+        <div class="settings-item">
+          <label>Email</label>
+          <input type="email" value="user@example.com" id="profile-email">
+        </div>
+        <div class="settings-item">
+          <label>Phone</label>
+          <input type="tel" value="(555) 123-4567" id="profile-phone">
+        </div>
+      </div>
+      
+      <div class="settings-section">
+        <h4><i class="fas fa-share-alt"></i> Social Media Posts</h4>
+        <div class="social-posts">
+          <div class="social-post-item">
+            <i class="fab fa-facebook"></i>
+            <span>Facebook Post</span>
+            <a href="#" class="view-post-btn">View Post</a>
+          </div>
+          <div class="social-post-item">
+            <i class="fab fa-instagram"></i>
+            <span>Instagram Story</span>
+            <a href="#" class="view-post-btn">View Post</a>
+          </div>
+          <div class="social-post-item">
+            <i class="fab fa-twitter"></i>
+            <span>Twitter Post</span>
+            <a href="#" class="view-post-btn">View Post</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="settings-section">
+        <h4><i class="fas fa-bell"></i> Notifications</h4>
+        <div class="notification-settings">
+          <div class="notification-item">
+            <div class="notification-info">
+              <h5>New Offers</h5>
+              <p>Get notified when you receive new offers</p>
+            </div>
+            <label class="modern-toggle">
+              <input type="checkbox" checked>
+              <span class="toggle-slider">
+                <span class="toggle-button"></span>
+              </span>
+            </label>
+          </div>
+          
+          <div class="notification-item">
+            <div class="notification-info">
+              <h5>Showing Requests</h5>
+              <p>Get notified about new showing appointments</p>
+            </div>
+            <label class="modern-toggle">
+              <input type="checkbox" checked>
+              <span class="toggle-slider">
+                <span class="toggle-button"></span>
+              </span>
+            </label>
+          </div>
+          
+          <div class="notification-item">
+            <div class="notification-info">
+              <h5>Marketing Updates</h5>
+              <p>Receive updates about your listing's performance</p>
+            </div>
+            <label class="modern-toggle">
+              <input type="checkbox">
+              <span class="toggle-slider">
+                <span class="toggle-button"></span>
+              </span>
+            </label>
+          </div>
+          
+          <div class="notification-item">
+            <div class="notification-info">
+              <h5>Email Notifications</h5>
+              <p>Receive important updates via email</p>
+            </div>
+            <label class="modern-toggle">
+              <input type="checkbox" checked>
+              <span class="toggle-slider">
+                <span class="toggle-button"></span>
+              </span>
+            </label>
+          </div>
+          
+          <div class="settings-actions">
+            <button class="cta-button">Save Changes</button>
+            <button class="secondary-button">Reset to Default</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === SCRIPT LOADING ORDER === -->
+  
+  <!-- 1. FIRST: Supabase Configuration -->
+  <script>
+    window.SUPABASE_CONFIG = {
+      url: 'https://gdmdurzaeezcrgrmtabx.supabase.co',
+      key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkbWR1cnphZWV6Y3Jncm10YWJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1OTk3MDUsImV4cCI6MjA2MzE3NTcwNX0.xbuXRr2jDAAG021blK5zeuqwO-5zMNq7_tEfW_oW7cQ'
+    };
+    console.log('🔑 Supabase config loaded for assistant.html');
+  </script>
+  
+  <!-- 2. SECOND: Load Supabase library -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2.39.6/dist/umd/supabase.js"></script>
+  
+  <!-- 3. THIRD: Initialize Supabase client -->
+  <script>
+    // Initialize Supabase client
+    window.supabase = window.supabase.createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.key);
+    console.log('✅ Supabase client initialized for assistant.html');
+  </script>
+
+  <!-- 4. Load other necessary scripts -->
+  <script src="../js/supabaseClient.js"></script>
+  <script src="../js/globalAuth.js"></script>
+  <script src="../js/auth.js"></script>
+
+  <!-- 5. SINGLE CHAT SYSTEM -->
+  <script>
+    console.log('🤖 Initializing SINGLE chat system for assistant...');
+    
+    // Chat configuration
+    const API_BASE = "https://vesty-app-fastapi.onrender.com/api/langgraph";
+    let THREAD_ID = localStorage.getItem("thread_id") || null;
+    let isProcessing = false;
+
+    // Create a new thread
+    async function createThread() {
+      try {
+        console.log("Creating new thread...");
+        const response = await fetch(`${API_BASE}/thread`, { 
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        THREAD_ID = data.thread_id;
+        localStorage.setItem("thread_id", THREAD_ID);
+        console.log("Created new thread:", THREAD_ID);
+        return THREAD_ID;
+      } catch (error) {
+        console.error("Failed to create thread:", error);
+        throw error;
+      }
+    }
+
+    // Update send button state
+    function updateSendButton(disabled) {
+      const sendButton = document.getElementById("send-button");
+      const input = document.getElementById("user-input");
+      
+      if (sendButton) {
+        sendButton.disabled = disabled;
+        if (disabled) {
+          sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        } else {
+          sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        }
+      }
+      
+      if (input) {
+        input.disabled = disabled;
+      }
+    }
+
+    // Add typing indicator
+    function appendTypingIndicator(chatBox) {
+      const typingDiv = document.createElement("div");
+      typingDiv.className = "chat-message assistant-message typing-indicator";
+      typingDiv.innerHTML = `
+        <div class="message-avatar">
+          <i class="fas fa-robot"></i>
+        </div>
+        <div class="message-content">
+          <div class="typing-dots">
+            <span>.</span><span>.</span><span>.</span>
+          </div>
+        </div>
+      `;
+      
+      chatBox.appendChild(typingDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      
+      return typingDiv;
+    }
+
+    // Remove typing indicator
+    function removeTypingIndicator(typingDiv) {
+      if (typingDiv && typingDiv.parentNode) {
+        typingDiv.remove();
+      }
+    }
+
+    // Main sendMessage function
+    async function sendMessage() {
+      const input = document.getElementById('user-input');
+      const chatBox = document.getElementById('chatBox');
+      
+      if (!input || !chatBox) {
+        console.error('Chat elements not found');
+        return;
+      }
+      
+      const text = input.value.trim();
+      if (!text || isProcessing) return;
+      
+      // Prevent multiple simultaneous requests
+      isProcessing = true;
+      updateSendButton(true);
+      
+      // Add user message to chat
+      const userMessageDiv = document.createElement('div');
+      userMessageDiv.className = 'chat-message user-message';
+      userMessageDiv.innerHTML = `
+        <div class="message-content">
+          <p>${text}</p>
+        </div>
+      `;
+      chatBox.appendChild(userMessageDiv);
+      
+      // Clear input
+      input.value = '';
+      input.style.height = 'auto'; // Reset textarea height
+      
+      // Scroll to bottom
+      chatBox.scrollTop = chatBox.scrollHeight;
+      
+      // Show typing indicator
+      const typingDiv = appendTypingIndicator(chatBox);
+      
+      try {
+        // Create thread if we don't have one
+        if (!THREAD_ID) {
+          await createThread();
+        }
+        
+        console.log("Sending message to thread:", THREAD_ID);
+        
+        // Use the exact same API call as chatbot.js
+        const response = await fetch(`${API_BASE}/chat`, {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            ...(window.auth && window.auth.isAuthenticated() ? 
+              { 'Authorization': `Bearer ${window.authState.token}` } : {})
+          },
+          body: JSON.stringify({ 
+            message: text, 
+            thread_id: THREAD_ID 
+          }),
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        
+        // Update thread ID if provided
+        if (data.thread_id && data.thread_id !== THREAD_ID) {
+          THREAD_ID = data.thread_id;
+          localStorage.setItem("thread_id", THREAD_ID);
+          console.log("Updated thread ID:", THREAD_ID);
+        }
+        
+        // Remove typing indicator
+        removeTypingIndicator(typingDiv);
+        
+        // Add AI response to chat
+        const assistantMessage = data.response || "I'm sorry, I couldn't process that request.";
+        const aiMessageDiv = document.createElement('div');
+        aiMessageDiv.className = 'chat-message assistant-message';
+        aiMessageDiv.innerHTML = `
+          <div class="message-avatar">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="message-content">
+            <p>${assistantMessage}</p>
+          </div>
+        `;
+        chatBox.appendChild(aiMessageDiv);
+        
+        console.log("Message sent successfully");
+        
+      } catch (error) {
+        console.error("Failed to send message:", error);
+        removeTypingIndicator(typingDiv);
+        
+        let errorMessage = "❌ I'm having trouble connecting right now. Please try again in a moment.";
+        
+        if (error.message.includes("504")) {
+          errorMessage = "❌ I'm taking longer than usual to respond. Please try again.";
+        } else if (error.message.includes("500")) {
+          errorMessage = "❌ I encountered an internal error. Please try again.";
+        }
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'chat-message assistant-message';
+        errorDiv.innerHTML = `
+          <div class="message-avatar">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="message-content">
+            <p>${errorMessage}</p>
+          </div>
+        `;
+        chatBox.appendChild(errorDiv);
+        
+      } finally {
+        isProcessing = false;
+        updateSendButton(false);
+        
+        // Scroll to bottom
+        chatBox.scrollTop = chatBox.scrollHeight;
+        input.focus(); // Refocus input for next message
+      }
+    }
+    
+    // Initialize chat when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🤖 Initializing assistant chat...');
+      
+      const userInput = document.getElementById('user-input');
+      const sendButton = document.getElementById('send-button');
+      
+      // Handle Enter key
+      if (userInput) {
+        userInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+        
+        // Auto-resize textarea
+        userInput.addEventListener('input', function() {
+          this.style.height = 'auto';
+          this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+      }
+      
+      // Handle send button click
+      if (sendButton) {
+        sendButton.addEventListener('click', sendMessage);
+      }
+      
+      console.log('✅ Assistant chat system ready!');
+    });
+
+    // Expose sendMessage globally for other scripts
+    window.sendMessage = sendMessage;
+
+    // Mobile navigation functions
+    function toggleMobileSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const overlay = document.querySelector('.mobile-overlay');
+      
+      if (sidebar && overlay) {
+        sidebar.classList.toggle('mobile-active');
+        overlay.classList.toggle('active');
+        document.body.classList.toggle('mobile-menu-open');
+      }
+    }
+
+    function toggleMobilePanel() {
+      const panel = document.querySelector('.right-panel');
+      const overlay = document.querySelector('.mobile-overlay');
+      
+      if (panel && overlay) {
+        panel.classList.toggle('mobile-active');
+        overlay.classList.toggle('active');
+        document.body.classList.toggle('mobile-menu-open');
+      }
+    }
+
+    function closeMobilePanels() {
+      const sidebar = document.querySelector('.sidebar');
+      const panel = document.querySelector('.right-panel');
+      const overlay = document.querySelector('.mobile-overlay');
+      
+      if (sidebar) sidebar.classList.remove('mobile-active');
+      if (panel) panel.classList.remove('mobile-active');
+      if (overlay) overlay.classList.remove('active');
+      document.body.classList.remove('mobile-menu-open');
+    }
+
+    // Show mobile header on mobile devices
+    function initMobileLayout() {
+      const mobileHeader = document.querySelector('.mobile-assistant-header');
+      
+      function checkMobile() {
+        if (window.innerWidth <= 768 && mobileHeader) {
+          mobileHeader.style.display = 'flex';
+        } else if (mobileHeader) {
+          mobileHeader.style.display = 'none';
+          closeMobilePanels();
+        }
+      }
+      
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
+    }
+
+    // Initialize mobile layout on page load
+    document.addEventListener('DOMContentLoaded', initMobileLayout);
+
+    // Expose mobile functions globally
+    window.toggleMobileSidebar = toggleMobileSidebar;
+    window.toggleMobilePanel = toggleMobilePanel;
+    window.closeMobilePanels = closeMobilePanels;
+
+    // Contact Info Popout Functions
+    function showContactInfo(name, email, phone, date, time) {
+      // Set contact information
+      document.getElementById('contact-name').textContent = name;
+      document.getElementById('contact-email').textContent = email;
+      document.getElementById('contact-phone').textContent = phone;
+      document.getElementById('contact-date').textContent = date;
+      document.getElementById('contact-time').textContent = time;
+      
+      // Show the popout
+      const overlay = document.getElementById('contact-overlay');
+      const popout = document.getElementById('contact-popout');
+      
+      overlay.classList.add('active');
+      popout.classList.add('active');
+      
+      // Prevent body scroll
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeContactInfo() {
+      const overlay = document.getElementById('contact-overlay');
+      const popout = document.getElementById('contact-popout');
+      
+      overlay.classList.remove('active');
+      popout.classList.remove('active');
+      
+      // Restore body scroll
+      document.body.style.overflow = '';
+    }
+
+    // Contact action functions
+    function openEmailClient() {
+      const email = document.getElementById('contact-email').textContent;
+      const name = document.getElementById('contact-name').textContent;
+      const date = document.getElementById('contact-date').textContent;
+      const time = document.getElementById('contact-time').textContent;
+      
+      const subject = encodeURIComponent(`Property Showing - ${date} ${time}`);
+      const body = encodeURIComponent(`Hi ${name},\n\nI wanted to follow up regarding our property showing scheduled for ${date} at ${time}.\n\nBest regards`);
+      
+      window.open(`mailto:${email}?subject=${subject}&body=${body}`);
+    }
+
+    function dialPhone() {
+      const phone = document.getElementById('contact-phone').textContent;
+      window.open(`tel:${phone}`);
+    }
+
+    function sendReminder() {
+      const name = document.getElementById('contact-name').textContent;
+      const date = document.getElementById('contact-date').textContent;
+      const time = document.getElementById('contact-time').textContent;
+      
+      // Show success message
+      alert(`Reminder sent to ${name} for showing on ${date} at ${time}!`);
+      closeContactInfo();
+    }
+
+    function rescheduleShowing() {
+      const name = document.getElementById('contact-name').textContent;
+      
+      // Show reschedule confirmation
+      if (confirm(`Would you like to reschedule the showing with ${name}?`)) {
+        alert('Reschedule request sent! You will receive a calendar link shortly.');
+        closeContactInfo();
+      }
+    }
+
+    // Event listeners for contact popout
+    document.addEventListener('DOMContentLoaded', function() {
+      // Close button
+      const closeBtn = document.getElementById('close-contact-popout');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeContactInfo);
+      }
+      
+      // Click outside to close
+      const overlay = document.getElementById('contact-overlay');
+      if (overlay) {
+        overlay.addEventListener('click', closeContactInfo);
+      }
+      
+      // ESC key to close
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          if (document.getElementById('contact-overlay').classList.contains('active')) {
+            closeContactInfo();
+          }
+        }
+      });
+    });
+
+    // Expose contact functions globally
+    window.showContactInfo = showContactInfo;
+    window.closeContactInfo = closeContactInfo;
+    window.openEmailClient = openEmailClient;
+    window.dialPhone = dialPhone;
+    window.sendReminder = sendReminder;
+    window.rescheduleShowing = rescheduleShowing;
+  </script>
+
+  <!-- 6. Load other assistant-specific scripts -->
+  <!-- <script src="../js/assistant.js"></script>
+   -->
+  <script src="../js/document-manager.js"></script>
+  <script src="../js/property-manager.js"></script>
+  <script src="../js/database-availability-sync.js"></script>
+  <script src="../js/availability-sync.js"></script>
+  <script src="../js/calendar-manager.js"></script>
+  <script src="../js/assistant-calendar-init.js"></script>
+  <script src="../js/avatar-upload.js"></script>
+  <script src="../js/assitant-init.js"></script>
+  <script src="../js/property-management.js"></script>
+  <script src="../js/timeline-manager.js"></script>
+
+</body>
+</html>

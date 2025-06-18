@@ -1,0 +1,628 @@
+/* Enhanced Calendar Pop-out Styles */
+.calendar-popout {
+  position: fixed;
+  top: 0;
+  left: -420px;
+  width: 420px;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 8px 0 32px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.3s ease,
+              opacity 0.3s ease;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  box-sizing: border-box;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  
+  /* Enhanced smooth scrolling - seamless from top to bottom */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  scroll-padding: 0;
+  
+  /* Ensure scrolling goes all the way to edges */
+  scroll-snap-type: none;
+  overscroll-behavior-y: smooth;
+  
+  /* Custom scrollbar with better visibility */
+  scrollbar-width: auto;
+  scrollbar-color: rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.1);
+}
+
+/* Custom scrollbar for webkit browsers - improved for seamless scrolling */
+.calendar-popout::-webkit-scrollbar {
+  width: 10px;
+}
+
+.calendar-popout::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 5px;
+  margin: 0; /* Remove margins for full-height scrolling */
+}
+
+.calendar-popout::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  transition: background 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-height: 30px; /* Ensure thumb has minimum size */
+}
+
+.calendar-popout::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.calendar-popout::-webkit-scrollbar-thumb:active {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Ensure scrollbar corner is styled */
+.calendar-popout::-webkit-scrollbar-corner {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.calendar-popout.active {
+  left: 0;
+  transform: translateX(0);
+}
+
+.calendar-popout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px;
+  background: rgba(51, 68, 60, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.calendar-popout-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.calendar-popout-header h3 i {
+  color: #33443c;
+  font-size: 18px;
+}
+
+.calendar-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-close-btn:hover {
+  background: rgba(51, 68, 60, 0.2);
+  color: #33443c;
+  transform: scale(1.05);
+}
+
+/* Calendar overlay */
+.calendar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.calendar-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Enhanced Calendar Content */
+.calendar-content {
+  padding: 30px 30px 30px 30px; /* Reduced bottom padding for seamless scrolling */
+  scroll-behavior: smooth;
+  min-height: calc(100vh - 120px); /* Account for header */
+  position: relative;
+  
+  /* Ensure content can scroll fully to edges */
+  overflow: visible;
+  height: auto;
+  padding-bottom: 20px; /* Minimal bottom padding for edge scrolling */
+}
+
+.calendar-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  margin-bottom: 25px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.calendar-controls-container {
+  padding: 20px 25px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.calendar-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-btn {
+  background: rgba(51, 68, 60, 0.8);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(51, 68, 60, 0.3);
+}
+
+.nav-btn:hover {
+  background: rgba(51, 68, 60, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(51, 68, 60, 0.4);
+}
+
+.nav-btn:active {
+  transform: translateY(0);
+}
+
+.current-period {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced Calendar Grid */
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.day-header {
+  text-align: center;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 15px 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.calendar-day:hover {
+  background: rgba(51, 68, 60, 0.2);
+  transform: scale(1.05);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(51, 68, 60, 0.2);
+}
+
+.calendar-day.selected {
+  background: rgba(51, 68, 60, 0.4);
+  border: 2px solid #33443c;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 0 0 3px rgba(51, 68, 60, 0.2);
+}
+
+.calendar-day.outside-month {
+  color: rgba(255, 255, 255, 0.3);
+  cursor: default;
+  opacity: 0.5;
+}
+
+.calendar-day.outside-month:hover {
+  transform: none;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.calendar-day.today {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  font-weight: 700;
+  color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.calendar-day.has-availability::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(135deg, #33443c, #4a5d52);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(51, 68, 60, 0.6);
+}
+
+/* Enhanced Time Selection Section */
+.time-selection-section {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 25px;
+  margin-bottom: 25px;
+  display: none;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.time-selection-section h4 {
+  margin: 0 0 20px 0;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.time-selection-section h4 span {
+  color: #33443c;
+  font-weight: 700;
+}
+
+.time-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+/* Time slot options in the selection popup */
+.time-slot-option {
+  padding: 12px 16px;
+  background: rgba(51, 68, 60, 0.8);
+  border: 2px solid rgba(51, 68, 60, 0.9);
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 4px rgba(51, 68, 60, 0.2);
+}
+
+.time-slot-option:hover {
+  background: rgba(51, 68, 60, 1);
+  border-color: #ffffff;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(51, 68, 60, 0.4);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.time-slot-option.selected {
+  background: #ffffff;
+  border-color: #33443c;
+  color: #33443c;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px rgba(51, 68, 60, 0.3);
+  text-shadow: none;
+}
+
+.time-slot-option.already-saved {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.6);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.time-slot-option.already-saved:hover {
+  transform: none;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.time-slot {
+  padding: 12px 16px;
+  background: rgba(51, 68, 60, 0.8);
+  border: 2px solid rgba(51, 68, 60, 0.9);
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 4px rgba(51, 68, 60, 0.2);
+}
+
+.time-slot:hover {
+  background: rgba(51, 68, 60, 1);
+  border-color: #ffffff;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(51, 68, 60, 0.4);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.time-slot.selected {
+  background: #ffffff;
+  border-color: #33443c;
+  color: #33443c;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px rgba(51, 68, 60, 0.3);
+  text-shadow: none;
+}
+
+.time-selection-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.time-selection-actions button {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.time-selection-actions .cta-button {
+  background: linear-gradient(135deg, #33443c, #4a5d52);
+  color: white;
+  box-shadow: 0 4px 12px rgba(51, 68, 60, 0.3);
+}
+
+.time-selection-actions .cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(51, 68, 60, 0.4);
+}
+
+.time-selection-actions .secondary-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.time-selection-actions .secondary-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+/* Enhanced Saved Availability Section */
+.saved-availability-section {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 25px;
+  margin-bottom: 30px;
+  
+  /* Ensure this section can scroll properly */
+  overflow: visible;
+  position: relative;
+}
+
+.saved-availability-section h4 {
+  margin: 0 0 20px 0;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.saved-slots-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  scroll-behavior: smooth;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* New improved saved availability item structure */
+.saved-availability-item {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 18px;
+  transition: all 0.3s ease;
+  list-style: none;
+  animation: slideInUp 0.3s ease-out;
+}
+
+.saved-availability-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Date header with trash can positioned on the right */
+.saved-date {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.date-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.date-info strong {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.slot-count {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.date-context.today {
+  color: #4ade80;
+  font-weight: 600;
+}
+
+.date-context.tomorrow {
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+/* Trash can button positioned on the right */
+.remove-date-btn {
+  background: rgba(255, 71, 87, 0.2);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  color: #ff4757;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.remove-date-btn:hover {
+  background: rgba(255, 71, 87, 0.3);
+  transform: scale(1.05);
+}
+
+/* Time slots container */
+.saved-times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Individual time chip with X on the right */
+.time-chip {
+  background: rgba(51, 68, 60, 0.3);
+  border: 1px solid rgba(51, 68, 60, 0.4);
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.time-chip:hover {
+  background: rgba(51, 68, 60, 0.4);
+  transform: translateY(-1px);
+}
+
+.time-text {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* X button positioned on the right of each time */
+.remove-time-btn {
+  background: rgba(51, 68, 60, 0.3);
+  border: none;
+  color: #33443c;
+  padding: 2px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 10px;
+}
+
+.remove-time-btn:hover {
+  background: rgba(51, 68, 60, 0.5);
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.remove-time-btn i {
+  font-size: 8px;
+}

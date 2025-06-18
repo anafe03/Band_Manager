@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details | SelfNVest</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/calendar.css">
+    <link rel="stylesheet" href="../css/property-detail.css">
+    <link rel="stylesheet" href="../css/mobile-responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <a href="../pages/listings.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Listings
+      </a>
+      
+    <!-- Logo Header -->
+    <div class="property-header-logo">
+        <a href="../index.html">
+            <img src="../images/Self.svg" alt="SelfNVest Logo" class="property-logo">
+        </a>
+    </div>
+      
+    <div class="property-container">
+        <!-- Loading State -->
+        <div id="loading-state" class="loading-state">
+            <div class="loading-spinner"></div>
+            <h3>Loading Property Details...</h3>
+            <p>Please wait while we fetch the property information.</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="error-state" style="display: none;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 20px;"></i>
+            <h3>Property Not Found</h3>
+            <p>Sorry, we couldn't find the requested property.</p>
+            <button class="contact-button" onclick="goBack()">Back to Listings</button>
+        </div>
+
+        <!-- Main Property Content -->
+        <div id="property-content" style="display: none;">
+            <!-- Property Header -->
+            <div class="property-header">
+                <h1 class="property-title" id="property-title">Loading...</h1>
+                <div class="property-address" id="property-address">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Loading address...</span>
+                </div>
+                <div class="property-price" id="property-price">Loading price...</div>
+                <div class="property-specs" id="property-specs">
+                    <div class="spec-item">
+                        <i class="fas fa-bed spec-icon"></i>
+                        <span id="bedrooms-spec">Loading...</span>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-bath spec-icon"></i>
+                        <span id="bathrooms-spec">Loading...</span>
+                    </div>
+                    <div class="spec-item">
+                        <i class="fas fa-ruler-combined spec-icon"></i>
+                        <span id="sqft-spec">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Gallery -->
+            <div class="property-gallery">
+                <div class="main-image-container">
+                    <img id="main-image" class="main-image" src="" alt="Property Image" onclick="openImageModal()">
+                </div>
+                <div class="gallery-thumbnails" id="gallery-thumbnails">
+                    <!-- Thumbnails will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Property Details Section -->
+            <div class="property-details">
+                <div class="details-main">
+                    <h2 class="section-title">Property Description</h2>
+                    <div class="description" id="property-description">
+                        Loading property description...
+                    </div>
+
+                    <h3 class="section-title">Features & Amenities</h3>
+                    <div class="features-grid" id="features-grid">
+                        <!-- Features will be populated by JavaScript -->
+                    </div>
+
+                    <h3 class="section-title">Property Information</h3>
+                    <div class="property-info-grid" id="property-info-grid">
+                        <!-- Property info cards will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="details-sidebar">
+                    <h3 class="section-title">Contact Information</h3>
+                    <div class="contact-section">
+                        <p style="margin-bottom: 20px; color: #666;">Interested in this property? Get in touch!</p>
+                        <button class="contact-button">
+                            <i class="fas fa-envelope"></i> Send Message
+                        </button>
+                        <button class="contact-button schedule-button" onclick="scrollToCalendar()">
+                            <i class="fas fa-calendar-alt"></i> Schedule Viewing
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule Viewing Calendar Section -->
+        <section class="calendar-section" id="calendar-section">
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <h2>Schedule a Viewing</h2>
+                    <p>Select a date and time to schedule your property viewing</p>
+                </div>
+                
+                <div class="calendar-controls-container">
+                    <div class="calendar-navigation">
+                        <button class="nav-btn prev-btn" onclick="navigateCalendar(-1)">&#10094;</button>
+                        <div class="current-period" id="current-period">May 2025</div>
+                        <button class="nav-btn next-btn" onclick="navigateCalendar(1)">&#10095;</button>
+                    </div>
+                </div>
+                
+                <div class="calendar-preview">
+                    <div class="calendar-grid" id="calendar-grid">
+                        <!-- Calendar will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Booking Popup -->
+    <div class="booking-popup-overlay" id="booking-popup-overlay">
+        <div class="booking-popup">
+            <button class="popup-close" onclick="closeBookingPopup()">&times;</button>
+            <h3 style="margin-top: 0; margin-bottom: 25px; color: #33443c; font-size: 24px; font-weight: 600;">
+                Schedule Viewing for <span id="selected-date">Select a date</span>
+            </h3>
+            
+            <div class="time-slots-container" id="time-slots-container">
+                <!-- Time slots will be populated by JavaScript -->
+            </div>
+            
+            <form class="booking-form" onsubmit="submitBooking(event)">
+                <div class="form-group">
+                    <label for="visitor-name">Full Name *</label>
+                    <input type="text" id="visitor-name" name="visitor-name" required placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="visitor-email">Email Address *</label>
+                    <input type="email" id="visitor-email" name="visitor-email" required placeholder="Enter your email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="visitor-phone">Phone Number *</label>
+                    <input type="tel" id="visitor-phone" name="visitor-phone" required placeholder="Enter your phone number">
+                </div>
+                
+                <div class="form-group">
+                    <label for="special-requests">Special Requests (Optional)</label>
+                    <textarea id="special-requests" name="special-requests" rows="3" placeholder="Any special requests or questions about the property?"></textarea>
+                </div>
+                
+                <button type="submit" class="book-now-btn">
+                    <i class="fas fa-calendar-check" style="margin-right: 8px;"></i>
+                    Confirm Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Supabase Configuration -->
+    <script>
+        window.SUPABASE_CONFIG = {
+            url: 'https://gdmdurzaeezcrgrmtabx.supabase.co',
+            key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkbWR1cnphZWV6Y3Jncm10YWJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1OTk3MDUsImV4cCI6MjA2MzE3NTcwNX0.xbuXRr2jDAAG021blK5zeuqwO-5zMNq7_tEfW_oW7cQ'
+        };
+    </script>
+
+    <!-- JavaScript Files -->
+    <script src="../js/property-detail-loader.js"></script>
+    <script src="../js/property-detail-calendar.js"></script>
+    <script src="../js/propert-detail-utils.js"></script>
+</body>
+</html>

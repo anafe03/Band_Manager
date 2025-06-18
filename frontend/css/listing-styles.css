@@ -1,0 +1,477 @@
+/* Listing Management Styles */
+
+/* Listing Overlay */
+.listing-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    z-index: 999;
+    display: none;
+  }
+  
+  .listing-overlay.active {
+    display: block;
+  }
+  
+  /* Create Listing Popout */
+  .create-listing-popout {
+    position: fixed;
+    top: 0;
+    right: -500px;
+    width: 500px;
+    height: 100vh;
+    background: white;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    z-index: 1000;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .create-listing-popout.active {
+    right: 0;
+  }
+  
+  .create-listing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    background: #f8f9fa;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .create-listing-header h3 {
+    margin: 0;
+    color: #33443c;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .create-listing-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+    padding: 5px;
+    border-radius: 4px;
+  }
+  
+  .create-listing-close:hover {
+    background: #e9ecef;
+  }
+  
+  .create-listing-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  /* Form Styles */
+  .listing-form {
+    display: grid;
+    gap: 20px;
+  }
+  
+  .form-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+  }
+  
+  .form-section h4 {
+    margin: 0 0 15px 0;
+    color: #33443c;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 2px solid #33443c;
+    padding-bottom: 8px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #33443c;
+    box-shadow: 0 0 0 2px rgba(51, 68, 60, 0.1);
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  
+  .form-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+  }
+  
+  /* Features Checkbox Grid */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .feature-checkbox {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .feature-checkbox:hover {
+    background: #f0f8ff;
+    border-color: #33443c;
+  }
+  
+  .feature-checkbox input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+  }
+  
+  .feature-checkbox.checked {
+    background: rgba(51, 68, 60, 0.1);
+    border-color: #33443c;
+  }
+  
+  /* Image Upload Styles */
+  .image-upload-area {
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background: white;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .image-upload-area:hover {
+    border-color: #33443c;
+    background: #f9f9f9;
+  }
+  
+  .image-upload-area.dragover {
+    border-color: #33443c;
+    background: rgba(51, 68, 60, 0.05);
+  }
+  
+  .upload-icon {
+    font-size: 48px;
+    color: #ddd;
+    margin-bottom: 10px;
+  }
+  
+  .image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    min-height: 50px;
+  }
+  
+  /* Submit Button */
+  .create-listing-submit {
+    width: 100%;
+    padding: 15px;
+    background: #33443c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 20px;
+  }
+  
+  .create-listing-submit:hover {
+    background: #2a3731;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(51, 68, 60, 0.3);
+  }
+  
+  .create-listing-submit:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* View Listing Popout */
+  .view-listing-popout {
+    position: fixed;
+    top: 0;
+    right: -450px;
+    width: 450px;
+    height: 100vh;
+    background: white;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    z-index: 1000;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .view-listing-popout.active {
+    right: 0;
+  }
+  
+  .view-listing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    background: #33443c;
+    color: white;
+  }
+  
+  .view-listing-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .view-listing-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+  }
+  
+  .view-listing-close:hover {
+    background: rgba(255,255,255,0.1);
+  }
+  
+  .view-listing-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .listing-images {
+    margin-bottom: 20px;
+  }
+  
+  .listing-details {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .listing-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #33443c;
+    margin: 0 0 10px 0;
+  }
+  
+  .listing-price {
+    font-size: 20px;
+    font-weight: 600;
+    color: #28a745;
+    margin: 0 0 10px 0;
+  }
+  
+  .listing-address {
+    color: #666;
+    margin: 0 0 15px 0;
+    font-size: 16px;
+  }
+  
+  .listing-specs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+  }
+  
+  .spec-item {
+    text-align: center;
+    padding: 10px;
+  }
+  
+  .spec-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #33443c;
+    display: block;
+  }
+  
+  .spec-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+  
+  .listing-description {
+    line-height: 1.6;
+    color: #333;
+    margin: 20px 0;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+  }
+  
+  .features-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 15px 0;
+  }
+  
+  .feature-tag {
+    background: #33443c;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .listing-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+  
+  .edit-listing-btn,
+  .view-full-listing-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  
+  .edit-listing-btn {
+    background: #ffc107;
+    color: #333;
+  }
+  
+  .edit-listing-btn:hover {
+    background: #e0a800;
+    transform: translateY(-2px);
+  }
+  
+  .view-full-listing-btn {
+    background: #33443c;
+    color: white;
+  }
+  
+  .view-full-listing-btn:hover {
+    background: #2a3731;
+    transform: translateY(-2px);
+  }
+  
+  .listing-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    margin-top: 15px;
+  }
+  
+  .stat-item {
+    text-align: center;
+  }
+  
+  .stat-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #33443c;
+  }
+  
+  .stat-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .create-listing-popout,
+    .view-listing-popout {
+      width: 100%;
+      right: -100%;
+    }
+    
+    .form-row,
+    .form-row-3 {
+      grid-template-columns: 1fr;
+    }
+    
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .listing-specs {
+      grid-template-columns: 1fr;
+    }
+  }

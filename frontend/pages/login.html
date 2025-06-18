@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In - SelfNVest</title>
+  <link rel="stylesheet" href="../css/signup.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="signup-container">
+    <div class="logo-container">
+      <a href="../index.html">
+        <img src="../images/Self.svg" alt="SelfNVest Logo" class="hero-logo-image">
+      </a>
+    </div>
+        
+    <div class="signup-header">
+      <h1>Welcome Back</h1>
+      <p>Sign in to your SelfNVest account</p>
+    </div>
+        
+    <!-- Social Login Options -->
+    <div class="social-login">
+      <div class="social-buttons">
+        <button id="google-signin" class="social-btn google" type="button">
+          <i class="fab fa-google"></i>
+          Continue with Google
+        </button>
+        <button id="github-signin" class="social-btn github" type="button">
+          <i class="fab fa-github"></i>
+          Continue with GitHub
+        </button>
+        <!-- Only include Apple if you have it configured in Supabase -->
+        <!-- <button id="apple-signin" class="social-btn apple" type="button">
+          <i class="fab fa-apple"></i>
+          Continue with Apple
+        </button> -->
+      </div>
+            
+      <div class="divider">
+        <span>or continue with email</span>
+      </div>
+    </div>
+        
+    <!-- Email Login Form -->
+    <form id="login-form" style="display: flex; flex-direction: column; gap: 16px;">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+            
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required>
+      </div>
+            
+      <div class="form-group" style="margin-bottom: 8px;">
+        <a href="forgot-password.html" style="font-size: 14px; color: #33443c; text-decoration: none; display: inline-block; margin-top: 4px;">Forgot your password?</a>
+      </div>
+            
+      <button type="submit" id="login-btn">
+        <span class="spinner" style="display: none;"></span>
+        <span class="btn-text">Sign In</span>
+      </button>
+    </form>
+        
+    <div id="login-status" style="min-height: 24px; margin-top: 16px; font-size: 14px;"></div>
+        
+    <div class="login-link" style="margin-top: 24px;">
+      Don't have an account? <a href="signup.html">Sign up</a>
+    </div>
+  </div>
+
+  <!-- Supabase SDK -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2.39.6/dist/umd/supabase.js"></script>
+    
+  <!-- Your Supabase client setup -->
+  <script src="../js/supabaseClient.js"></script>
+    
+  <!-- Authentication logic - REMOVE the inline script and use only this -->
+  <script src="../js/auth.js"></script>
+
+  <!-- Simple initialization script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🔧 Login page loaded');
+      console.log('🔧 Supabase available:', !!window.supabase);
+      
+      // Add loading state management
+      const loginForm = document.getElementById('login-form');
+      const loginBtn = document.getElementById('login-btn');
+      const spinner = loginBtn.querySelector('.spinner');
+      const btnText = loginBtn.querySelector('.btn-text');
+      
+      loginForm.addEventListener('submit', function() {
+        // Show loading state
+        loginBtn.disabled = true;
+        spinner.style.display = 'inline-block';
+        btnText.textContent = 'Signing in...';
+      });
+      
+      // Reset loading state on auth state change
+      if (window.supabase) {
+        window.supabase.auth.onAuthStateChange((event, session) => {
+          if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+            loginBtn.disabled = false;
+            spinner.style.display = 'none';
+            btnText.textContent = 'Sign In';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1120 @@
+body {
+  /* Darker gradient background for better contrast with glass effect */
+  background: linear-gradient(135deg, #827f7f 0%, #827b7b 100%);
+  background-attachment: fixed;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  color: #f0f0f0;
+}
+
+/* Add a pseudo-element for better image clarity control without affecting content */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.15); /* Even lighter overlay for better image visibility */
+  z-index: -1;
+}
+
+.app-container {
+  background-color: transparent;
+  height: 100vh;
+  display: flex;
+  padding: 20px; /* Add padding to create space from viewport edges */
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1; /* Ensure app container sits above the body::before overlay */
+  overflow: visible; /* Allow toggle button to show outside container */
+}
+
+/* Enhanced frosted glass effect */
+.frosted-glass {
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add subtle highlight to glass effect */
+.frosted-glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+}
+
+/* Layout Components Styling */
+.app-container > .sidebar, 
+.app-container > .main-content, 
+.app-container > .right-panel {
+  margin: 0; /* Remove individual margins if app-container has padding */
+  height: 100%; /* Fill the padded app-container space */
+  box-sizing: border-box;
+}
+
+/* Update sidebar with enhanced glass effect */
+.app-container > .sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 100;
+  transition: all 0.3s ease;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Enhanced hover states */
+.app-container > .sidebar:hover {
+  background: rgba(40, 40, 40, 0.5);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced text visibility for sidebar content */
+.sidebar .sidebar-header h2,
+.sidebar .menu-section-header,
+.sidebar .management-menu-item span,
+.sidebar .user-info h4,
+.sidebar .user-info p {
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+}
+
+.sidebar .management-menu-item {
+  background: rgba(40, 40, 40, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 4px 16px 0 rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin-bottom: 4px;
+  transition: all 0.3s ease;
+}
+
+.sidebar .management-menu-item:hover {
+  background: rgba(50, 50, 50, 0.5);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 4px 16px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .management-menu-item i {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar .offer-badge {
+  background: rgba(255, 87, 34, 0.9);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar .menu-divider {
+  background: rgba(255, 255, 255, 0.2);
+  height: 1px;
+  margin: 16px 0;
+}
+
+.sidebar .user-profile {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sidebar .avatar {
+  background: rgba(51, 68, 60, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(51, 68, 60, 0.3);
+}
+
+.sidebar .avatar-edit-icon {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Sidebar Header Adjustments */
+.sidebar .sidebar-header {
+  padding: 1rem 1.5rem; /* Reduced from 1.5rem to save space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(51, 68, 60, 0.1);
+}
+
+  .sidebar .logo {
+  filter: brightness(0) invert(1);
+  width: 100px; /* Slightly reduced from 120px to save space */
+  height: auto;
+  position: relative;
+  z-index: 1;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Sidebar Menu Adjustments */
+.sidebar .sidebar-menu {
+  flex: 1;
+  padding: 1rem 0; /* Reduced from 1.5rem to save space */
+  overflow-y: auto; /* Allow scrolling if needed */
+}
+
+/* Sidebar Footer Adjustments */
+.sidebar .sidebar-footer {
+  padding: 1rem 1.5rem; /* Reduced from 1.5rem to save space */
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(51, 68, 60, 0.1);
+  flex-shrink: 0; /* Prevent footer from shrinking */
+}
+
+/* Enhanced Sidebar Menu Item Styling with Color Scheme */
+.sidebar .menu-item {
+  padding: 10px 20px; /* Slightly reduced padding */
+  border-radius: 8px;
+  margin: 2px 12px; /* Reduced margin for tighter spacing */
+  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  font-size: 14px; /* Slightly smaller font */
+}
+
+.sidebar .menu-item i {
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 12px;
+  width: 18px; /* Slightly smaller icons */
+  text-align: center;
+  font-size: 16px;
+}
+
+.sidebar .menu-item span {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sidebar .menu-item:hover {
+  background-color: rgba(51, 68, 60, 0.6);
+  transform: translateX(2px);
+  box-shadow: 0 2px 8px rgba(51, 68, 60, 0.3);
+}
+
+.sidebar .menu-item:hover i, 
+.sidebar .menu-item:hover span {
+  color: #ffffff;
+}
+
+.sidebar .menu-item.active {
+  background-color: rgba(51, 68, 60, 0.8);
+  border-left: 3px solid #ffffff;
+  color: #ffffff;
+}
+
+.sidebar .menu-item.active i, 
+.sidebar .menu-item.active span {
+  color: #ffffff;
+}
+
+/* User Profile Styling */
+.sidebar .user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sidebar .avatar-container {
+  position: relative;
+  width: 40px; /* Slightly smaller */
+  height: 40px;
+}
+
+.sidebar .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #33443c;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.sidebar .user-info h4 {
+  font-size: 0.85rem; /* Slightly smaller */
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #ffffff;
+}
+
+.sidebar .user-info p {
+  font-size: 0.75rem; /* Slightly smaller */
+  opacity: 0.8;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.app-container > .main-content {
+  flex-grow: 1;
+  display: flex; /* To allow chat-container to fill it */
+  /* main-content itself should not be frosted, its child chat-container will be */
+  background: transparent;
+  padding: 0; /* Remove padding if chat-container handles it */
+  border: none;
+  box-shadow: none;
+}
+
+/* Update main content with enhanced glass effect */
+.app-container > .main-content > .minimal-chat-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.app-container > .right-panel {
+  width: 320px;
+  flex-shrink: 0;
+  margin-left: 20px; /* Space between main content and right sidebar */
+  overflow-y: auto;
+  overflow-x: visible; /* Allow toggle button to show outside panel */
+  position: relative;
+  transition: transform 0.3s ease, margin-right 0.3s ease; /* Add smooth transitions */
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* Enhanced hover states */
+.app-container > .right-panel:hover {
+  background: rgba(40, 40, 40, 0.5);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Right Panel Slide-out functionality */
+.app-container > .right-panel.collapsed {
+  transform: translateX(100%); /* Slide out to the right */
+  margin-left: 0;
+}
+
+/* Enhanced text visibility for right panel content */
+.right-panel h3, 
+.right-panel .property-price, 
+.right-panel .property-address,
+.right-panel .panel-section h3,
+.right-panel .showing-title,
+.right-panel .showing-time {
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+}
+
+.right-panel .property-card {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0;
+}
+
+/* Update showing items with glass effect */
+.right-panel .showing-item {
+  background: rgba(40, 40, 40, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 4px 16px 0 rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.right-panel .showing-item:hover {
+  background: rgba(50, 50, 50, 0.5);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 4px 16px 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.right-panel .showing-date {
+  background: rgba(51, 68, 60, 0.9);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(51, 68, 60, 0.3);
+}
+
+.right-panel .showing-date .day,
+.right-panel .showing-date .month {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced panel section styling */
+.right-panel .panel-section {
+  background: rgba(40, 40, 40, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 4px 16px 0 rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+/* Right Panel Toggle Button - CRITICAL: Ensure maximum visibility */
+.right-panel-toggle {
+  position: absolute !important;
+  left: -45px !important; /* Position it outside the left edge of the right panel */
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 45px !important;
+  height: 85px !important;
+  background: rgba(51, 68, 60, 0.95) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 8px 0 0 8px !important;
+  color: #ffffff !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 18px !important;
+  transition: all 0.3s ease !important;
+  z-index: 9999 !important; /* Extremely high z-index */
+  box-shadow: -4px 0 12px rgba(51, 68, 60, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.right-panel-toggle:hover {
+  background: rgba(51, 68, 60, 1) !important;
+  box-shadow: -6px 0 16px rgba(51, 68, 60, 0.4) !important;
+  transform: translateY(-50%) scale(1.05) !important;
+}
+
+.right-panel-toggle i {
+  transition: transform 0.3s ease;
+  color: #ffffff !important;
+  font-size: 18px !important;
+}
+
+/* When panel is collapsed, move toggle to the right edge and flip icon */
+.app-container.right-panel-collapsed .right-panel-toggle {
+  position: fixed !important;
+  right: 10px !important; /* Move to the right edge of screen with some padding */
+  left: auto !important;
+  border-radius: 0 8px 8px 0 !important; /* Flip the border radius */
+  background: rgba(51, 68, 60, 0.98) !important;
+  box-shadow: 6px 0 16px rgba(51, 68, 60, 0.4) !important;
+  z-index: 9999 !important;
+}
+
+.right-panel.collapsed .right-panel-toggle i,
+.app-container.right-panel-collapsed .right-panel-toggle i {
+  transform: rotate(180deg);
+}
+
+/* Expand chat area when right panel is collapsed */
+.app-container.right-panel-collapsed > .main-content {
+  margin-right: 0; /* Remove right margin when panel is collapsed */
+  margin-left: 20px; /* Add left margin for spacing from left sidebar */
+  flex-grow: 1; /* Allow it to grow and fill available space */
+}
+
+.app-container.right-panel-collapsed > .main-content > .minimal-chat-container {
+  width: 100%;
+  max-width: none; /* Remove any max-width constraints */
+  transition: width 0.3s ease; /* Smooth transition */
+}
+
+/* Chat Area Specifics */
+.chat-container .messages-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px; /* Padding inside messages area */
+  background-color: transparent;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.message .message-content {
+  padding: 10px 15px;
+  border-radius: 18px;
+  max-width: 75%;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.message.user .message-content {
+  background-color: rgba(0, 123, 255, 0.6); /* User message bubble - slightly more transparent */
+  margin-left: auto;
+  border-bottom-right-radius: 5px;
+  color: #fff;
+}
+
+.message.assistant .message-content {
+  background-color: rgba(70, 70, 90, 0.6); /* Assistant message bubble - slightly more transparent */
+  border-bottom-left-radius: 5px;
+  color: #fff;
+}
+
+.message-sender, .message-timestamp {
+  font-size: 0.75em;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 4px;
+  padding: 0 5px;
+}
+.message.user .message-sender { text-align: right; }
+
+.chat-input-area {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  /* chat-input-area is part of chat-container, so it inherits frosted-glass if applied to parent.
+     If chat-container itself is frosted, this might not need separate background. */
+  border-radius: 0 0 15px 15px; /* Match parent's border-radius */
+}
+
+.chat-input-area textarea {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.chat-input-area textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.chat-input-area button {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 8px;
+}
+.chat-input-area button:hover {
+  background-color: rgba(0, 123, 255, 1);
+}
+
+/* Pop-out Styling */
+.documents-popout, 
+.property-popout, 
+.calendar-popout {
+  /* These will get .frosted-glass class, so base style is covered. Specifics below: */
+  position: fixed; /* Or absolute, depending on desired behavior relative to viewport/parent */
+  z-index: 1050; /* Ensure they are above other content */
+  width: 400px; /* Example width, adjust as needed */
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  /* Left-side positioning for sidebar popouts */
+  top: 0;
+  left: -400px;
+  height: 100vh;
+  transition: left 0.3s ease;
+}
+
+.documents-popout.active, 
+.property-popout.active, 
+.calendar-popout.active {
+  left: 0;
+}
+
+.documents-popout-header, 
+.property-popout-header, 
+.calendar-popout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  flex-shrink: 0;
+}
+
+.documents-popout-header h3, 
+.property-popout-header h3, 
+.calendar-popout-header h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.documents-popout-header .close-btn, /* Assuming a common class */
+.property-popout-header .close-btn,
+.calendar-popout-header .close-btn,
+#close-documents-popout, #close-property-popout, #close-calendar-popout { 
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.6em;
+  cursor: pointer;
+  padding: 0 5px;
+  line-height: 1;
+}
+
+.documents-popout-content, 
+.property-popout-content, 
+.calendar-popout-content {
+  overflow-y: auto;
+  flex-grow: 1;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Calendar specific adjustments for frosted glass */
+.calendar-popout .calendar {
+    background: transparent;
+}
+
+/* Improved current period (month/year) visibility */
+.calendar-popout .current-period {
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.998);
+    display: inline-block;
+    min-width: 120px;
+    text-align: center;
+}
+
+/* Enhanced navigation buttons */
+.calendar-popout .nav-btn {
+    color: #fff;
+    background: rgba(51, 51, 51, 0.7); /* Dark grey background */
+    border: 1px solid rgba(255,255,255,0.2);
+    width: 32px;
+    height: 32px;
+}
+
+.calendar-popout .nav-btn:hover {
+    background: rgba(51, 68, 60, 0.9); /* Green hover state - #33443c with opacity */
+    border-color: rgba(51, 68, 60, 1);
+}
+
+/* Calendar days styling */
+.calendar-popout .day-header {
+    color: #fff;
+    font-weight: 600;
+    background: rgba(51, 51, 51, 0.7); /* Dark grey background */
+    padding: 10px 5px;
+}
+
+.calendar-popout .calendar-days span {
+    color: #fff;
+    background: rgba(51, 51, 51, 0.5); /* Dark grey background */
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+}
+
+.calendar-popout .calendar-days span:hover {
+    background: rgba(51, 68, 60, 0.8); /* Green hover state - #33443c with opacity */
+    border-color: rgba(51, 68, 60, 1);
+}
+
+.calendar-popout .calendar-day {
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    transition: all 0.2s ease;
+}
+
+.calendar-popout .calendar-day:hover {
+    background: rgba(51, 68, 60, 0.5); /* Green hover state - #33443c with opacity */
+}
+
+.calendar-popout .day-number {
+    color: #fff;
+    font-weight: 500;
+}
+
+.calendar-popout .calendar-days span.today {
+    background: rgba(51, 68, 60, 0.7); /* Green for today - #33443c with opacity */
+    border-color: rgba(51, 68, 60, 0.9);
+}
+
+.calendar-popout .calendar-days span.selected,
+.calendar-popout .calendar-day.selected {
+    background: rgba(51, 68, 60, 0.9); /* Green for selected - #33443c with opacity */
+    border-color: #33443c;
+}
+
+.calendar-popout .calendar-days span.other-month {
+    color: rgba(255,255,255,0.4);
+    background: rgba(51, 51, 51, 0.3); /* Darker grey for other month */
+}
+
+/* Time slots styling for better visibility */
+.calendar-popout .time-slots-container,
+.availability-popup .time-slots-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 15px 0;
+    padding: 5px;
+}
+
+.calendar-popout .time-slot-option,
+.availability-popup .time-slot-option {
+    background: rgba(51, 68, 60, 0.8); /* Using your color scheme with good opacity */
+    color: #ffffff; /* Ensure white text is always visible */
+    padding: 10px 8px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid rgba(51, 68, 60, 0.9);
+    font-weight: 600; /* Increased font weight for better visibility */
+    font-size: 14px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Add text shadow for better readability */
+    box-shadow: 0 2px 4px rgba(51, 68, 60, 0.2); /* Subtle shadow for depth */
+}
+
+.calendar-popout .time-slot-option:hover,
+.availability-popup .time-slot-option:hover {
+    background: rgba(51, 68, 60, 1); /* Full opacity on hover */
+    border-color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(51, 68, 60, 0.4);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.calendar-popout .time-slot-option.selected,
+.availability-popup .time-slot-option.selected {
+    background: #ffffff; /* White background for selected */
+    color: #33443c; /* Dark text for contrast */
+    border-color: #33443c;
+    font-weight: 700;
+    box-shadow: 0 0 0 2px rgba(51, 68, 60, 0.3);
+    text-shadow: none; /* Remove text shadow for selected state */
+}
+
+/* Save button styling */
+.calendar-popout .save-button,
+.calendar-popout button[type="submit"],
+.availability-popup .save-availability-btn,
+.availability-popup button[type="submit"] {
+    background: rgba(51, 51, 51, 0.8); /* Dark grey background */
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.2s ease;
+    display: inline-block;
+    text-align: center;
+    /* Ensure text is visible */
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+}
+
+.calendar-popout .save-button:hover,
+.calendar-popout button[type="submit"]:hover,
+.availability-popup .save-availability-btn:hover,
+.availability-popup button[type="submit"]:hover {
+    background: rgba(51, 68, 60, 0.9); /* Green hover state - #33443c with opacity */
+    border-color: rgba(51, 68, 60, 1);
+}
+
+/* Cancel button styling */
+.availability-popup .close-availability {
+    background: rgba(51, 51, 51, 0.6); /* Dark grey background */
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-left: 10px;
+    transition: all 0.2s ease;
+    display: inline-block;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+}
+
+.availability-popup .close-availability:hover {
+    background: rgba(51, 68, 60, 0.7); /* Green hover state - #33443c with opacity */
+    border-color: rgba(51, 68, 60, 0.9);
+}
+
+/* Availability popup styling */
+.availability-popup {
+    background: rgba(40, 40, 45, 0.9); /* Darker background for popup */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 12px;
+    border: 1px solid rgba(51, 68, 60, 0.3); /* Subtle green border - #33443c */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 90%;
+    max-width: 400px;
+    color: white;
+}
+
+.availability-popup h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.availability-popup .selected-date {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.availability-popup .availability-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Saved availability styling */
+.saved-availability {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(40, 55, 45, 0.85); /* Darker green background */
+    border-radius: 10px;
+    border: 1px solid rgba(51, 68, 60, 0.5);
+}
+
+.saved-availability h4 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.saved-slots {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.saved-slots li {
+    background: rgba(51, 68, 60, 0.9); /* Dark green background */
+    color: white;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.saved-slots li:last-child {
+    margin-bottom: 0;
+}
+
+.remove-slot {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.15);
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.remove-slot:hover {
+    background: rgba(220, 53, 69, 0.7); /* Red for delete action */
+    color: white;
+}
+
+/* Update scrollbar for better visibility */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(40, 40, 40, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Remove conflicting styles from existing CSS if possible, or override */
+.document-section, .sidebar-document-section, .property-card {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Ensure icons are visible */
+i.fas, i.far, i.fab { /* Font Awesome icons */
+    color: inherit; /* Inherit color from parent, which should be white/light on frosted glass */
+}
+
+/* Adjustments for file upload previews if they appear on frosted glass */
+.file-preview-container {
+    background-color: rgba(0,0,0,0.1);
+    border-color: rgba(255,255,255,0.2);
+}
+.file-preview-item {
+    background-color: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.15);
+}
+.file-name {
+    color: #eee;
+}
+.remove-file {
+    background: rgba(0,0,0,0.5);
+    color: white;
+}
+
+/* Ensure buttons within frosted areas are styled consistently */
+.frosted-glass button, .frosted-glass .btn {
+    background-color: rgba(0, 123, 255, 0.6);
+    color: white;
+    border: 1px solid rgba(0, 123, 255, 0.8);
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.frosted-glass button:hover, .frosted-glass .btn:hover {
+    background-color: rgba(0, 123, 255, 0.8);
+}
+/* Override for specific buttons like close buttons if needed */
+.frosted-glass .close-btn, 
+.frosted-glass #close-documents-popout, 
+.frosted-glass #close-property-popout, 
+.frosted-glass #close-calendar-popout {
+    background: transparent !important;
+    border: none !important;
+    font-size: 1.6em; /* Ensure it's large enough */
+    padding: 0 5px; /* Minimal padding */
+}
+
+/* Responsive adjustments for right panel toggle */
+@media (max-width: 1200px) {
+  .app-container > .right-panel {
+    width: 280px; /* Slightly smaller on medium screens */
+  }
+}
+
+@media (max-width: 992px) {
+  .app-container > .right-panel {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    transition: right 0.3s ease;
+    margin-left: 0;
+  }
+  
+  .app-container > .right-panel:not(.collapsed) {
+    right: 0;
+  }
+  
+  .app-container > .right-panel.collapsed {
+    right: -100%;
+    transform: none; /* Override desktop transform */
+  }
+  
+  .right-panel-toggle {
+    position: fixed !important;
+    right: 10px !important; /* Always at right edge on mobile with padding */
+    left: auto !important;
+    width: 40px !important;
+    height: 60px !important;
+    border-radius: 8px 0 0 8px !important;
+    z-index: 9999 !important;
+  }
+  
+  .app-container.right-panel-collapsed .right-panel-toggle {
+    right: 10px !important;
+    left: auto !important;
+  }
+  
+  /* Add overlay for mobile when right panel is open */
+  .app-container.right-panel-open::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+}
+
+@media (max-width: 768px) {
+  .right-panel-toggle {
+    width: 35px !important;
+    height: 50px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Enhanced visibility for document items in right panel */
+.right-panel .document-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.right-panel .document-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.right-panel .document-item .document-icon {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.right-panel .document-item .document-info h5,
+.right-panel .document-item .document-info p,
+.right-panel .document-item .document-info .document-date {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.right-panel .documents-section h4 {
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Enhanced property specs visibility */
+.right-panel .property-specs .spec-item {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+}
+
+.right-panel .property-specs .spec-item i {
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Enhanced property overlay text */
+.right-panel .property-overlay h3,
+.right-panel .property-overlay .property-location,
+.right-panel .property-overlay .property-price {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Enhanced property badge */
+.right-panel .property-badge {
+  background-color: rgba(51, 68, 60, 0.9) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Enhanced click indicator */
+.right-panel .click-indicator {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+

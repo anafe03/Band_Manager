@@ -1,0 +1,11 @@
+/* Logo size fix to ensure consistency across all pages */
+.logo-image, img.logo, .logo {
+    height: auto !important;
+    width: auto !important;
+    max-height: 125px !important; /* Force all logos to match the listings page size */
+}
+
+/* Preserve the filter styles but override height */
+.logo-image[style*="filter"], img.logo[style*="filter"], .logo[style*="filter"] {
+    max-height: 125px !important;
+}

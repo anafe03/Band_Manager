@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>SelfNVest - Property Listings</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/calendar.css" />
+  <link rel="stylesheet" href="../css/featured-listings.css" />
+  <link rel="stylesheet" href="../css/listing-section.css" />
+  <link rel="stylesheet" href="../css/scrolling-listings.css" />
+  <link rel="stylesheet" href="../css/green-buttons.css" />
+  <link rel="stylesheet" href="../css/property-map.css" />
+  <link rel="stylesheet" href="../css/footer.css" />
+  <link rel="stylesheet" href="../css/mobile-responsive.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+
+  <!-- NAVIGATION BAR -->
+  <header class="hero-header" style="background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('https://ik.imagekit.io/radw2xpz9/Gemini_Generated_Image_sj8f1ksj8f1ksj8f.jpeg?updatedAt=1747627219824'); background-size: cover; background-position: center 40%;">
+    <nav class="navbar">
+      <div class="logo">
+        <a href="../index.html"><img src="../images/Self.svg" alt="SelfNVest Logo" class="logo-image" /></a>
+      </div>
+      <div class="nav-links">
+        <a href="../index.html#how-selfnvest-works">About</a>
+        <a href="../index.html#services">Services</a>
+        <a href="../index.html#pricing">Pricing</a>
+        <a href="../index.html#contact">Contact</a>
+        <a href="../pages/listings.html">Listings</a>
+        <a href="../pages/assistant.html">Dashboard</a>
+        <a href="../pages/login.html" id="auth-link"><i class="fas fa-user"></i> Login</a>
+      </div>
+      <button class="mobile-menu-toggle" onclick="toggleMobileNav()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </nav>
+    
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav-overlay" onclick="closeMobileNav()"></div>
+    <div class="mobile-nav">
+      <div class="mobile-nav-header">
+        <img src="../images/Self.svg" alt="SelfNVest Logo" class="logo-image" />
+        <button class="mobile-nav-close" onclick="closeMobileNav()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="mobile-nav-links">
+        <a href="../index.html#how-selfnvest-works"><i class="fas fa-info-circle"></i> About</a>
+        <a href="../index.html#services"><i class="fas fa-concierge-bell"></i> Services</a>
+        <a href="../index.html#pricing"><i class="fas fa-dollar-sign"></i> Pricing</a>
+        <a href="../index.html#contact"><i class="fas fa-envelope"></i> Contact</a>
+        <a href="../pages/listings.html"><i class="fas fa-home"></i> Listings</a>
+        <a href="../pages/assistant.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      </div>
+      <div class="mobile-auth-section">
+        <a href="../pages/login.html"><i class="fas fa-user"></i> Login</a>
+      </div>
+    </div>
+    <div class="hero-content">
+      <h1 id="fall-text">Property Listings</h1>
+      <p id="slide-up-text">Discover your perfect home with our exclusive property listings.</p>
+    </div>
+  </header>
+
+      <!-- MAIN CONTENT -->
+  <main>
+    <!-- Scrolling Listings Section -->
+    <section class="scrolling-listings" id="scrolling-listings">
+      <div class="section-header">
+        <div class="line"></div>
+        <h2>Featured Properties</h2>
+        <p>Discover amazing properties currently available</p>
+      </div>
+      <div class="scrolling-container">
+        <div class="scrolling-row">
+          <div class="scrolling-card">
+            <div class="scrolling-image-container">
+              <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=500&q=80" alt="Modern Home" class="scrolling-image">
+            </div>
+            <div class="scrolling-details">
+              <h3 class="scrolling-title">Modern Family Home</h3>
+              <p class="scrolling-price">$489,500</p>
+              <p class="scrolling-address">123 Maple Avenue, Westlake Hills</p>
+              <div class="scrolling-specs">
+                <span>4 beds</span> • <span>2.5 baths</span> • <span>2,240 sqft</span>
+              </div>
+              <button class="cta-button">View Details</button>
+            </div>
+          </div>
+          
+          <div class="scrolling-card">
+            <div class="scrolling-image-container">
+              <img src="https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=500&q=80" alt="Luxury Villa" class="scrolling-image">
+            </div>
+            <div class="scrolling-details">
+              <h3 class="scrolling-title">Luxury Villa</h3>
+              <p class="scrolling-price">$725,000</p>
+              <p class="scrolling-address">456 Oak Drive, Cedar Park</p>
+              <div class="scrolling-specs">
+                <span>5 beds</span> • <span>3 baths</span> • <span>3,200 sqft</span>
+              </div>
+              <button class="cta-button">View Details</button>
+            </div>
+          </div>
+          
+          <div class="scrolling-card">
+            <div class="scrolling-image-container">
+              <img src="https://images.unsplash.com/photo-1564078516393-cf04bd966897?auto=format&fit=crop&w=500&q=80" alt="Contemporary House" class="scrolling-image">
+            </div>
+            <div class="scrolling-details">
+              <h3 class="scrolling-title">Contemporary House</h3>
+              <p class="scrolling-price">$395,000</p>
+              <p class="scrolling-address">789 Pine Street, Round Rock</p>
+              <div class="scrolling-specs">
+                <span>3 beds</span> • <span>2 baths</span> • <span>1,850 sqft</span>
+              </div>
+              <button class="cta-button">View Details</button>
+            </div>
+          </div>
+          
+          <div class="scrolling-card">
+            <div class="scrolling-image-container">
+              <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&w=500&q=80" alt="Cozy Townhouse" class="scrolling-image">
+            </div>
+            <div class="scrolling-details">
+              <h3 class="scrolling-title">Cozy Townhouse</h3>
+              <p class="scrolling-price">$285,000</p>
+              <p class="scrolling-address">321 Elm Court, Pflugerville</p>
+              <div class="scrolling-specs">
+                <span>2 beds</span> • <span>1.5 baths</span> • <span>1,200 sqft</span>
+              </div>
+              <button class="cta-button">View Details</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="scrolling-row">
+          <div class="scrolling-card">
+            <div class="scrolling-image-container">
+              <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=500&q=80" alt="Executive Home" class="scrolling-image">
+            </div>
+            <div class="scrolling-details">
+              <h3 class="scrolling-title">Executive Home</h3>
+              <p class="scrolling-price">$625,000</p>
+              <p class="scrolling-address">654 Birch Lane, Georgetown</p>
+              <div class="scrolling-specs">
+                <span>4 beds</span> • <span>3 baths</span> • <span>2,800 sqft</span>
+              </div>
+              <button class="cta-button">View Details</button>
+            </div>
+          </div>
+          
+          <div class="scrolling-card">
+            <div class="scrolling-image-container">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=500&q=80" alt="Suburban Beauty" class="scrolling-image">
+            </div>
+            <div class="scrolling-details">
+              <h3 class="scrolling-title">Suburban Beauty</h3>
+              <p class="scrolling-price">$445,000</p>
+              <p class="scrolling-address">987 Willow Way, Leander</p>
+              <div class="scrolling-specs">
+                <span>3 beds</span> • <span>2.5 baths</span> • <span>2,100 sqft</span>
+              </div>
+              <button class="cta-button">View Details</button>
+            </div>
+          </div>
+          
+          <div class="scrolling-card">
+            <div class="scrolling-image-container">
+              <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=500&q=80" alt="Charming Cottage" class="scrolling-image">
+            </div>
+            <div class="scrolling-details">
+              <h3 class="scrolling-title">Charming Cottage</h3>
+              <p class="scrolling-price">$315,000</p>
+              <p class="scrolling-address">159 Rose Avenue, Hutto</p>
+              <div class="scrolling-specs">
+                <span>2 beds</span> • <span>2 baths</span> • <span>1,400 sqft</span>
+              </div>
+              <button class="cta-button">View Details</button>
+            </div>
+          </div>
+          
+          <div class="scrolling-card">
+            <div class="scrolling-image-container">
+              <img src="https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=500&q=80" alt="Modern Condo" class="scrolling-image">
+            </div>
+            <div class="scrolling-details">
+              <h3 class="scrolling-title">Modern Condo</h3>
+              <p class="scrolling-price">$195,000</p>
+              <p class="scrolling-address">753 Urban Plaza, Downtown Austin</p>
+              <div class="scrolling-specs">
+                <span>1 bed</span> • <span>1 bath</span> • <span>800 sqft</span>
+              </div>
+              <button class="cta-button">View Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Listings & Filters -->
+    <section id="all-listings" class="all-listings-section">
+      <div class="listings-container">
+        <div class="section-header">
+          <div class="line"></div>
+          <h2>All Properties</h2>
+        </div>
+        <div class="listings-filters">
+          <div class="filter-group">
+            <label for="property-type">Property Type</label>
+            <select id="property-type" class="filter-select">
+              <option value="all">All Types</option>
+              <option value="house">House</option>
+              <option value="condo">Condo</option>
+              <option value="townhouse">Townhouse</option>
+              <option value="land">Land</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="price-range">Price Range</label>
+            <select id="price-range" class="filter-select">
+              <option value="all">All Prices</option>
+              <option value="0-300000">$0 - $300,000</option>
+              <option value="300000-500000">$300,000 - $500,000</option>
+              <option value="500000-750000">$500,000 - $750,000</option>
+              <option value="750000-1000000">$750,000 - $1,000,000</option>
+              <option value="1000000+">$1,000,000+</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="bedrooms">Bedrooms</label>
+            <select id="bedrooms" class="filter-select">
+              <option value="all">Any</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+              <option value="5">5+</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="bathrooms">Bathrooms</label>
+            <select id="bathrooms" class="filter-select">
+              <option value="all">Any</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+            </select>
+          </div>
+          <button class="filter-button">Apply Filters</button>
+        </div>
+        <div class="listings-grid" style="min-height: 200px;">
+          <!-- Loading state - will be replaced by JavaScript -->
+          <div class="loading-message">
+            <p>Loading properties...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Property Map Section -->
+    <section class="property-map-section">
+      <div class="section-header">
+        <div class="line"></div>
+        <h2>Property Locations</h2>
+        <p>Explore property locations on our interactive map. Click on markers to view property details.</p>
+      </div>
+      
+      <div class="map-controls">
+        <button class="map-filter-button active" data-filter="all">All Properties</button>
+        <button class="map-filter-button" data-filter="residential">Residential</button>
+        <button class="map-filter-button" data-filter="condo">Condos</button>
+        <button class="map-filter-button" data-filter="commercial">Commercial</button>
+        <button class="cta-button" id="find-me-button">
+          <i class="fas fa-location-arrow"></i> Find My Location
+        </button>
+      </div>
+      
+      <div id="map"></div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <a href="../index.html"><img src="../images/Self.svg" alt="SelfNVest Logo" class="logo-image" /></a>
+      </div>
+      <div class="footer-links">
+        <div class="footer-column">
+          <h4>Services</h4>
+          <a href="../index.html#how-selfnvest-works">About</a>
+          <a href="../index.html#services">Services</a>
+          <a href="../index.html#pricing">Pricing</a>
+          <a href="../index.html#testimonials">Testimonials</a>
+        </div>
+        <div class="footer-column">
+          <h4>About</h4>
+          <a href="../index.html#faq">FAQ</a>
+          <a href="../pages/login.html">Login</a>
+          <a href="../pages/listings.html">Listings</a>
+          <a href="../pages/contact.html">Contact</a>
+        </div>
+        <div class="footer-column">
+          <h4>Legal</h4>
+          <a href="../index.html#terms">Terms</a>
+          <a href="../index.html#privacy">Privacy</a>
+          <a href="../index.html#cookies">Cookies</a>
+          <a href="../index.html#licenses">Licenses</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 SelfNVest. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/selfnvest_ai" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- === AUTH + APP SCRIPT LOADING === -->
+
+  <!-- 1. Supabase Config -->
+  <script>
+    window.SUPABASE_CONFIG = {
+      url: 'https://gdmdurzaeezcrgrmtabx.supabase.co',
+      key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkbWR1cnphZWV6Y3Jncm10YWJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1OTk3MDUsImV4cCI6MjA2MzE3NTcwNX0.xbuXRr2jDAAG021blK5zeuqwO-5zMNq7_tEfW_oW7cQ'
+    };
+    console.log('🔑 Supabase config loaded for listings.html');
+  </script>
+
+  <!-- 2. Supabase SDK -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2.39.6/dist/umd/supabase.js"></script>
+
+  <!-- 3. Client + Auth Setup -->
+  <script src="../js/supabaseClient.js"></script>
+  <script src="../js/globalAuth.js"></script>
+  <script src="../js/auth.js"></script>
+
+  <!-- 4. Listings + UI Scripts -->
+  <script src="../js/script.js"></script>
+  <script src="../js/scrolling-listings.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="../js/property-map.js"></script>
+  <script src="../js/featured-listings-scroll.js"></script>
+  <script src="../js/listings-availability-loader.js"></script>
+  <script src="../js/simple-listings-loader.js"></script>
+  <script src="../js/listings-debug.js"></script>
+
+  <!-- 5. Robust Auth Initialization -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tryInitAuth = async (attempts = 10) => {
+        if (window.auth && typeof window.auth.init === 'function') {
+          try {
+            await window.auth.init();
+            if (window.auth.updateGlobalUI) window.auth.updateGlobalUI();
+            console.log('✅ Auth initialized on listings page');
+          } catch (err) {
+            console.error('❌ Auth init error:', err);
+          }
+        } else if (attempts > 0) {
+          console.warn('⏳ Auth not ready, retrying...');
+          setTimeout(() => tryInitAuth(attempts - 1), 500);
+        } else {
+          console.error('❌ Auth init failed after retries');
+        }
+      };
+      tryInitAuth();
+    });
+
+    // Mobile navigation functions
+    function toggleMobileNav() {
+      const mobileNav = document.querySelector('.mobile-nav');
+      const overlay = document.querySelector('.mobile-nav-overlay');
+      
+      if (mobileNav && overlay) {
+        mobileNav.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.classList.toggle('mobile-menu-open');
+      }
+    }
+
+    function closeMobileNav() {
+      const mobileNav = document.querySelector('.mobile-nav');
+      const overlay = document.querySelector('.mobile-nav-overlay');
+      
+      if (mobileNav) mobileNav.classList.remove('active');
+      if (overlay) overlay.classList.remove('active');
+      document.body.classList.remove('mobile-menu-open');
+    }
+
+    // Expose mobile functions globally
+    window.toggleMobileNav = toggleMobileNav;
+    window.closeMobileNav = closeMobileNav;
+  </script>
+
+</body>
+</html>

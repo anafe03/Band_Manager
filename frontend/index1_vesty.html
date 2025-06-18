@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vesty - AI Assistant</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .chat-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 100%;
+      max-width: 800px;
+      height: 700px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-header h1 {
+      font-size: 24px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bot-avatar {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      background: #f8fafc;
+      position: relative;
+    }
+
+    .chat-messages::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    .message {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.user {
+      flex-direction: row-reverse;
+    }
+
+    .message-avatar {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .message.user .message-avatar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .message.assistant .message-avatar {
+      background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+      color: white;
+    }
+
+    .message-content {
+      background: white;
+      padding: 12px 16px;
+      border-radius: 18px;
+      max-width: 70%;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .message.user .message-content {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .message.assistant .message-content {
+      background: white;
+      color: #374151;
+      border: 1px solid #e5e7eb;
+    }
+
+    .message-time {
+      font-size: 11px;
+      opacity: 0.6;
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .message.assistant .message-time {
+      text-align: left;
+    }
+
+    .message-image {
+      max-width: 300px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .message-image:hover {
+      transform: scale(1.02);
+    }
+
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .typing-dots {
+      background: white;
+      padding: 12px 16px;
+      border-radius: 18px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+    }
+
+    .typing-dots span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #9ca3af;
+      border-radius: 50%;
+      margin: 0 2px;
+      animation: typing 1.4s infinite;
+    }
+
+    .typing-dots span:nth-child(1) { animation-delay: 0s; }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+      0%, 60%, 100% { 
+        opacity: 0.3;
+        transform: translateY(0);
+      }
+      30% { 
+        opacity: 1;
+        transform: translateY(-10px);
+      }
+    }
+
+    .chat-input {
+      padding: 20px;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .input-container {
+      flex: 1;
+      position: relative;
+    }
+
+    #user-input {
+      width: 100%;
+      padding: 12px 20px;
+      border: 2px solid #e5e7eb;
+      border-radius: 25px;
+      font-size: 16px;
+      background: #f9fafb;
+      transition: all 0.3s ease;
+      outline: none;
+      resize: none;
+      min-height: 50px;
+      max-height: 120px;
+    }
+
+    #user-input:focus {
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .input-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-button {
+      width: 50px;
+      height: 50px;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    #upload-button {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    #send-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .action-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .action-button:active {
+      transform: translateY(0);
+    }
+
+    .action-button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    #file-input {
+      display: none;
+    }
+
+    .image-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .preview-item {
+      position: relative;
+      display: inline-block;
+    }
+
+    .preview-image {
+      max-width: 100px;
+      max-height: 100px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid #e5e7eb;
+    }
+
+    .remove-image {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 24px;
+      height: 24px;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .remove-image:hover {
+      background: #dc2626;
+    }
+
+    .clear-button {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .clear-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .welcome-message {
+      text-align: center;
+      padding: 40px 20px;
+      color: #6b7280;
+    }
+
+    .welcome-message i {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #667eea;
+    }
+
+    .welcome-message h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+      color: #374151;
+    }
+
+    .welcome-message p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .chat-container {
+        height: 100vh;
+        border-radius: 0;
+        margin: 0;
+      }
+
+      .message-content {
+        max-width: 85%;
+      }
+
+      .chat-header h1 {
+        font-size: 20px;
+      }
+
+      #user-input {
+        font-size: 16px;
+      }
+    }
+
+    .message-content strong {
+      font-weight: 600;
+    }
+
+    .message-content em {
+      font-style: italic;
+    }
+
+    .message-content code {
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+    }
+
+    .upload-status {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .upload-status.error {
+      color: #ef4444;
+    }
+
+    .upload-status.success {
+      color: #10b981;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      <h1>
+        <div class="bot-avatar">
+          <i class="fas fa-robot"></i>
+        </div>
+        Vesty AI Assistant
+      </h1>
+      <div class="status-indicator">
+        <div class="status-dot"></div>
+        <span>Online</span>
+        <button class="clear-button" onclick="clearConversation()" title="Clear conversation">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="chat-messages" id="messages">
+      <div class="welcome-message">
+        <i class="fas fa-comments"></i>
+        <h2>Welcome to Vesty!</h2>
+        <p>I'm your AI assistant, ready to help you with questions, tasks, and conversations. You can also upload images for analysis!</p>
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <div class="image-preview" id="image-preview"></div>
+      <div class="input-row">
+        <div class="input-container">
+          <textarea id="user-input" placeholder="Type your message..." rows="1"></textarea>
+          <input type="file" id="file-input" accept="image/*" multiple style="display: none;">
+        </div>
+        <div class="input-actions">
+          <button id="upload-button" title="Upload image" onclick="document.getElementById('file-input').click()">
+            <i class="fas fa-image"></i>
+          </button>
+          <button id="send-button" title="Send message">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+      <div class="upload-status" id="upload-status"></div>
+    </div>
+  </div>
+
+  <script>
+    // Add this debugging script to your assistant.html
+    // Put this BEFORE your existing JavaScript
+
+    console.log('Debug script loaded');
+
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, checking menu items...');
+        
+        // Get all menu items
+        const menuItems = document.querySelectorAll('.menu-item');
+        console.log(`Found ${menuItems.length} menu items`);
+        
+        // Add a simple click test to each
+        menuItems.forEach((item, index) => {
+            const menuText = item.querySelector('span')?.textContent || 'Unknown';
+            console.log(`Menu item ${index}: ${menuText}`);
+            
+            // Add test click handler
+            item.addEventListener('click', function(e) {
+                console.log(`🔥 CLICKED: ${menuText} (index: ${index})`);
+                e.preventDefault(); // Prevent any default action
+                
+                // Test basic functionality
+                alert(`You clicked: ${menuText}`);
+                
+                // For Documents, try to open sidebar
+                if (index === 1) {
+                    const sidebar = document.getElementById('documents-popup');
+                    if (sidebar) {
+                        sidebar.classList.toggle('active');
+                        console.log('Toggled documents sidebar');
+                    } else {
+                        console.log('❌ Documents sidebar not found');
+                    }
+                }
+            });
+        });
+        
+        // Also check if documents menu item exists
+        const docsMenuItem = document.getElementById('documents-menu-item');
+        console.log('Documents menu item:', docsMenuItem ? 'Found' : 'NOT FOUND');
+        
+        // Check if sidebar exists
+        const sidebar = document.getElementById('documents-popup');
+        console.log('Documents sidebar:', sidebar ? 'Found' : 'NOT FOUND');
+    });
+    let THREAD_ID = localStorage.getItem("thread_id") || null;
+    let isProcessing = false;
+    let uploadedImages = [];
+
+    function getCurrentTime() {
+      return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function formatMessage(text) {
+      if (!text) return "";
+      
+      return text
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`(.*?)`/g, '<code>$1</code>');
+    }
+
+    function appendMessage(sender, text, role, imageUrl = null, animate = true) {
+      const messagesDiv = document.getElementById("messages");
+      
+      // Remove welcome message if it exists
+      const welcomeMessage = messagesDiv.querySelector('.welcome-message');
+      if (welcomeMessage) {
+        welcomeMessage.remove();
+      }
+
+      const messageDiv = document.createElement("div");
+      messageDiv.className = `message ${role}`;
+      
+      const avatarDiv = document.createElement("div");
+      avatarDiv.className = "message-avatar";
+      
+      if (role === "user") {
+        avatarDiv.innerHTML = '<i class="fas fa-user"></i>';
+      } else {
+        avatarDiv.innerHTML = '<i class="fas fa-robot"></i>';
+      }
+      
+      const contentDiv = document.createElement("div");
+      contentDiv.className = "message-content";
+      
+      // Add image if provided
+      if (imageUrl) {
+        const imgElement = document.createElement("img");
+        imgElement.src = imageUrl;
+        imgElement.className = "message-image";
+        imgElement.alt = "Uploaded image";
+        imgElement.onclick = () => window.open(imageUrl, '_blank');
+        contentDiv.appendChild(imgElement);
+      }
+      
+      // Add text content
+      if (text) {
+        const textDiv = document.createElement("div");
+        textDiv.innerHTML = formatMessage(text);
+        contentDiv.appendChild(textDiv);
+      }
+      
+      const timeDiv = document.createElement("div");
+      timeDiv.className = "message-time";
+      timeDiv.textContent = getCurrentTime();
+      
+      contentDiv.appendChild(timeDiv);
+      messageDiv.appendChild(avatarDiv);
+      messageDiv.appendChild(contentDiv);
+      
+      if (animate) {
+        messageDiv.style.opacity = 0;
+        messageDiv.style.transform = "translateY(20px)";
+      }
+      
+      messagesDiv.appendChild(messageDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      
+      if (animate) {
+        setTimeout(() => {
+          messageDiv.style.transition = "opacity 0.3s ease-out, transform 0.3s ease-out";
+          messageDiv.style.opacity = 1;
+          messageDiv.style.transform = "translateY(0)";
+        }, 10);
+      }
+    }
+
+    function appendTypingIndicator() {
+      const messagesDiv = document.getElementById("messages");
+      
+      const typingDiv = document.createElement("div");
+      typingDiv.className = "typing-indicator";
+      
+      const avatarDiv = document.createElement("div");
+      avatarDiv.className = "message-avatar";
+      avatarDiv.innerHTML = '<i class="fas fa-robot"></i>';
+      avatarDiv.style.background = "linear-gradient(135deg, #4ade80 0%, #22c55e 100%)";
+      avatarDiv.style.color = "white";
+      
+      const dotsDiv = document.createElement("div");
+      dotsDiv.className = "typing-dots";
+      dotsDiv.innerHTML = '<span></span><span></span><span></span>';
+      
+      typingDiv.appendChild(avatarDiv);
+      typingDiv.appendChild(dotsDiv);
+      
+      messagesDiv.appendChild(typingDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      
+      return typingDiv;
+    }
+
+    function removeTypingIndicator(typingDiv) {
+      if (typingDiv && typingDiv.parentNode) {
+        typingDiv.remove();
+      }
+    }
+
+    function updateSendButton(disabled) {
+      const sendButton = document.getElementById("send-button");
+      const uploadButton = document.getElementById("upload-button");
+      const input = document.getElementById("user-input");
+      
+      sendButton.disabled = disabled;
+      uploadButton.disabled = disabled;
+      input.disabled = disabled;
+      
+      if (disabled) {
+        sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        sendButton.style.background = "#9ca3af";
+      } else {
+        sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        sendButton.style.background = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+      }
+    }
+
+    function updateUploadStatus(message, isError = false) {
+      const statusDiv = document.getElementById("upload-status");
+      statusDiv.textContent = message;
+      statusDiv.className = isError ? "upload-status error" : "upload-status success";
+      
+      if (message) {
+        setTimeout(() => {
+          statusDiv.textContent = "";
+          statusDiv.className = "upload-status";
+        }, 3000);
+      }
+    }
+
+    function addImagePreview(file, imageUrl) {
+      const previewDiv = document.getElementById("image-preview");
+      
+      const previewItem = document.createElement("div");
+      previewItem.className = "preview-item";
+      
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(file);
+      img.className = "preview-image";
+      img.alt = file.name;
+      
+      const removeBtn = document.createElement("button");
+      removeBtn.className = "remove-image";
+      removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+      removeBtn.onclick = () => {
+        previewItem.remove();
+        uploadedImages = uploadedImages.filter(img => img.url !== imageUrl);
+        URL.revokeObjectURL(img.src);
+      };
+      
+      previewItem.appendChild(img);
+      previewItem.appendChild(removeBtn);
+      previewDiv.appendChild(previewItem);
+
+      // Store image info
+      uploadedImages.push({
+        file: file,
+        url: imageUrl,
+        filename: file.name
+      });
+    }
+
+    function clearImagePreviews() {
+      const previewDiv = document.getElementById("image-preview");
+      const images = previewDiv.querySelectorAll(".preview-image");
+      images.forEach(img => URL.revokeObjectURL(img.src));
+      previewDiv.innerHTML = "";
+      uploadedImages = [];
+    }
+
+    async function uploadImages(files) {
+      const uploadPromises = Array.from(files).map(async (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+          const response = await fetch('/api/upload-image', {
+            method: 'POST',
+            body: formData
+          });
+
+          if (!response.ok) {
+            throw new Error(`Upload failed: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          return { success: true, file, data };
+        } catch (error) {
+          return { success: false, file, error: error.message };
+        }
+      });
+
+      const results = await Promise.all(uploadPromises);
+      const successful = results.filter(r => r.success);
+      const failed = results.filter(r => !r.success);
+
+      if (failed.length > 0) {
+        updateUploadStatus(`Failed to upload ${failed.length} image(s)`, true);
+      }
+
+      successful.forEach(result => {
+        addImagePreview(result.file, result.data.file_url);
+      });
+
+      if (successful.length > 0) {
+        updateUploadStatus(`Uploaded ${successful.length} image(s) successfully`);
+      }
+    }
+
+    async function createThread() {
+      const res = await fetch("/api/langgraph/thread", { method: "POST" });
+      const data = await res.json();
+      THREAD_ID = data.thread_id;
+      localStorage.setItem("thread_id", THREAD_ID);
+      console.log("Created thread:", THREAD_ID);
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById("user-input");
+      const text = input.value.trim();
+      
+      if ((!text && uploadedImages.length === 0) || isProcessing) return;
+      
+      isProcessing = true;
+      updateSendButton(true);
+      
+      // Display user message with images
+      if (uploadedImages.length > 0) {
+        uploadedImages.forEach((img, index) => {
+          const messageText = index === 0 && text ? text : "";
+          appendMessage("You", messageText, "user", img.url);
+        });
+        if (!text) {
+          appendMessage("You", "Please analyze this image", "user");
+        }
+      } else {
+        appendMessage("You", text, "user");
+      }
+      
+      input.value = "";
+      const typingIndicator = appendTypingIndicator();
+
+      if (!THREAD_ID) {
+        await createThread();
+      }
+
+      try {
+        let response;
+        
+        if (uploadedImages.length > 0) {
+          // Send with images using form data
+          const formData = new FormData();
+          formData.append('message', text || 'Please analyze this image');
+          formData.append('thread_id', THREAD_ID);
+          
+          // Send the first image file directly
+          const firstImage = uploadedImages[0];
+          formData.append('file', firstImage.file);
+
+          response = await fetch("/api/langgraph/chat-with-image", {
+            method: "POST",
+            body: formData
+          });
+        } else {
+          // Send text only
+          response = await fetch("/api/langgraph/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: text, thread_id: THREAD_ID }),
+          });
+        }
+
+        const data = await response.json();
+
+        if (data.thread_id) {
+          THREAD_ID = data.thread_id;
+          localStorage.setItem("thread_id", THREAD_ID);
+        }
+
+        removeTypingIndicator(typingIndicator);
+        appendMessage("Vesty", data.response || "I'm sorry, I couldn't process that request.", "assistant");
+        
+        // Clear image previews after successful send
+        clearImagePreviews();
+        
+      } catch (error) {
+        removeTypingIndicator(typingIndicator);
+        appendMessage("Vesty", "❌ I'm having trouble connecting right now. Please try again in a moment.", "assistant");
+      } finally {
+        isProcessing = false;
+        updateSendButton(false);
+        input.focus();
+      }
+    }
+
+    async function clearConversation() {
+      if (confirm("Are you sure you want to clear this conversation? This action cannot be undone.")) {
+        const messagesDiv = document.getElementById("messages");
+        messagesDiv.innerHTML = `
+          <div class="welcome-message">
+            <i class="fas fa-comments"></i>
+            <h2>Welcome to Vesty!</h2>
+            <p>I'm your AI assistant, ready to help you with questions, tasks, and conversations. You can also upload images for analysis!</p>
+          </div>
+        `;
+        
+        clearImagePreviews();
+        
+        if (THREAD_ID) {
+          localStorage.removeItem("thread_id");
+          try {
+            await fetch(`/api/langgraph/thread/${THREAD_ID}`, { method: "DELETE" });
+          } catch (error) {
+            console.warn("Failed to delete thread on server:", error);
+          }
+          THREAD_ID = null;
+        }
+        
+        console.log("Conversation cleared");
+      }
+    }
+
+    // Auto-resize textarea
+    function autoResizeTextarea() {
+      const textarea = document.getElementById("user-input");
+      textarea.style.height = "auto";
+      textarea.style.height = Math.min(textarea.scrollHeight, 120) + "px";
+    }
+
+    // Event listeners
+    document.getElementById("user-input").addEventListener("input", autoResizeTextarea);
+    
+    document.getElementById("user-input").addEventListener("keydown", function(e) {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+    
+    document.getElementById("send-button").onclick = sendMessage;
+
+    // File input handler
+    document.getElementById("file-input").addEventListener("change", function(e) {
+      const files = e.target.files;
+      if (files.length > 0) {
+        uploadImages(files);
+      }
+      // Clear the input so the same file can be selected again
+      e.target.value = "";
+    });
+
+    // Drag and drop functionality
+    const chatContainer = document.querySelector('.chat-container');
+    
+    chatContainer.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      chatContainer.style.border = '2px dashed #667eea';
+    });
+    
+    chatContainer.addEventListener('dragleave', function(e) {
+      e.preventDefault();
+      chatContainer.style.border = 'none';
+    });
+    
+    chatContainer.addEventListener('drop', function(e) {
+      e.preventDefault();
+      chatContainer.style.border = 'none';
+      
+      const files = Array.from(e.dataTransfer.files).filter(file => 
+        file.type.startsWith('image/')
+      );
+      
+      if (files.length > 0) {
+        uploadImages(files);
+      }
+    });
+
+    // Load conversation history on page load
+    window.onload = async function() {
+      if (!THREAD_ID) {
+        await createThread();
+      }
+      
+      if (THREAD_ID) {
+        try {
+          const resp = await fetch(`/api/langgraph/history?thread_id=${THREAD_ID}`);
+          const data = await resp.json();
+          
+          if (Array.isArray(data.messages) && data.messages.length > 0) {
+            const messagesDiv = document.getElementById("messages");
+            messagesDiv.innerHTML = "";
+            
+            for (const msg of data.messages) {
+              const senderName = msg.role === "user" ? "You" : "Vesty";
+              appendMessage(senderName, msg.content, msg.role, null, false);
+            }
+          }
+        } catch (error) {
+          console.error("Failed to load conversation history:", error);
+        }
+      }
+      
+      // Focus input
+      document.getElementById("user-input").focus();
+    };
+
+    // Make clearConversation available globally
+    window.clearConversation = clearConversation;
+  </script>
+</body>
+</html>

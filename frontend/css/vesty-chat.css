@@ -1,0 +1,330 @@
+/* css/vesty-chat.css */
+
+/* Chat Toggle Button */
+#vesty-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #33443c;   /* from your sidebar */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  font-size: 24px;
+  display: none; /* Initially hidden since chat will be open */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Vesty Icon with V */
+#vesty-toggle-btn::before {
+  content: 'V';
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+}
+
+/* Chat Container */
+.chat-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 350px;
+  height: 600px; /* Increased height */
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Chat Header */
+.chat-header {
+  background: #33443c;          /* from your sidebar */
+  color: white;
+  padding: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Chat Header Title & Close */
+.chat-header h1 {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chat-header .bot-avatar {
+  background: white;
+  color: #33443c;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+.chat-header .chat-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Chat Messages */
+.chat-messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background: #f8f9fa;
+  height: calc(100% - 130px); /* Increase the chat area height */
+}
+.chat-messages .welcome-message {
+  text-align: center;
+  color: #555;
+  margin-bottom: 20px;
+}
+.chat-messages .welcome-message h2 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+.chat-messages .message {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+}
+.chat-messages .message.user-message {
+  justify-content: flex-end;
+}
+.chat-messages .message.assistant-message {
+  justify-content: flex-start;
+}
+
+/* Bubbles */
+.chat-messages .message .message-content {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 8px;
+  background: #33443c;          /* your accent green */
+  color: white;
+  font-size: 14px;
+}
+.chat-messages .message.assistant-message .message-content {
+  background: #f1f1f1;
+  color: #33443c;
+}
+
+/* Chat Input Container */
+.chat-input {
+  padding: 15px;
+  border-top: 1px solid #eaeaea;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: auto;
+}
+
+/* Message input area */
+.chat-input-main {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 24px;
+  padding: 8px 16px;
+  width: 100%;
+}
+
+.chat-input .input-container {
+  flex: 1;
+  position: relative;
+}
+
+.chat-input .input-actions {
+  display: flex;
+  align-items: center;
+}
+
+.chat-input .input-container textarea {
+  padding: 10px 0;
+  border: none;
+  background: transparent;
+  resize: none;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 1.4;
+  font-family: inherit;
+  outline: none;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.chat-input .input-container textarea::placeholder {
+  color: #888;
+  font-size: 14px;
+}
+
+/* Action buttons */
+.chat-input-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Image upload button */
+.image-upload-btn {
+  background: transparent;
+  border: none;
+  color: #33443c;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.image-upload-btn:hover {
+  background-color: rgba(51, 68, 60, 0.1);
+}
+
+.image-upload-btn i {
+  font-size: 18px;
+}
+
+/* Image upload button */
+.image-upload-btn {
+  background: #f0f0f0;
+  border: none;
+  color: #33443c;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  margin-right: 10px;
+}
+
+.image-upload-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.image-upload-btn i {
+  font-size: 18px;
+  color: #33443c;
+}
+
+/* Send Button */
+#send-button {
+  background: #33443c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+#send-button i {
+  font-size: 16px;
+}
+
+#send-button:hover {
+  transform: scale(1.05);
+  background-color: #3e5249;
+}
+
+#send-button:active {
+  transform: scale(0.95);
+}
+
+/* File upload status */
+.upload-status {
+  font-size: 12px;
+  color: #555;
+  padding: 4px 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.upload-status i {
+  color: #33443c;
+}
+
+/* Image preview */
+.image-preview {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.image-preview-item {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-preview-remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+/* Scrollbar Styling */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #33443c;
+  border-radius: 3px;
+}
+.chat-messages::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}

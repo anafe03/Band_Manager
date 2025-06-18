@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - SelfNVest</title>
+  <link rel="stylesheet" href="../css/signup.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .profile-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    .profile-header {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #33443c, #2a3731);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: white;
+      font-size: 32px;
+    }
+    
+    .profile-name {
+      font-size: 24px;
+      font-weight: 600;
+      color: #33443c;
+      margin-bottom: 8px;
+    }
+    
+    .profile-email {
+      color: #666;
+      margin-bottom: 20px;
+    }
+    
+    .subscription-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .badge-free {
+      background: #f8f9fa;
+      color: #6c757d;
+      border: 1px solid #dee2e6;
+    }
+    
+    .badge-standard {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    
+    .badge-premium {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .badge-active {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    
+    .profile-card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .profile-card h3 {
+      color: #33443c;
+      font-size: 18px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .profile-card .icon {
+      width: 36px;
+      height: 36px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #33443c;
+    }
+    
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .stat-item:last-child {
+      border-bottom: none;
+    }
+    
+    .stat-label {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .stat-value {
+      color: #33443c;
+      font-weight: 600;
+    }
+    
+    .upgrade-card {
+      background: linear-gradient(135deg, #33443c, #2a3731);
+      color: white;
+      text-align: center;
+    }
+    
+    .upgrade-card h3 {
+      color: white;
+    }
+    
+    .upgrade-card p {
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+    
+    .btn {
+      display: inline-block;
+      background-color: #fff;
+      color: #33443c;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .btn-secondary {
+      background-color: #6c757d;
+      color: white;
+    }
+    
+    .btn-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+    
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    
+    @media (max-width: 768px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .profile-container {
+        padding: 0 15px;
+      }
+      
+      .profile-header,
+      .profile-card {
+        padding: 20px;
+      }
+    }
+    
+    /* Loading state */
+    .page-loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      font-size: 18px;
+      color: #33443c;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading overlay -->
+  <div class="page-loading" id="page-loading">
+    <div>
+      <i class="fas fa-spinner fa-spin"></i> Loading your profile...
+    </div>
+  </div>
+
+  <div class="profile-container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <div class="profile-avatar">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="profile-name" data-user="name">Loading...</div>
+      <div class="profile-email" data-user="email">Loading...</div>
+      <div class="subscription-badge" id="subscription-badge">
+        <i class="fas fa-crown"></i> Loading...
+      </div>
+    </div>
+    
+    <!-- Profile Grid -->
+    <div class="profile-grid">
+      <!-- Account Statistics -->
+      <div class="profile-card">
+        <h3>
+          <div class="icon"><i class="fas fa-chart-line"></i></div>
+          Account Statistics
+        </h3>
+        <div class="stat-item">
+          <span class="stat-label">AI Conversations</span>
+          <span class="stat-value" id="chat-count">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Property Listings</span>
+          <span class="stat-value" id="listings-count">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Account Created</span>
+          <span class="stat-value" id="account-created">-</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Last Login</span>
+          <span class="stat-value" id="last-login">-</span>
+        </div>
+      </div>
+      
+      <!-- Subscription Info -->
+      <div class="profile-card">
+        <h3>
+          <div class="icon"><i class="fas fa-credit-card"></i></div>
+          Subscription Details
+        </h3>
+        <div class="stat-item">
+          <span class="stat-label">Current Plan</span>
+          <span class="stat-value" id="current-plan" data-user="subscription">Free</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Status</span>
+          <span class="stat-value" id="subscription-status">Inactive</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Monthly AI Chats</span>
+          <span class="stat-value"><span id="chats-used">0</span> / <span id="chats-limit">10</span></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Monthly Listings</span>
+          <span class="stat-value"><span id="listings-used">0</span> / <span id="listings-limit">1</span></span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Upgrade Card (shown for free users) -->
+    <div class="profile-card upgrade-card" id="upgrade-card" style="display: none;">
+      <h3>
+        <div class="icon" style="background: rgba(255,255,255,0.2);"><i class="fas fa-rocket"></i></div>
+        Upgrade Your Account
+      </h3>
+      <p>Get access to unlimited AI conversations, more listings, and premium support.</p>
+      <button onclick="showUpgradeOptions()" class="btn">
+        <i class="fas fa-crown"></i> Upgrade Now
+      </button>
+    </div>
+    
+    <!-- Actions -->
+    <div class="profile-card">
+      <h3>
+        <div class="icon"><i class="fas fa-cog"></i></div>
+        Account Actions
+      </h3>
+      <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <a href="../index.html" class="btn">
+          <i class="fas fa-home"></i> Back to Home
+        </a>
+        <a href="assistant.html" class="btn btn-secondary">
+          <i class="fas fa-robot"></i> AI Assistant
+        </a>
+        <button data-action="logout" class="btn btn-danger">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase SDK -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2.39.6/dist/umd/supabase.js"></script>
+  
+  <!-- Your Supabase client setup -->
+  <script src="../js/supabaseClient.js"></script>
+  
+  <!-- Global Auth Manager -->
+  <script src="../js/globalAuth.js"></script>
+  
+  <!-- Auth Guard -->
+  <script src="../js/authGuard.js"></script>
+  
+  <script>
+    // Listen for auth state changes
+    document.addEventListener('authStateChanged', function(event) {
+      console.log('📊 Auth state changed on profile page:', event.detail);
+      if (event.detail.isLoggedIn) {
+        loadUserProfile();
+      }
+    });
+
+    // Wait for auth to initialize then load profile
+    document.addEventListener('DOMContentLoaded', function() {
+      // Wait for global auth to finish initializing
+      const checkAuth = setInterval(() => {
+        if (window.authState && !window.authState.isLoading) {
+          clearInterval(checkAuth);
+          if (window.authState.isLoggedIn) {
+            loadUserProfile();
+          }
+          // Hide loading overlay
+          document.getElementById('page-loading').style.display = 'none';
+        }
+      }, 100);
+    });
+    
+    async function loadUserProfile() {
+      console.log('🔧 Loading user profile...');
+      
+      if (!window.authState.user) {
+        console.error('❌ No user data available');
+        return;
+      }
+
+      const user = window.authState.user;
+      const subscription = window.authState.subscription;
+      
+      // Update subscription badge
+      updateSubscriptionBadge(subscription);
+      
+      // Update subscription details
+      updateSubscriptionInfo(subscription);
+      
+      // Set account creation date
+      if (user.created_at) {
+        const date = new Date(user.created_at).toLocaleDateString();
+        document.getElementById('account-created').textContent = date;
+      }
+      
+      // Set last login (approximate)
+      document.getElementById('last-login').textContent = 'Today';
+      
+      try {
+        // Try to get user stats from backend
+        const userId = window.authState.user.id;
+        const token = window.authState.token;
+        
+        const statsResponse = await fetch(`/api/user/stats`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (statsResponse.ok) {
+          const stats = await statsResponse.json();
+          updateUserStats(stats);
+        } else {
+          console.log('📊 Could not load user stats from backend');
+          // Set default stats
+          updateUserStats({
+            chat_count: 0,
+            listings_count: 0,
+            monthly_chats_used: 0,
+            monthly_listings_used: 0
+          });
+        }
+        
+      } catch (error) {
+        console.log('📊 Stats loading failed, using defaults:', error);
+        // Set default stats
+        updateUserStats({
+          chat_count: 0,
+          listings_count: 0,
+          monthly_chats_used: 0,
+          monthly_listings_used: 0
+        });
+      }
+      
+      console.log('✅ Profile loaded successfully');
+    }
+    
+    function updateSubscriptionBadge(subscription) {
+      const badge = document.getElementById('subscription-badge');
+      const status = subscription?.status || 'free';
+      const plan = subscription?.plan || 'free';
+      
+      // Determine badge class
+      let badgeClass = 'badge-free';
+      if (status === 'active') {
+        badgeClass = `badge-${plan}`;
+      }
+      
+      badge.className = `subscription-badge ${badgeClass}`;
+      
+      // Update badge text
+      if (status === 'active') {
+        badge.innerHTML = `<i class="fas fa-crown"></i> ${plan.toUpperCase()} (ACTIVE)`;
+      } else {
+        badge.innerHTML = `<i class="fas fa-user"></i> FREE TIER`;
+      }
+    }
+    
+    function updateSubscriptionInfo(subscription) {
+      const status = subscription?.status || 'free';
+      const plan = subscription?.plan || 'free';
+      
+      // Update subscription details
+      document.getElementById('current-plan').textContent = plan.charAt(0).toUpperCase() + plan.slice(1);
+      document.getElementById('subscription-status').textContent = status.charAt(0).toUpperCase() + status.slice(1);
+      
+      // Set usage limits based on tier
+      let chatLimit = 10, listingLimit = 1;
+      if (plan === 'standard') {
+        chatLimit = 100;
+        listingLimit = 5;
+      } else if (plan === 'premium') {
+        chatLimit = 1000;
+        listingLimit = 25;
+      }
+      
+      document.getElementById('chats-limit').textContent = chatLimit;
+      document.getElementById('listings-limit').textContent = listingLimit;
+      
+      // Show upgrade card for free users only
+      const upgradeCard = document.getElementById('upgrade-card');
+      if (status !== 'active' || plan === 'free') {
+        upgradeCard.style.display = 'block';
+      } else {
+        upgradeCard.style.display = 'none';
+      }
+    }
+    
+    function updateUserStats(stats) {
+      if (stats) {
+        document.getElementById('chat-count').textContent = stats.chat_count || 0;
+        document.getElementById('listings-count').textContent = stats.listings_count || 0;
+        document.getElementById('chats-used').textContent = stats.monthly_chats_used || 0;
+        document.getElementById('listings-used').textContent = stats.monthly_listings_used || 0;
+      }
+    }
+    
+    function showUpgradeOptions() {
+      // Create upgrade modal
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      `;
+      
+      modal.innerHTML = `
+        <div style="background: white; border-radius: 12px; padding: 30px; max-width: 500px; width: 100%; position: relative;">
+          <button onclick="this.closest('div').parentElement.remove()" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #999;">&times;</button>
+          
+          <h2 style="margin-bottom: 20px; color: #33443c;">Upgrade Your Plan</h2>
+          <p style="color: #666; margin-bottom: 30px;">Get access to more features and unlimited AI assistance.</p>
+          
+          <div style="display: grid; gap: 20px;">
+            <div style="border: 2px solid #e1e5e9; border-radius: 8px; padding: 20px; text-align: center;">
+              <h3 style="color: #33443c; margin-bottom: 10px;">Standard Plan</h3>
+              <div style="font-size: 28px; font-weight: bold; color: #007bff; margin-bottom: 15px;">$249</div>
+              <p style="color: #666; margin-bottom: 20px;">Marketing kit with essential tools</p>
+              <button onclick="upgradeNow('standard')" style="background: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                Upgrade to Standard
+              </button>
+            </div>
+            
+            <div style="border: 2px solid #28a745; border-radius: 8px; padding: 20px; text-align: center;">
+              <h3 style="color: #33443c; margin-bottom: 10px;">Premium Plan</h3>
+              <div style="font-size: 28px; font-weight: bold; color: #28a745; margin-bottom: 15px;">$999</div>
+              <p style="color: #666; margin-bottom: 20px;">Complete package with premium support</p>
+              <button onclick="upgradeNow('premium')" style="background: #28a745; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                Upgrade to Premium
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      
+      // Close modal when clicking outside
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+    }
+    
+    async function upgradeNow(plan) {
+      // Use the global auth system's checkout function
+      if (window.auth && window.auth.createCheckoutSession) {
+        await window.auth.createCheckoutSession(plan);
+      } else {
+        alert('Payment system not available. Please try refreshing the page.');
+      }
+    }
+  </script>
+</body>
+</html>

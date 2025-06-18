@@ -1,0 +1,210 @@
+/* Scrolling Listings Section Styles */
+.scrolling-listings {
+    padding: 100px 0;
+    background-color: #f0f4f8;
+    overflow: hidden;
+    position: relative;
+}
+
+.scrolling-listings .section-header {
+    padding: 0 10%;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.scrolling-container {
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.scrolling-row {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    position: relative;
+}
+
+/* First row scrolls left */
+.scrolling-row:nth-child(1) {
+    animation: scrollListingsLeft 120s linear infinite;
+}
+
+/* Second row scrolls right */
+.scrolling-row:nth-child(2) {
+    animation: scrollListingsRight 120s linear infinite;
+}
+
+@keyframes scrollListingsLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-100% + 100vw));
+    }
+}
+
+@keyframes scrollListingsRight {
+    0% {
+        transform: translateX(calc(-100% + 100vw));
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Listing Card Styles */
+.scrolling-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex: 0 0 500px;
+    min-width: 500px;
+    margin: 0 20px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.scrolling-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.scrolling-image-container {
+    flex: 0 0 40%;
+    position: relative;
+    overflow: hidden;
+}
+
+.scrolling-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.scrolling-details {
+    flex: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.scrolling-title {
+    font-size: 1.4rem;
+    margin: 0 0 10px;
+    color: #333;
+    font-weight: 600;
+}
+
+.scrolling-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #4a6cf7;
+    margin-bottom: 10px;
+}
+
+.scrolling-address {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.scrolling-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.scrolling-specs span {
+    font-weight: 500;
+}
+
+.scrolling-card .cta-button {
+    margin-top: auto;
+    align-self: flex-start;
+    background-color: #4a6cf7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.scrolling-card .cta-button:hover {
+    background-color: #3a5bd9;
+}
+
+/* Pause animation on hover */
+.scrolling-row:hover {
+    animation-play-state: paused;
+}
+
+/* Hero Header Styles for Listings Page */
+.hero-header .hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    padding-left: 10%; /* Match exactly where the logo starts */
+    padding-right: 10%;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 40px; /* Add some space from the navigation */
+    margin-bottom: 40px; /* Add some space at the bottom */
+}
+
+.hero-header .hero-content h1 {
+    font-size: 3.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-header .hero-content p {
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .scrolling-card {
+        flex-direction: column;
+        flex: 0 0 300px;
+        min-width: 300px;
+    }
+    
+    .scrolling-image-container {
+        flex: 0 0 200px;
+        width: 100%;
+    }
+    
+    .scrolling-details {
+        padding: 15px;
+    }
+    
+    .scrolling-title {
+        font-size: 1.2rem;
+    }
+    
+    .scrolling-price {
+        font-size: 1.4rem;
+    }
+}

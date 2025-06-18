@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SelfNVest - Skip The Agent Keep The Equity</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/logo-flow.css">
+    <link rel="stylesheet" href="css/calendar.css">
+    <link rel="stylesheet" href="css/services-offerings.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/mobile-responsive.css">  <!-- ADD THIS LINE -->
+    <link rel="stylesheet" href="css/email-popup.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Force square corners on all gallery images -->
+    <style>
+        .gallery-image, .gallery-image:before, .gallery-image:after {
+            border-radius: 0 !important;
+            -webkit-border-radius: 0 !important;
+            -moz-border-radius: 0 !important;
+            overflow: hidden !important;
+        }
+        div[class*="gallery"] img, div[class*="gallery"] div {
+            border-radius: 0 !important;
+            -webkit-border-radius: 0 !important;
+            -moz-border-radius: 0 !important;
+        }
+    </style>
+</head>
+<!-- Add this RIGHT AFTER the opening <body> tag in index.html -->
+<script>
+  window.SUPABASE_CONFIG = {
+    url: 'https://gdmdurzaeezcrgrmtabx.supabase.co',
+    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkbWR1cnphZWV6Y3Jncm10YWJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1OTk3MDUsImV4cCI6MjA2MzE3NTcwNX0.xbuXRr2jDAAG021blK5zeuqwO-5zMNq7_tEfW_oW7cQ'
+  };
+  console.log('🔑 Supabase config loaded for index.html');
+</script>
+<body>
+    
+    <header class="hero" style="background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('https://ik.imagekit.io/radw2xpz9/Robot%20handshake.png?updatedAt=1748096907624'); background-size: cover; background-position: center;">
+        <nav class="navbar">
+            <div class="logo">
+              <a href="index.html">
+                <img src="images/Self.svg" alt="SelfNVest Logo" class="logo-image">
+              </a>
+            </div>
+            <div class="nav-links">
+              <a href="#how-selfnvest-works">About</a>
+              <a href="#services">Services</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#footer">Contact Us</a>
+              <a href="pages/listings.html">Listings</a>
+              <a href="pages/assistant.html">Dashboard</a>
+              <a href="pages/login.html" id="auth-link">
+                <i class="fas fa-user"></i> Login
+              </a>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileNav()">
+              <i class="fas fa-bars"></i>
+            </button>
+          </nav>
+          
+          <!-- Mobile Navigation Menu -->
+          <div class="mobile-nav-overlay" onclick="closeMobileNav()"></div>
+          <div class="mobile-nav">
+            <div class="mobile-nav-header">
+              <img src="images/Self.svg" alt="SelfNVest Logo" class="logo-image" />
+              <button class="mobile-nav-close" onclick="closeMobileNav()">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div class="mobile-nav-links">
+              <a href="#how-selfnvest-works"><i class="fas fa-info-circle"></i> About</a>
+              <a href="#services"><i class="fas fa-concierge-bell"></i> Services</a>
+              <a href="#pricing"><i class="fas fa-dollar-sign"></i> Pricing</a>
+              <a href="#footer"><i class="fas fa-envelope"></i> Contact Us</a>
+              <a href="pages/listings.html"><i class="fas fa-home"></i> Listings</a>
+              <a href="pages/assistant.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            </div>
+            <div class="mobile-auth-section">
+              <a href="pages/login.html"><i class="fas fa-user"></i> Login</a>
+            </div>
+          </div>
+        <div class="hero-content">
+            <h1>Skip The Agent. Keep The Equity.</h1>
+            <p>Save Thousands In Commission with Vesty, Your Real Estate AI Assistant</p>
+            <button class="cta-button" onclick="handleGetStarted()">Get Started</button>
+        </div>
+    </header>
+
+    <section id="how-selfnvest-works" class="how-selfnvest-works">
+        <div class="section-header text-center">
+            <button class="cta-button">About Us</button>
+            <h2>How SelfNvest Works</h2>
+        </div>
+        <div class="section-text">
+            <p>SelfNvest empowers homeowners navigate the real estate market independently, cutting out expensive middlemen and saving thousands in commission fees.</p>
+            <p>Our platform provides all the tools, resources, and support you need to sell property on your own terms.</p>
+        </div>
+        <div class="content-wrapper">
+            <div class="gallery-wrapper">
+                <div class="scrolling-image-gallery">
+                    <!-- Fixed images - replaced broken ImageKit URLs with working Unsplash ones -->
+                    <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1603825491103-bd638b1873b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1564078516393-cf04bd966897?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="gallery-image" style="background-image: url('https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=800&q=80');"></div>
+                    
+                    <!-- Image upload containers -->
+                    <div class="gallery-image upload-container">
+                        <input type="file" id="image-upload-1" class="image-upload" accept="image/*">
+                        <label for="image-upload-1" class="upload-label">
+                            <i class="fas fa-plus"></i>
+                            <span>Add Image</span>
+                        </label>
+                    </div>
+                    
+                    <div class="gallery-image upload-container">
+                        <input type="file" id="image-upload-2" class="image-upload" accept="image/*">
+                        <label for="image-upload-2" class="upload-label">
+                            <i class="fas fa-plus"></i>
+                            <span>Add Image</span>
+                        </label>
+                    </div>
+                    
+                    <div class="gallery-image upload-container">
+                        <input type="file" id="image-upload-3" class="image-upload" accept="image/*">
+                        <label for="image-upload-3" class="upload-label">
+                            <i class="fas fa-plus"></i>
+                            <span>Add Image</span>
+                        </label>
+                    </div>
+                    
+                    <div class="gallery-image upload-container">
+                        <input type="file" id="image-upload-4" class="image-upload" accept="image/*">
+                        <label for="image-upload-4" class="upload-label">
+                            <i class="fas fa-plus"></i>
+                            <span>Add Image</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services-section">
+        <div class="section-header text-center">
+            <a href="#services"><button class="cta-button">Selling</button></a>
+            <h2>What we offer</h2>
+            <p class="subheader">Let's find the right path for you</p>
+        </div>
+        <div class="services">
+            <div class="service-offerings">
+                <div class="service-offering-item">
+                    <div class="offering-number"><i class="fas fa-home"></i></div>
+                    <div class="offering-content">
+                        <h3>Step by Step Seller's Guide</h3>
+                        <ul>
+                            <li>Clear instructions to sell your home independently</li>
+                            <li>Checklists and Timelines</li>
+                            <li>Tips on staging, photography, pricing, and listing</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="service-offering-item">
+                    <div class="offering-number"><i class="fas fa-tools"></i></div>
+                    <div class="offering-content">
+                        <h3>Sellers Toolkit</h3>
+                        <ul>
+                            <li>Customized Yard Signs</li>
+                            <li>Online booking system</li>
+                            <li>Customized marketing materials</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="service-offering-item">
+                    <div class="offering-number"><i class="fas fa-file-contract"></i></div>
+                    <div class="offering-content">
+                        <h3>Legal Support</h3>
+                        <ul>
+                            <li>Necessary disclosures & agreements</li>
+                            <li>Explanation of required legal paperwork by state</li>
+                            <li>Attorney recommendations</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="service-offering-item">
+                    <div class="offering-number"><i class="fas fa-robot"></i></div>
+                    <div class="offering-content">
+                        <h3>AI Assistant – "Vesty"</h3>
+                        <ul>
+                            <li>24/7 virtual chatbot to answer your home selling questions</li>
+                            <li>Personalized guidance tailored to you</li>
+                            <li>Helps simplify terms and keep you on track</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="service-offering-item">
+                    <div class="offering-number"><i class="fas fa-bullhorn"></i></div>
+                    <div class="offering-content">
+                        <h3>Marketing Tools for Sellers</h3>
+                        <ul>
+                            <li>Open house flyer templates</li>
+                            <li>Zillow, Trulia & SelfNvest listings</li>
+                            <li>Social media marketing across our social accounts</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="service-offering-item">
+                    <div class="offering-number"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="offering-content">
+                        <h3>Resources</h3>
+                        <ul>
+                            <li>Market analysis comparisons</li>
+                            <li>FAQs</li>
+                            <li>Resources through Vesty</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+        <div class="section-header text-center">
+            <button class="cta-button">Our Prices</button>
+            <h2 style="font-size: 36px;">Keep Your Equity. Invest In Yourself</h2>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="price-card-content">
+                    <p style="text-align: center; font-weight: 600; margin-bottom: 15px; text-transform: uppercase; font-size: 16px;">Selling a home</p>
+                    <h3>$999</h3>
+                    <div class="line"></div>
+                    <h4>Premium Package</h4>
+                    <ul>
+                        <li>Advanced Real Estate Chatbot</li>
+                        <li>SelfNvest Marketing Kit</li>
+                        <li>Easy Scheduling Platform</li>
+                        <li>Step By Step Guide</li>
+                        <li>Website Property Listing</li>
+                        <li>Customer Support</li>
+                    </ul>
+                    <div class="button-container">
+                        <button class="cta-button dark" id="premium-button">
+                            Get Started
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="price-card featured">
+                <div class="price-card-content">
+                    <p style="text-align: center; font-weight: 600; margin-bottom: 15px; text-transform: uppercase; font-size: 16px;">SelfNvest Marketing Kit</p>
+                    <h3>$249</h3>
+                    <div class="line"></div>
+                    <h4>Welcome Box</h4>
+                    <ul>
+                        <li>2 Customized Yard Signs</li>
+                        <li>Open House Flyers</li>
+                        <li>FAQ + Checklist Prep Document</li>
+                        <li>Bluetooth Lockbox + $50</li>
+                        <li>Easy Scheduling Platform</li>
+                        <li>Website Property Listing</li>
+                    </ul>
+                    <div class="button-container">
+                        <button class="cta-button dark" id="standard-button">
+                            Get Started
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="showcase" class="mission-statement">
+        <div class="section-header text-center">
+            <button class="cta-button">Our Mission</button>
+            <h2 style="font-size: 36px;">Invest in Yourself</h2>
+        </div>
+        <div class="mission-content-wrapper">
+            <div class="mission-text">
+                <p>We started SelfNvest to help others comfortably navigate the home selling process. By saving thousands in commissions they can use that money to invest in their future. A home is one of life's most significant investments—and we believe more people deserve the opportunity to afford one..</p>
+                <p>We believe that with the right guidance, anyone can navigate selling a home on their own. Selfnvest was created to break down barriers, simplify the process, and give people the confidence to invest in themselves.</p>
+                <p>We prioritize education, patience, and transparency in every step because we believe informed decisions lead to happier homeowners.</p>
+            </div>
+            <div class="mission-quote">
+                <div class="quote-image">
+                    <img src="https://ik.imagekit.io/mrjcdh8ft/Screenshot%202025-05-24%20at%2010.01.12%E2%80%AFAM.png?updatedAt=1748095324605" alt="Modern Home Interior" style="width: 100%; height: auto; object-fit: cover;" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';">
+                </div>
+            </div>
+        </div>
+        <div class="mission-footer-quote">
+            <span class="quote-mark">"</span>
+            <p>"This isn't just about saving money—it's about ownership, empowerment, and learning to invest in yourself."</p>
+        </div>
+    </section>
+
+    <section id="savings-calculator" class="savings-calculator">
+        <div class="calculator-container">
+            <div class="calculator-header">
+                <button class="cta-button">Savings</button>
+                <h2>See how much you can save</h2>
+            </div>
+            <div class="slider-container">
+                <div class="slider-track">
+                    <input type="range" min="0" max="1000000" value="500000" class="slider" id="savings-slider">
+                    <div class="slider-thumb"></div>
+                </div>
+                <div class="slider-values">
+                    <span class="min-value">$0</span>
+                    <span class="current-value" id="current-savings">$500,000</span>
+                    <span class="max-value">$1,000,000</span>
+                </div>
+                <div class="savings-message">
+                    <p>By using SelfNVest, you could save up to <span id="savings-percentage">3%</span> on your real estate transaction.</p>
+                    <p class="savings-total">Total savings: <span id="total-savings">$15,000</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials">
+        <div class="section-header">
+            <div class="line"></div>
+            <h2>Hear from our clients</h2>
+        </div>
+        <div class="testimonial-container">
+            <!-- First row - moves left -->
+            <div class="testimonial-row">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"SelfNVest made selling our home so much easier than we expected. The tools and support were exceptional."</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                        <p class="client-name">Jennifer R.</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"We saved over $30,000 in commission fees and still sold above asking price. Couldn't be happier!"</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                        <p class="client-name">Michael T.</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The buying process was streamlined and efficient. Their support team answered all my questions promptly."</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                        <p class="client-name">Sarah L.</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"As a first-time homebuyer, I was nervous about the process. SelfNVest made it simple and stress-free."</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                        <p class="client-name">David K.</p>
+                    </div>
+                </div>
+                <!-- Duplicate cards to ensure smooth infinite scrolling -->
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"SelfNVest made selling our home so much easier than we expected. The tools and support were exceptional."</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                        <p class="client-name">Jennifer R.</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"We saved over $30,000 in commission fees and still sold above asking price. Couldn't be happier!"</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                        <p class="client-name">Michael T.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Second row - moves right -->
+            <div class="testimonial-row">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The transaction process was incredibly transparent. No hidden fees, no surprises."</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                        <p class="client-name">Amanda C.</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The AI assistant helped me understand complex contracts. It was like having a real estate expert on call 24/7."</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1546456073-92b9f0a8d413?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                        <p class="client-name">Robert J.</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"I was able to list my property, handle showings, and close the deal all through SelfNVest. Amazing experience!"</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                        <p class="client-name">Sophia M.</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Their document preparation service saved me so much time and stress during the closing process."</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1590086782792-42dd2350140d?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                        <p class="client-name">James W.</p>
+                    </div>
+                </div>
+                <!-- Duplicate cards to ensure smooth infinite scrolling -->
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The transaction process was incredibly transparent. No hidden fees, no surprises."</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                        <p class="client-name">Amanda C.</p>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The AI assistant helped me understand complex contracts. It was like having a real estate expert on call 24/7."</p>
+                    <div class="client-info">
+                        <div class="client-img" style="background-image: url('https://images.unsplash.com/photo-1546456073-92b9f0a8d413?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
+                        <p class="client-name">Robert J.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq">
+        <div class="section-header">
+            <div class="line"></div>
+            <h2>Answering your questions</h2>
+        </div>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h3>How does buying without an agent work?</h3>
+                <div class="faq-toggle">+</div>
+            </div>
+            <div class="faq-item">
+                <h3>What support do you provide during the selling process?</h3>
+                <div class="faq-toggle">+</div>
+            </div>
+            <div class="faq-item">
+                <h3>How much can I really save by using SelfNVest?</h3>
+                <div class="faq-toggle">+</div>
+            </div>
+            <div class="faq-item">
+                <h3>Is it legal to buy or sell without a real estate agent?</h3>
+                <div class="faq-toggle">+</div>
+            </div>
+        </div>
+    </section>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <a href="index.html"><img src="images/Self.svg" alt="SelfNVest Logo" class="logo-image" /></a>
+      </div>
+      <div class="footer-links">
+        <div class="footer-column">
+          <h4>Services</h4>
+          <a href="#how-selfnvest-works">About</a>
+          <a href="#services">Services</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#testimonials">Testimonials</a>
+        </div>
+        <div class="footer-column">
+          <h4>About</h4>
+          <a href="#faq">FAQ</a>
+          <a href="pages/login.html">Login</a>
+          <a href="pages/listings.html">Listings</a>
+          <a href="#footer" onclick="openEmailPopup(); return false;">Contact</a>
+        </div>
+        <div class="footer-column">
+          <h4>Legal</h4>
+          <a href="#terms">Terms</a>
+          <a href="#privacy">Privacy</a>
+          <a href="#cookies">Cookies</a>
+          <a href="#licenses">Licenses</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 SelfNVest. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/selfnvest_ai" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#" id="email-contact-btn" title="Contact Us"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+    <!-- === FIXED SCRIPT LOADING ORDER === -->
+    
+    <!-- 1. FIRST: Load Supabase library -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    
+    <!-- 2. SECOND: Initialize Supabase client -->
+    <script src="js/supabaseClient.js"></script>
+    
+    <!-- 3. THIRD: Load global auth (THIS WAS MISSING!) -->
+    <script src="js/globalAuth.js"></script>
+    
+    <!-- 3.5. Load main auth functions -->
+    <script src="js/auth.js"></script>
+    
+    <!-- 4. FOURTH: Load other functionality -->
+    <script src="js/script.js"></script>
+    <script src="js/scrolling-gallery.js"></script>
+    <script src="js/testimonial-scroll.js"></script>
+    
+    <!-- 5. FIFTH: Load chatbot -->
+    <script src="js/chatbot.js"></script>
+
+    <!-- 6. AUTH DEBUG SCRIPT (temporary) -->
+    <script>
+    console.log('=== AUTH REDIRECT DEBUGGING ===');
+
+    // Check if we just came from a login
+    const referrer = document.referrer;
+    const isFromLogin = referrer.includes('/login') || referrer.includes('pages/login');
+    console.log('Page loaded from:', referrer);
+    console.log('Came from login page:', isFromLogin);
+
+    // Function to check auth state with detailed logging
+    async function detailedAuthCheck(checkNumber) {
+        console.log(`\n=== AUTH CHECK #${checkNumber} ===`);
+        
+        // 1. Check Supabase session
+        if (typeof supabase !== 'undefined') {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                console.log('1. Supabase Session Check:');
+                console.log('   - Error:', error?.message || 'None');
+                console.log('   - Has session:', !!data?.session);
+                console.log('   - Access token:', data?.session?.access_token ? 'Present' : 'None');
+                console.log('   - User email:', data?.session?.user?.email || 'None');
+                
+                // If we have a session but global auth doesn't know about it
+                if (data?.session && (!window.authState || !window.authState.isLoggedIn)) {
+                    console.log('MISMATCH: Supabase has session but authState is not logged in!');
+                    
+                    // Try to fix it manually
+                    if (window.auth && window.auth.getCurrentUser) {
+                        console.log('Attempting to fix auth state...');
+                        const user = await window.auth.getCurrentUser();
+                        if (user) {
+                            console.log('Auth state fixed for:', user.email);
+                            window.auth.updateGlobalUI();
+                        }
+                    }
+                    
+                    return { mismatch: true, session: data.session };
+                }
+                
+                return { session: data?.session, error };
+            } catch (err) {
+                console.error('Supabase session check failed:', err);
+                return { error: err };
+            }
+        } else {
+            console.log('Supabase not available');
+            return { error: 'Supabase not available' };
+        }
+    }
+
+    // Check localStorage
+    function checkLocalStorage() {
+        console.log('2. LocalStorage Check:');
+        const keys = ['supabase_token', 'user_email', 'user_id'];
+        keys.forEach(key => {
+            const value = localStorage.getItem(key);
+            console.log(`   - ${key}:`, value ? (key.includes('token') ? value.substring(0, 20) + '...' : value) : 'null');
+        });
+    }
+
+    // Check global auth state
+    function checkGlobalAuthState() {
+        console.log('3. Global Auth State Check:');
+        console.log('   - window.authState exists:', typeof window.authState !== 'undefined');
+        console.log('   - window.auth exists:', typeof window.auth !== 'undefined');
+        
+        if (window.authState) {
+            console.log('   - authState.isLoggedIn:', window.authState.isLoggedIn);
+            console.log('   - authState.user:', window.authState.user?.email || 'None');
+            console.log('   - authState.isLoading:', window.authState.isLoading);
+        }
+    }
+
+    // Run checks every 3 seconds for 5 times
+    let checkCount = 0;
+    const maxChecks = 5;
+
+    async function runPeriodicCheck() {
+        checkCount++;
+        console.log(`Running auth check ${checkCount}/${maxChecks}`);
+        
+        await detailedAuthCheck(checkCount);
+        checkLocalStorage();
+        checkGlobalAuthState();
+        
+        if (checkCount < maxChecks) {
+            setTimeout(runPeriodicCheck, 3000);
+        } else {
+            console.log('Auth monitoring complete');
+        }
+    }
+
+    // Start monitoring after scripts load
+    setTimeout(() => {
+        console.log('Starting auth monitoring...');
+        runPeriodicCheck();
+    }, 2000);
+
+    // Manual fix function
+    window.forceAuthRefresh = async function() {
+        console.log('Force auth refresh triggered...');
+        
+        if (window.auth && window.auth.init) {
+            await window.auth.init();
+            console.log('Auth re-initialized');
+        }
+        
+        if (window.auth && window.auth.updateGlobalUI) {
+            window.auth.updateGlobalUI();
+            console.log('UI updated');
+        }
+    };
+    </script>
+
+    <!-- 7. MAIN FUNCTIONALITY SCRIPTS -->
+    <script>
+        // Simple Get Started function
+        function handleGetStarted() {
+            console.log('Get Started clicked - scrolling to pricing');
+            const pricingSection = document.getElementById('pricing');
+            if (pricingSection) {
+                pricingSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        // UPDATED pricing button handlers to check auth state
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for auth to load, then setup buttons
+            setTimeout(() => {
+                const premiumBtn = document.getElementById('premium-button');
+                const standardBtn = document.getElementById('standard-button');
+                
+                if (premiumBtn) {
+                    premiumBtn.addEventListener('click', function() {
+                        // Check if user is authenticated
+                        if (window.auth && window.auth.isAuthenticated()) {
+                            console.log('User authenticated, starting checkout for premium');
+                            window.auth.createCheckoutSession('premium');
+                        } else {
+                            console.log('User not authenticated, redirecting to login');
+                            localStorage.setItem('selected_plan', 'premium');
+                            window.location.href = 'pages/login.html';
+                        }
+                    });
+                }
+                
+                if (standardBtn) {
+                    standardBtn.addEventListener('click', function() {
+                        // Check if user is authenticated
+                        if (window.auth && window.auth.isAuthenticated()) {
+                            console.log('User authenticated, starting checkout for standard');
+                            window.auth.createCheckoutSession('standard');
+                        } else {
+                            console.log('User not authenticated, redirecting to login');
+                            localStorage.setItem('selected_plan', 'standard');
+                            window.location.href = 'pages/login.html';
+                        }
+                    });
+                }
+            }, 2000); // Wait 2 seconds for auth scripts to load
+            
+            // Savings calculator functionality
+            const slider = document.getElementById('savings-slider');
+            const currentSavings = document.getElementById('current-savings');
+            const totalSavings = document.getElementById('total-savings');
+            const sliderThumb = document.querySelector('.slider-thumb');
+            
+            if (slider && currentSavings && totalSavings) {
+                // Set initial position of the custom thumb
+                updateThumbPosition();
+                
+                // Update values when slider moves
+                slider.addEventListener('input', function() {
+                    updateValues();
+                    updateThumbPosition();
+                });
+                
+                // Also handle mousedown, mousemove, and mouseup events for smoother experience
+                slider.addEventListener('mousedown', function() {
+                    document.addEventListener('mousemove', updateThumbPosition);
+                    document.addEventListener('mouseup', function() {
+                        document.removeEventListener('mousemove', updateThumbPosition);
+                    }, { once: true });
+                });
+                
+                // Handle touch events for mobile
+                slider.addEventListener('touchstart', function() {
+                    document.addEventListener('touchmove', updateThumbPosition);
+                    document.addEventListener('touchend', function() {
+                        document.removeEventListener('touchmove', updateThumbPosition);
+                    }, { once: true });
+                });
+            }
+            
+            function updateValues() {
+                // Format the property value with commas
+                const propertyValue = parseInt(slider.value);
+                const formattedValue = '$' + propertyValue.toLocaleString();
+                currentSavings.textContent = formattedValue;
+                
+                // Calculate savings (3% of property value)
+                const savingsAmount = Math.round(propertyValue * 0.03);
+                totalSavings.textContent = '$' + savingsAmount.toLocaleString();
+            }
+            
+            function updateThumbPosition() {
+                // Calculate position percentage
+                const percent = (slider.value - slider.min) / (slider.max - slider.min);
+                const thumbPosition = percent * 100;
+                
+                // Update custom thumb position
+                if (sliderThumb) {
+                    sliderThumb.style.left = `${thumbPosition}%`;
+                }
+                
+                // Update slider track color
+                slider.style.background = `linear-gradient(to right, 
+                    var(--primary-color) 0%, 
+                    var(--primary-color) ${thumbPosition}%, 
+                    #e0e0e0 ${thumbPosition}%, 
+                    #e0e0e0 100%)`;
+            }
+            
+            // Initialize values if slider exists
+            if (slider) {
+                updateValues();
+            }
+            
+            // Image upload functionality
+            const imageUploads = document.querySelectorAll('.image-upload');
+            
+            imageUploads.forEach(upload => {
+                upload.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            // Get the parent container
+                            const container = e.target.closest('.upload-container');
+                            
+                            // Set the background image
+                            container.style.backgroundImage = `url(${event.target.result})`;
+                            container.style.backgroundSize = 'cover';
+                            container.style.backgroundPosition = 'center';
+                            
+                            // Hide the upload label
+                            const label = container.querySelector('.upload-label');
+                            if (label) {
+                                label.style.display = 'none';
+                            }
+                            
+                            // Add a remove button
+                            if (!container.querySelector('.remove-image')) {
+                                const removeBtn = document.createElement('button');
+                                removeBtn.className = 'remove-image';
+                                removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                                removeBtn.addEventListener('click', function(evt) {
+                                    evt.stopPropagation();
+                                    container.style.backgroundImage = 'none';
+                                    e.target.value = '';
+                                    if (label) {
+                                        label.style.display = 'flex';
+                                    }
+                                    this.remove();
+                                });
+                                container.appendChild(removeBtn);
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Chat CSS and HTML -->
+    <link rel="stylesheet" href="css/vesty-chat.css">
+    
+    <!-- Chat Toggle Button -->
+    <button id="vesty-toggle-btn" onclick="toggleChat()" aria-label="Chat with Vesty AI Assistant"></button>
+
+    <!-- Chat Container -->
+    <div class="chat-container">
+      <div class="chat-header">
+        <h1>
+          <div class="bot-avatar">
+            <i class="fas fa-robot"></i>
+          </div>
+          Vesty AI Assistant
+        </h1>
+        <button class="chat-close-btn" onclick="toggleChat()" title="Hide chat">×</button>
+      </div>
+
+      <div class="chat-messages" id="messages">
+        <div class="welcome-message">
+          <i class="fas fa-comments"></i>
+          <h2>Welcome to SelfNvest AI</h2>
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <div class="input-container">
+          <textarea id="user-input" placeholder="Type your message..." rows="1"></textarea>
+        </div>
+        <div class="input-actions">
+          <button id="send-button" title="Send message">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Email Contact Popup -->
+    <div id="email-popup" class="email-popup">
+      <div class="email-popup-content">
+        <div class="email-popup-header">
+          <h3>Contact SelfNVest</h3>
+          <button class="email-close-btn" onclick="closeEmailPopup()">&times;</button>
+        </div>
+        <div class="email-popup-body">
+          <div id="success-message" class="success-message">
+            <i class="fas fa-check-circle"></i> Your message has been sent successfully! We'll get back to you soon.
+          </div>
+          <div id="error-message" class="error-message">
+            <i class="fas fa-exclamation-triangle"></i> <span id="error-text">Something went wrong. Please try again.</span>
+          </div>
+          <form id="contact-form" onsubmit="sendEmail(event)">
+            <div class="form-group">
+              <label for="sender-name">Your Name *</label>
+              <input type="text" id="sender-name" name="senderName" required>
+            </div>
+            <div class="form-group">
+              <label for="sender-email">Your Email *</label>
+              <input type="email" id="sender-email" name="senderEmail" required>
+            </div>
+            <div class="form-group">
+              <label for="email-subject">Subject *</label>
+              <input type="text" id="email-subject" name="subject" required>
+            </div>
+            <div class="form-group">
+              <label for="email-message">Message *</label>
+              <textarea id="email-message" name="message" rows="5" required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="button" onclick="closeEmailPopup()" class="btn-cancel">Cancel</button>
+              <button type="submit" class="btn-send">Send Message</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Email Contact JavaScript -->
+    <script>
+        // Email popup functionality
+        function openEmailPopup() {
+            const popup = document.getElementById('email-popup');
+            popup.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            
+            // Reset form and messages
+            document.getElementById('contact-form').reset();
+            hideMessages();
+        }
+
+        function closeEmailPopup() {
+            const popup = document.getElementById('email-popup');
+            popup.classList.remove('show');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+            
+            // Reset form and messages
+            document.getElementById('contact-form').reset();
+            hideMessages();
+        }
+
+        function hideMessages() {
+            document.getElementById('success-message').classList.remove('show');
+            document.getElementById('error-message').classList.remove('show');
+        }
+
+        function showSuccessMessage() {
+            hideMessages();
+            document.getElementById('success-message').classList.add('show');
+        }
+
+        function showErrorMessage(message = 'Something went wrong. Please try again.') {
+            hideMessages();
+            document.getElementById('error-text').textContent = message;
+            document.getElementById('error-message').classList.add('show');
+        }
+
+        // Send email function
+        async function sendEmail(event) {
+            event.preventDefault();
+            
+            const sendBtn = document.querySelector('.btn-send');
+            const originalText = sendBtn.textContent;
+            
+            // Show loading state
+            sendBtn.classList.add('loading');
+            sendBtn.textContent = 'Sending...';
+            sendBtn.disabled = true;
+            
+            // Get form data
+            const formData = new FormData(event.target);
+            const emailData = {
+                to: 'support@selfnvestai.com',
+                from: formData.get('senderEmail'),
+                senderName: formData.get('senderName'),
+                subject: formData.get('subject'),
+                message: formData.get('message')
+            };
+
+            try {
+                // Create mailto link as fallback
+                const mailtoLink = `mailto:support@selfnvestai.com?subject=${encodeURIComponent(emailData.subject)}&body=${encodeURIComponent(
+                    `From: ${emailData.senderName} (${emailData.from})\n\nMessage:\n${emailData.message}`
+                )}`;
+                
+                // Try to open default email client
+                window.location.href = mailtoLink;
+                
+                // Show success message
+                showSuccessMessage();
+                
+                // Auto close after 3 seconds
+                setTimeout(() => {
+                    closeEmailPopup();
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Email error:', error);
+                showErrorMessage('Unable to open email client. Please contact us directly at support@selfnvestai.com');
+            } finally {
+                // Reset button state
+                sendBtn.classList.remove('loading');
+                sendBtn.textContent = originalText;
+                sendBtn.disabled = false;
+            }
+        }
+
+        // Close popup when clicking outside
+        document.addEventListener('click', function(event) {
+            const popup = document.getElementById('email-popup');
+            if (event.target === popup) {
+                closeEmailPopup();
+            }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeEmailPopup();
+            }
+        });
+
+        // Handle contact button clicks
+        document.addEventListener('DOMContentLoaded', function() {
+            // Email icon in footer
+            const emailBtn = document.getElementById('email-contact-btn');
+            if (emailBtn) {
+                emailBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openEmailPopup();
+                });
+            }
+            
+            // Contact Us link in navigation
+            const contactNavLinks = document.querySelectorAll('a[href="#footer"]');
+            contactNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Scroll to footer
+                    const footer = document.getElementById('footer');
+                    if (footer) {
+                        footer.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // Open email popup after scroll
+                        setTimeout(() => {
+                            openEmailPopup();
+                        }, 500);
+                    }
+                });
+            });
+        });
+
+        // Mobile navigation functions
+        function toggleMobileNav() {
+          const mobileNav = document.querySelector('.mobile-nav');
+          const overlay = document.querySelector('.mobile-nav-overlay');
+          
+          if (mobileNav && overlay) {
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.classList.toggle('mobile-menu-open');
+          }
+        }
+
+        function closeMobileNav() {
+          const mobileNav = document.querySelector('.mobile-nav');
+          const overlay = document.querySelector('.mobile-nav-overlay');
+          
+          if (mobileNav) mobileNav.classList.remove('active');
+          if (overlay) overlay.classList.remove('active');
+          document.body.classList.remove('mobile-menu-open');
+        }
+
+        // Expose mobile functions globally
+        window.toggleMobileNav = toggleMobileNav;
+        window.closeMobileNav = closeMobileNav;
+    </script>
+
+</body>
+</html>
