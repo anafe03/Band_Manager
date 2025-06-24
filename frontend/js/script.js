@@ -1,25 +1,251 @@
-// js/script.js - COMPLETELY CLEAN VERSION - FIXED AUTH
+// Fixed JavaScript for TourSync index page
 
+// Get Started function
+function handleGetStarted() {
+    console.log('Get Started clicked - scrolling to pricing');
+    const pricingSection = document.getElementById('pricing');
+    if (pricingSection) {
+        pricingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Mobile navigation functions
+function toggleMobileNav() {
+    console.log('Toggle mobile nav called');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const overlay = document.querySelector('.mobile-nav-overlay');
+    
+    if (mobileNav && overlay) {
+        const isActive = mobileNav.classList.contains('active');
+        
+        if (isActive) {
+            // Close menu
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.classList.remove('mobile-menu-open');
+            console.log('Mobile nav closed');
+        } else {
+            // Open menu
+            mobileNav.classList.add('active');
+            overlay.classList.add('active');
+            document.body.classList.add('mobile-menu-open');
+            console.log('Mobile nav opened');
+        }
+    } else {
+        console.error('Mobile nav elements not found');
+    }
+}
+
+function closeMobileNav() {
+    console.log('Close mobile nav called');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const overlay = document.querySelector('.mobile-nav-overlay');
+    
+    if (mobileNav) mobileNav.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
+    document.body.classList.remove('mobile-menu-open');
+    console.log('Mobile nav closed');
+}
+
+// Expose mobile functions globally
+window.toggleMobileNav = toggleMobileNav;
+window.closeMobileNav = closeMobileNav;
+
+// Main functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Service Learn More buttons functionality
-    const buyingLearnMoreBtn = document.querySelector('.service-item:nth-child(1) .cta-button');
-    const sellingLearnMoreBtn = document.querySelector('.service-item:nth-child(2) .cta-button');
+    console.log('TourSync DOM loaded');
     
-    if (buyingLearnMoreBtn) {
-        buyingLearnMoreBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = 'index.html#services';
+    // Setup mobile navigation
+    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileClose = document.querySelector('.mobile-nav-close');
+    const overlay = document.querySelector('.mobile-nav-overlay');
+    
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', toggleMobileNav);
+        console.log('Mobile toggle listener attached');
+    }
+    
+    if (mobileClose) {
+        mobileClose.addEventListener('click', closeMobileNav);
+        console.log('Mobile close listener attached');
+    }
+    
+    if (overlay) {
+        overlay.addEventListener('click', closeMobileNav);
+        console.log('Overlay click listener attached');
+    }
+    
+    // Close menu when clicking on nav links
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', closeMobileNav);
+    });
+    
+    // Wait for auth to load, then setup buttons
+    setTimeout(() => {
+        const premiumBtn = document.getElementById('premium-button');
+        const standardBtn = document.getElementById('standard-button');
+        
+        if (premiumBtn) {
+            premiumBtn.addEventListener('click', function() {
+                // Check if user is authenticated
+                if (window.auth && window.auth.isAuthenticated()) {
+                    console.log('User authenticated, starting checkout for premium');
+                    window.auth.createCheckoutSession('premium');
+                } else {
+                    console.log('User not authenticated, redirecting to login');
+                    localStorage.setItem('selected_plan', 'premium');
+                    window.location.href = 'pages/login.html';
+                }
+            });
+        }
+        
+        if (standardBtn) {
+            standardBtn.addEventListener('click', function() {
+                // Check if user is authenticated
+                if (window.auth && window.auth.isAuthenticated()) {
+                    console.log('User authenticated, starting checkout for standard');
+                    window.auth.createCheckoutSession('standard');
+                } else {
+                    console.log('User not authenticated, redirecting to login');
+                    localStorage.setItem('selected_plan', 'standard');
+                    window.location.href = 'pages/login.html';
+                }
+            });
+        }
+    }, 2000);
+    
+    // Tour calculator functionality (FIXED)
+    const slider = document.getElementById('savings-slider');
+    const currentSavings = document.getElementById('current-savings');
+    const totalSavings = document.getElementById('total-savings');
+    const tourSize = document.getElementById('tour-size');
+    const savingsHours = document.getElementById('savings-hours');
+    const sliderThumb = document.querySelector('.slider-thumb');
+    
+    if (slider && currentSavings && totalSavings) {
+        // Set initial position of the custom thumb
+        updateThumbPosition();
+        
+        // Update values when slider moves
+        slider.addEventListener('input', function() {
+            updateValues();
+            updateThumbPosition();
+        });
+        
+        // Also handle mousedown, mousemove, and mouseup events for smoother experience
+        slider.addEventListener('mousedown', function() {
+            document.addEventListener('mousemove', updateThumbPosition);
+            document.addEventListener('mouseup', function() {
+                document.removeEventListener('mousemove', updateThumbPosition);
+            }, { once: true });
+        });
+        
+        // Handle touch events for mobile
+        slider.addEventListener('touchstart', function() {
+            document.addEventListener('touchmove', updateThumbPosition);
+            document.addEventListener('touchend', function() {
+                document.removeEventListener('touchmove', updateThumbPosition);
+            }, { once: true });
         });
     }
     
-    if (sellingLearnMoreBtn) {
-        sellingLearnMoreBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = 'index.html#services';
-        });
+    function updateValues() {
+        // FIXED: Check if we have tour-specific elements
+        if (tourSize && savingsHours) {
+            // Format the tour size (shows)
+            const shows = parseInt(slider.value);
+            currentSavings.textContent = shows + ' shows';
+            if (tourSize) tourSize.textContent = shows;
+            
+            // Calculate savings (3 hours per show planning time)
+            const hours = shows * 3;
+            if (savingsHours) savingsHours.textContent = hours + ' hours';
+            
+            // Calculate value ($30/hour planning time)
+            const value = hours * 30;
+            totalSavings.textContent = '$' + value.toLocaleString();
+        } else {
+            // Fallback to property value calculation
+            const propertyValue = parseInt(slider.value);
+            const formattedValue = '$' + propertyValue.toLocaleString(); // FIXED: Added $ sign
+            currentSavings.textContent = formattedValue;
+            
+            // Calculate savings (3% of property value)
+            const savingsAmount = Math.round(propertyValue * 0.03);
+            totalSavings.textContent = '$' + savingsAmount.toLocaleString(); // FIXED: Added $ sign
+        }
     }
     
-    // FAQ Toggle
+    function updateThumbPosition() {
+        // Calculate position percentage
+        const percent = (slider.value - slider.min) / (slider.max - slider.min);
+        const thumbPosition = percent * 100;
+        
+        // Update custom thumb position
+        if (sliderThumb) {
+            sliderThumb.style.left = `${thumbPosition}%`;
+        }
+        
+        // Update slider track color
+        slider.style.background = `linear-gradient(to right, 
+            var(--primary-color) 0%, 
+            var(--primary-color) ${thumbPosition}%, 
+            #e0e0e0 ${thumbPosition}%, 
+            #e0e0e0 100%)`;
+    }
+    
+    // Initialize values if slider exists
+    if (slider) {
+        updateValues();
+    }
+    
+    // Image upload functionality
+    const imageUploads = document.querySelectorAll('.image-upload');
+    
+    imageUploads.forEach(upload => {
+        upload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    // Get the parent container
+                    const container = e.target.closest('.upload-container');
+                    
+                    // Set the background image
+                    container.style.backgroundImage = `url(${event.target.result})`;
+                    container.style.backgroundSize = 'cover';
+                    container.style.backgroundPosition = 'center';
+                    
+                    // Hide the upload label
+                    const label = container.querySelector('.upload-label');
+                    if (label) {
+                        label.style.display = 'none';
+                    }
+                    
+                    // Add a remove button
+                    if (!container.querySelector('.remove-image')) {
+                        const removeBtn = document.createElement('button');
+                        removeBtn.className = 'remove-image';
+                        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                        removeBtn.addEventListener('click', function(evt) {
+                            evt.stopPropagation();
+                            container.style.backgroundImage = 'none';
+                            e.target.value = '';
+                            if (label) {
+                                label.style.display = 'flex';
+                            }
+                            this.remove();
+                        });
+                        container.appendChild(removeBtn);
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+    
+    // FAQ Toggle functionality
     const faqItems = document.querySelectorAll('.faq-item');
     
     faqItems.forEach(item => {
@@ -30,9 +256,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 toggle.textContent = '-';
                 
                 // Create and show answer element
-                const answer = document.createElement('p');
+                const answer = document.createElement('div');
                 answer.classList.add('faq-answer');
-                answer.textContent = 'This is a placeholder answer. In a real implementation, this would contain the specific answer to the question.';
+                answer.textContent = 'This feature will be available soon. Please contact our support team for more information about tour planning and logistics.';
                 
                 // Check if answer already exists
                 if (!this.querySelector('.faq-answer')) {
@@ -54,272 +280,169 @@ document.addEventListener('DOMContentLoaded', function() {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
         });
     });
     
-    // Add a simple animation for the hero section
-    const heroContent = document.querySelector('.hero-content');
-    if (heroContent) {
-        setTimeout(() => {
-            heroContent.style.opacity = '0';
-            heroContent.style.transition = 'opacity 1s ease';
-            
-            setTimeout(() => {
-                heroContent.style.opacity = '1';
-            }, 100);
-        }, 500);
-    }
-
-    // Enhanced animation for hero section
-    const heroTitle = document.querySelector('.hero-content h1');
-    const heroParagraph = document.querySelector('.hero-content p');
-    const heroButton = document.querySelector('.hero-content .cta-button');
-    
-    if (heroTitle && heroParagraph && heroButton) {
-        // Create a wrapper for the typewriter effect to allow for falling animation
-        const originalTitleText = heroTitle.textContent;
-        
-        // Clear the current title text
-        heroTitle.textContent = '';
-        
-        // Setup initial styles for paragraph and button - hidden and below
-        heroParagraph.style.opacity = '0';
-        heroParagraph.style.transform = 'translateY(40px)';
-        heroParagraph.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        
-        heroButton.style.opacity = '0';
-        heroButton.style.transform = 'translateY(40px)';
-        heroButton.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        
-        // Add CSS for the falling effect
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fallIntoPlace {
-                0% { transform: translateY(-30px); opacity: 0; }
-                100% { transform: translateY(0); opacity: 1; }
-            }
-            .word {
-                opacity: 0;
-                display: inline-block;
-            }
-            .word.animated {
-                animation: fallIntoPlace 0.8s ease forwards;
-            }
-            .typed-space {
-                display: inline-block;
-                width: 0.35em;
-            }
-            .hero-content h1 {
-                letter-spacing: 0.5px;
-                word-spacing: 4px;
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Split the original text into words
-        const words = originalTitleText.split(' ');
-        
-        // Create a container for each word
-        words.forEach((word, wordIndex) => {
-            const wordSpan = document.createElement('span');
-            wordSpan.classList.add('word');
-            wordSpan.style.display = 'inline-block';
-            wordSpan.textContent = word;
-            
-            // Add the word to the title
-            heroTitle.appendChild(wordSpan);
-            
-            // Add a space after each word except the last
-            if (wordIndex < words.length - 1) {
-                const spaceSpan = document.createElement('span');
-                spaceSpan.classList.add('typed-space');
-                spaceSpan.innerHTML = '&nbsp;';
-                heroTitle.appendChild(spaceSpan);
-            }
-        });
-        
-        // Get all word spans
-        const wordSpans = heroTitle.querySelectorAll('.word');
-        
-        // Domino effect with falling animation for words
-        let currentWordIndex = 0;
-        let lastAnimationEnd = 0;
-        
-        function animateNextWord() {
-            if (currentWordIndex < wordSpans.length) {
-                const wordSpan = wordSpans[currentWordIndex++];
-                
-                // Add the animation class to the word
-                wordSpan.classList.add('animated');
-                
-                // If this is the last word, prepare to animate paragraph and button
-                if (currentWordIndex === wordSpans.length) {
-                    // Calculate when the animation will end (animation duration is 0.8s)
-                    lastAnimationEnd = Date.now() + 800;
-                    
-                    // Wait for the last word to finish falling before showing paragraph
-                    setTimeout(() => {
-                        // Slide up animation for paragraph - starts exactly when the last word lands
-                        heroParagraph.style.opacity = '1';
-                        heroParagraph.style.transform = 'translateY(0)';
-                        
-                        // Delay button animation to follow shortly after paragraph
-                        setTimeout(() => {
-                            heroButton.style.opacity = '1';
-                            heroButton.style.transform = 'translateY(0)';
-                        }, 150); // Shorter delay for smoother sequence
-                        
-                    }, 800); // Wait exactly for the falling animation to complete
-                }
-                
-                // Slow down the animation speed to 400ms between words for a more deliberate effect
-                setTimeout(animateNextWord, 400); 
-            }
-        }
-        
-        // Start the domino effect animation after a short delay
-        setTimeout(animateNextWord, 800);
-    }
-
-    // ===== SIMPLE AUTHENTICATION FOR INDEX PAGE =====
-    console.log('🏠 Index page auth CLEAN VERSION starting...');
-    // initSimpleAuth();
+    console.log('TourSync initialization complete');
 });
 
-// SIMPLE AUTH - FIXED TOKEN NAMES
-function initSimpleAuth() {
-    console.log('🏠 Simple auth init...');
+// Email popup functionality
+function openEmailPopup() {
+    const popup = document.getElementById('email-popup');
+    if (popup) {
+        popup.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        // Reset form and messages
+        const form = document.getElementById('contact-form');
+        if (form) form.reset();
+        hideMessages();
+    }
+}
+
+function closeEmailPopup() {
+    const popup = document.getElementById('email-popup');
+    if (popup) {
+        popup.classList.remove('show');
+        document.body.style.overflow = 'auto';
+        
+        // Reset form and messages
+        const form = document.getElementById('contact-form');
+        if (form) form.reset();
+        hideMessages();
+    }
+}
+
+function hideMessages() {
+    const successMsg = document.getElementById('success-message');
+    const errorMsg = document.getElementById('error-message');
+    if (successMsg) successMsg.classList.remove('show');
+    if (errorMsg) errorMsg.classList.remove('show');
+}
+
+function showSuccessMessage() {
+    hideMessages();
+    const successMsg = document.getElementById('success-message');
+    if (successMsg) successMsg.classList.add('show');
+}
+
+function showErrorMessage(message = 'Something went wrong. Please try again.') {
+    hideMessages();
+    const errorText = document.getElementById('error-text');
+    const errorMsg = document.getElementById('error-message');
+    if (errorText) errorText.textContent = message;
+    if (errorMsg) errorMsg.classList.add('show');
+}
+
+// Send email function
+async function sendEmail(event) {
+    event.preventDefault();
     
-    // Check auth state
-    checkAuthState();
+    const sendBtn = document.querySelector('.btn-send');
+    if (!sendBtn) return;
     
-    // Listen for localStorage changes (FIXED TOKEN NAMES)
-    window.addEventListener('storage', function(e) {
-        if (e.key === 'supabase_token' || e.key === 'user_email') {
-            console.log('🏠 Storage changed, updating...');
-            checkAuthState();
-        }
-    });
+    const originalText = sendBtn.textContent;
     
-    // Listen for Supabase auth changes
-    if (typeof supabase !== 'undefined') {
-        supabase.auth.onAuthStateChange((event, session) => {
-            console.log('🏠 Auth state changed:', event);
-            if (event === 'SIGNED_IN' && session) {
-                // Store with correct names that match login page
-                localStorage.setItem('supabase_token', session.access_token);
-                localStorage.setItem('user_email', session.user.email);
-                localStorage.setItem('user_id', session.user.id);
-            } else if (event === 'SIGNED_OUT') {
-                localStorage.removeItem('supabase_token');
-                localStorage.removeItem('user_email');
-                localStorage.removeItem('user_id');
-            }
-            checkAuthState();
+    // Show loading state
+    sendBtn.classList.add('loading');
+    sendBtn.textContent = 'Sending...';
+    sendBtn.disabled = true;
+    
+    // Get form data
+    const formData = new FormData(event.target);
+    const emailData = {
+        to: 'support@toursync.app',
+        from: formData.get('senderEmail'),
+        senderName: formData.get('senderName'),
+        subject: formData.get('subject'),
+        message: formData.get('message')
+    };
+
+    try {
+        // Create mailto link as fallback
+        const mailtoLink = `mailto:support@toursync.app?subject=${encodeURIComponent(emailData.subject)}&body=${encodeURIComponent(
+            `From: ${emailData.senderName} (${emailData.from})\n\nMessage:\n${emailData.message}`
+        )}`;
+        
+        // Try to open default email client
+        window.location.href = mailtoLink;
+        
+        // Show success message
+        showSuccessMessage();
+        
+        // Auto close after 3 seconds
+        setTimeout(() => {
+            closeEmailPopup();
+        }, 3000);
+        
+    } catch (error) {
+        console.error('Email error:', error);
+        showErrorMessage('Unable to open email client. Please contact us directly at support@toursync.app');
+    } finally {
+        // Reset button state
+        sendBtn.classList.remove('loading');
+        sendBtn.textContent = originalText;
+        sendBtn.disabled = false;
+    }
+}
+
+// Expose functions globally
+window.openEmailPopup = openEmailPopup;
+window.closeEmailPopup = closeEmailPopup;
+window.sendEmail = sendEmail;
+
+// Close popup when clicking outside or pressing Escape
+document.addEventListener('click', function(event) {
+    const popup = document.getElementById('email-popup');
+    if (event.target === popup) {
+        closeEmailPopup();
+    }
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeEmailPopup();
+    }
+});
+
+// Handle contact button clicks
+document.addEventListener('DOMContentLoaded', function() {
+    // Email icon in footer
+    const emailBtn = document.getElementById('email-contact-btn');
+    if (emailBtn) {
+        emailBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openEmailPopup();
         });
     }
-}
-
-// FIND this function in your script.js and REPLACE it with this fixed version
-function checkAuthState() {
-    const authLink = document.getElementById('auth-link');
-    if (!authLink) return;
     
-    // FIXED: Look for the correct token name
-    const token = localStorage.getItem('supabase_token');
-    const email = localStorage.getItem('user_email');
-    
-    console.log('🏠 Auth check:', { hasToken: !!token, hasEmail: !!email, email });
-    
-    if (token && email) {
-        const username = email.split('@')[0];
-        console.log('✅ User authenticated:', username);
-        
-        authLink.innerHTML = `<i class="fas fa-user-circle"></i> Profile`;
-        authLink.href = 'pages/profile.html';
-        
-        addLogout();
-    } else {
-        console.log('❌ User not authenticated');
-        
-        // FIXED: Point to login.html instead of auth.html
-        authLink.innerHTML = '<i class="fas fa-user"></i> Login';
-        authLink.href = 'pages/login.html';  // ← CHANGED FROM pages/auth.html
-        
-        removeLogout();
-    }
-}
-
-// ALSO FIND this function and REPLACE it
-
-async function doLogout() {
-    if (!confirm('Are you sure you want to logout?')) return;
-    
-    try {
-        if (typeof supabase !== 'undefined') {
-            await supabase.auth.signOut();
-        }
-    } catch (error) {
-        console.error('Logout error:', error);
-    }
-    
-    // Clear all auth data
-    localStorage.removeItem('supabase_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('user_email');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('token_expires_at');
-    
-    checkAuthState();
-    
-    // FIXED: Redirect to login.html instead of auth.html
-    window.location.href = 'pages/login.html';  // ← CHANGED FROM pages/auth.html
-}
-
-function addLogout() {
-    const dropdown = document.querySelector('.dropdown-content');
-    const authLink = document.getElementById('auth-link');
-    
-    if (!dropdown || !authLink) return;
-    
-    // Remove existing
-    const existing = dropdown.querySelector('.logout-option');
-    if (existing) existing.remove();
-    
-    // Add logout
-    const logoutLink = document.createElement('a');
-    logoutLink.href = '#';
-    logoutLink.className = 'logout-option';
-    logoutLink.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
-    logoutLink.style.color = '#dc3545';
-    logoutLink.onclick = function(e) {
-        e.preventDefault();
-        doLogout();
-    };
-    
-    // Add logout after the profile link
-    const divider = document.createElement('div');
-    divider.style.height = '1px';
-    divider.style.background = '#eee';
-    divider.style.margin = '8px 0';
-    
-    dropdown.appendChild(divider);
-    dropdown.appendChild(logoutLink);
-}
-
-function removeLogout() {
-    const logout = document.querySelector('.logout-option');
-    if (logout) logout.remove();
-    
-    // Also remove the divider
-    const dividers = document.querySelectorAll('.dropdown-content div');
-    dividers.forEach(div => {
-        if (div.style.height === '1px') {
-            div.remove();
-        }
+    // Contact Us link in navigation
+    const contactNavLinks = document.querySelectorAll('a[href="#footer"]');
+    contactNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Scroll to footer
+            const footer = document.getElementById('footer');
+            if (footer) {
+                footer.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Open email popup after scroll
+                setTimeout(() => {
+                    openEmailPopup();
+                }, 500);
+            }
+        });
     });
-}
+});
 
+console.log('🎵 TourSync JavaScript loaded successfully');
